@@ -2,7 +2,7 @@
 public abstract class Entity {
 
 
-	double x, y;
+	double x, y,z;
 	double speedX, speedY;
 	
 	
