@@ -24,7 +24,11 @@ public class Ripper  {
 		spikyBody.setFill(Color.PURPLE);
 		spikyBody.setStroke(Color.BLACK);
 		
-		Circle circle=new Circle(this.x,this.y);
+		Circle circle=new Circle();
+		circle.setCenterX(this.x);
+		circle.setCenterY(this.y);
+		circle.setRadius(20);
+		circle.setFill(Color.BLACK);
 		
 		
 	}
