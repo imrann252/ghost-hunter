@@ -1,9 +1,12 @@
+import com.sun.glass.ui.Application;
 
-public class Test {
+public class Test extends Application {
+	public void start(Stage primaryStage) {
+		
+	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		launch(args);
 	}
 
 }
