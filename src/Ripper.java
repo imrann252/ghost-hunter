@@ -2,7 +2,7 @@
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
-public class Ripper  {
+public class Ripper extends Entity {
 	private double x;
 	private double y;
 	public Ripper(double x,double y) {
@@ -24,7 +24,7 @@ public class Ripper  {
 		spikyBody.setFill(Color.PURPLE);
 		spikyBody.setStroke(Color.BLACK);
 		
-		Circle circle=new Circle(this.x,this.y);
+		Circle circle = new Circle(this.x);
 		
 		
 	}
