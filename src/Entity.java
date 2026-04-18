@@ -4,7 +4,7 @@ public abstract class Entity {
 
 	double x, y;
 	double speedX, speedY;
-	boolean isVisible;
+	
 	
    public Entity() {
 		
