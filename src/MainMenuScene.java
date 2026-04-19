@@ -19,7 +19,7 @@ public class MainMenuScene {
 	   
 	   Pane main=new Pane();
 	   
-	   ImageView mainImage= new ImageView("file:resources/main_menu.png.png");
+	   ImageView mainImage= new ImageView("file:resources/main_menu.png");
 	   mainImage.setFitHeight(500);
 	   mainImage.setFitWidth(1000);
 	   main.getChildren().add(mainImage);
@@ -37,6 +37,9 @@ public class MainMenuScene {
 	   StackPane stack= new StackPane(r1,t1);
 	   Button b1=new Button("",stack);
 	   b1.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+	   b1.setOnMouseClicked( e -> {
+		   r1.setFill(Color.WHITE);
+		   t1.setFill(Color.RED);});
 	   
 	   
 	   Rectangle r2= new Rectangle(122,50);
@@ -48,6 +51,9 @@ public class MainMenuScene {
 	   StackPane stack2= new StackPane(r2,t2);
 	   Button b2=new Button("",stack2);
 	   b2.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+	   b2.setOnMouseClicked( e -> {
+		   r2.setFill(Color.WHITE);
+		   t2.setFill(Color.RED);});
 	   
 	   
 	   
@@ -60,6 +66,9 @@ public class MainMenuScene {
 	   StackPane stack3= new StackPane(r3,t3);
 	   Button b3=new Button("",stack3);
 	   b3.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+	   b3.setOnMouseClicked( e -> {
+		   r3.setFill(Color.WHITE);
+		   t3.setFill(Color.RED);});
 	   
 	 
 	   hbox.getChildren().addAll(b1,b2,b3);
