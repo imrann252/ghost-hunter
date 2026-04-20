@@ -57,6 +57,7 @@ public class SelectLevelScene {
 	   sp2.getChildren().addAll(r2,im2,t2);
 	   Button b2= new Button("",sp2);
 	   b2.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+	   
 	   b2.setOnMouseEntered((e) -> {
 		    r2.setFill(Color.MEDIUMPURPLE); 
 		});
@@ -78,6 +79,7 @@ public class SelectLevelScene {
 	   sp3.getChildren().addAll(r3,im3,t3);
 	   Button b3= new Button("",sp3);
 	   b3.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+	   
 	   b3.setOnMouseEntered((e) -> {
 		    r3.setFill(Color.MEDIUMPURPLE); 
 		});

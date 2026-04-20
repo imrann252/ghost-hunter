@@ -37,9 +37,15 @@ public class MainMenuScene {
 	   StackPane stack= new StackPane(r1,t1);
 	   Button b1=new Button("",stack);
 	   b1.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-	   b1.setOnMouseClicked( e -> {
+	   
+	   b1.setOnMouseEntered( e -> {
 		   r1.setFill(Color.WHITE);
 		   t1.setFill(Color.RED);});
+	   
+	   b1.setOnMouseExited(e -> {
+		   r1.setFill(Color.MEDIUMPURPLE);
+		   t1.setFill(Color.WHITE);
+		});
 	   
 	   
 	   Rectangle r2= new Rectangle(122,50);
@@ -51,9 +57,15 @@ public class MainMenuScene {
 	   StackPane stack2= new StackPane(r2,t2);
 	   Button b2=new Button("",stack2);
 	   b2.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-	   b2.setOnMouseClicked( e -> {
+	   
+	   b2.setOnMouseEntered( e -> {
 		   r2.setFill(Color.WHITE);
 		   t2.setFill(Color.RED);});
+	   
+	   b2.setOnMouseExited(e -> {
+		   r2.setFill(Color.MEDIUMPURPLE);
+		   t2.setFill(Color.WHITE);
+		});
 	   
 	   
 	   
@@ -66,10 +78,15 @@ public class MainMenuScene {
 	   StackPane stack3= new StackPane(r3,t3);
 	   Button b3=new Button("",stack3);
 	   b3.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-	   b3.setOnMouseClicked( e -> {
+	   
+	   b3.setOnMouseEntered( e -> {
 		   r3.setFill(Color.WHITE);
 		   t3.setFill(Color.RED);});
 	   
+	   b3.setOnMouseExited(e -> {
+		   r3.setFill(Color.MEDIUMPURPLE);
+		   t3.setFill(Color.WHITE);
+		});
 	 
 	   hbox.getChildren().addAll(b1,b2,b3);
 	   main.getChildren().add(hbox);

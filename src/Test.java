@@ -6,7 +6,7 @@ public class Test extends Application {
 	public void start(Stage primaryStage){
 		MainMenuScene m1= new MainMenuScene();
 		SelectLevelScene l1=new SelectLevelScene();
-		primaryStage.setScene(l1.getScene());
+		primaryStage.setScene(m1.getScene());
 		primaryStage.setTitle("test");
 		primaryStage.show();
 		
