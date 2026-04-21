@@ -1,5 +1,6 @@
 import javafx.application.Application;
-
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Test extends Application {
@@ -10,19 +11,19 @@ public class Test extends Application {
 		primaryStage.setTitle("test");
 		primaryStage.show();
 		
-	}
+		
 		/*
-		Pane pane=new Pane();
+		Pane pane = new Pane();
 		
 		Ripper rip= new Ripper(200.0,100.0);
-		pane.getChildren().add(rip.getView());
-		
-		
+		RangeToken rantoken = new RangeToken(200,250.0,3);
+		pane.getChildren().addAll(rip.getView(),rantoken);
 		Scene scene=new Scene(pane,400,400);
 		primaryStage.setTitle("test");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-	}*/
+		*/
+	}
 
 	public static void main(String[] args) {
 		launch(args);
