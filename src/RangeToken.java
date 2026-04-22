@@ -10,12 +10,11 @@ public class RangeToken extends Pane {
     public RangeToken(double x, double y, double amount) {
         this.x = x;
         this.y = y;
-        this.increaseAmount = amount;
+        this.increaseAmount = amount;//
 
-        // 1. Görsel Tasarım: JavaFX geometrik sınıfları kullanılarak [cite: 132]
-        // Token tabanı: Sarı bir daire
-        Circle base = new Circle(15, Color.YELLOW);
-        base.setStroke(Color.BLACK);
+        // token tabanı: dis daireyi ciz.
+        Circle out_circle = new Circle(15, Color.YELLOW);
+        out_circle.setStroke(Color.BLACK);//dis kenarliklari boya.
 
         // Menzili temsil eden siyah bir üçgen (ikon)
         Polygon rangeIcon = new Polygon();
@@ -24,11 +23,11 @@ public class RangeToken extends Pane {
             8.0, 0.0,
             -5.0, -5.0
         });
-        rangeIcon.setFill(Color.BLACK);
+        rangeIcon.setFill(Color.BLACK);//ucgenin icini doldur
 
-        this.getChildren().addAll(base, rangeIcon);
+        this.getChildren().addAll(out_circle, rangeIcon);
         
-        // Konumlandırma
+        // Konumlandır
         this.setLayoutX(x);
         this.setLayoutY(y);
     }
