@@ -62,6 +62,11 @@ public class MainMenuScene {
 		   r2.setFill(Color.WHITE);
 		   t2.setFill(Color.RED);});
 	   
+	  b2.setOnMouseClicked(e -> {
+		  SelectLevelScene sls= new SelectLevelScene();
+		  Test.mainStage.setScene(sls.getScene());
+	  });
+	   
 	   b2.setOnMouseExited(e -> {
 		   r2.setFill(Color.MEDIUMPURPLE);
 		   t2.setFill(Color.WHITE);
