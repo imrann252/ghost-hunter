@@ -7,40 +7,49 @@ import javafx.scene.control.Label;
 
 public class VacuumBar extends Pane {
 	double x,y;
-	double amount;
+	double currentAmount;
+	double maxHeight = 250; 
+	double maxAmount = 100;
+	Rectangle rec2;
+	 
+	
 	
 	
 	
 	public VacuumBar() {
 		this.x = 200;
 		this.y = 250;
-		this.amount = 100;
+		this.currentAmount = 100;
 	}
 
 
-	public VacuumBar(double x, double y, double amount) {
+	public VacuumBar(double x, double y, double currentAmount) {
 		
 		this.x=x;
 		this.y=y;
-		this.amount = amount;
+		this.currentAmount = currentAmount;
+
+		
 	
-		Rectangle rec1 = new Rectangle(60, 200); 
+		Rectangle rec1 = new Rectangle(50, 250); 
         rec1.setStroke(Color.BLACK);
         rec1.setStrokeWidth(30);
-        rec1.setFill(Color.TRANSPARENT);
         rec1.setLayoutX(50);
         rec1.setLayoutY(50);
         
-        Rectangle rec2 = new Rectangle(60, 200);
+        
+        
+        Rectangle rec2 = new Rectangle(50, 250);
         rec2.setFill(Color.PURPLE.darker());
         rec2.setLayoutX(50);
         rec2.setLayoutY(50);
+        this.rec2=rec2;
 
         
         Font spooky = Font.loadFont(getClass().getResourceAsStream("Spooky.ttf"), 15);
         Label vacLabel = new Label("VACUUM:");
         vacLabel.setFont(spooky); 
-        vacLabel.setTextFill(Color.BLACK); 
+        vacLabel.setTextFill(Color.WHITE); 
         vacLabel.setLayoutX(40);
         vacLabel.setLayoutY(-5);
         
@@ -50,6 +59,13 @@ public class VacuumBar extends Pane {
         this.setLayoutX(x);
         this.setLayoutY(y);
 		
+	}
+	
+	public void setBar(double currentAmount) {
+	     
+	    double newHeight = (currentAmount / this.maxAmount) * this.maxHeight;
+	    this.rec2.setHeight(newHeight);
+	    this.rec2.setLayoutY(50 + (this.maxHeight - newHeight)); 
 	}
 
 }

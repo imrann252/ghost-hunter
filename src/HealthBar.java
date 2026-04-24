@@ -1,50 +1,63 @@
-
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
 public class HealthBar extends Pane {
 	double x,y;
-	double amount;
-	
+	double currentAmount;
+	double maxHeight = 250; 
+	double maxAmount = 100;
+	Rectangle rec2;
 	
 	
 	public HealthBar() {
-		this.x = 200;
-		this.y = 250;
-		this.amount = 100;
+		this.x = 10;
+		this.y = 50;
+		this.currentAmount = 100;
 	}
 
-
-	public HealthBar(double amount) {
+	public HealthBar(double x, double y, double currentAmount, Scene scene) {
 		
-		this.amount = amount;
+		this.x=x;
+		this.y=y;
+		this.currentAmount = currentAmount;
 	
-		Rectangle rec1 = new Rectangle(60, 200); 
+		Rectangle rec1 = new Rectangle(50, 250); 
         rec1.setStroke(Color.BLACK);
         rec1.setStrokeWidth(30);
-        rec1.setFill(Color.TRANSPARENT);
-        rec1.setLayoutX(700);
+        rec1.setLayoutX(0);
         rec1.setLayoutY(50);
         
-        Rectangle rec2 = new Rectangle(60, 200);
+        Rectangle rec2 = new Rectangle(50, 250);
         rec2.setFill(Color.RED.darker());
-        rec2.setLayoutX(700);
+        rec2.setLayoutX(0);
         rec2.setLayoutY(50);
-
+        this.rec2=rec2;
         
-        Font spooky = Font.loadFont(getClass().getResourceAsStream("Spooky.ttf"), 15);
+        Font spooky = Font.loadFont(getClass().getResourceAsStream("Spooky.ttf"), 14);
         Label helLabel = new Label("HEALTH:");
         helLabel.setFont(spooky); 
-        helLabel.setTextFill(Color.BLACK); 
-        helLabel.setLayoutX(690);
+        helLabel.setTextFill(Color.WHITE); 
+        helLabel.setLayoutX(-10);
         helLabel.setLayoutY(-5);
         
         
         this.getChildren().addAll(rec1, rec2,helLabel);
+        
+		this.layoutXProperty().bind(scene.widthProperty().subtract(this.widthProperty()).subtract(20));
+
 		
+	}
+	
+	public void setBar(double currentAmount) {
+	     
+	    double newHeight = (currentAmount / this.maxAmount) * this.maxHeight;
+	    this.rec2.setHeight(newHeight);
+	    this.rec2.setLayoutY(50 + (this.maxHeight - newHeight)); 
 	}
 
 }
+
