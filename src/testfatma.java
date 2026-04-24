@@ -15,20 +15,24 @@ public class testfatma extends Application {
 		
 		
 		*/
-		Pane pane = new VacuumBar(0,0,100);;
-		Scene scene = new Scene(pane,400,400);
+		//Pane pane = new Pane();
+		GameArea game = new GameArea();
 		
-		RangeToken rantoken = new RangeToken(200,250,3);
+		//Scene scene = new Scene(pane,400,400);
+		
+		/*RangeToken rantoken = new RangeToken(200,250,3);
 		VacuumBar vacvac = new VacuumBar(0,0,100);
 		HealthBar helhel = new HealthBar(0,0,100,scene);
 		
 		vacvac.setBar(50);
 		helhel.setBar(70);
-		pane.getChildren().addAll(helhel,vacvac);
+		
+		
+		//pane.getChildren().addAll(helhel,vacvac);*/
 		
 		
 		primaryStage.setTitle("test");
-		primaryStage.setScene(scene);
+		primaryStage.setScene(game.getScene());
 		primaryStage.show();
 		
 	}

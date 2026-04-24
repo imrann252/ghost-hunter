@@ -35,14 +35,14 @@ public class VacuumBar extends Pane {
         rec1.setStroke(Color.BLACK);
         rec1.setStrokeWidth(30);
         rec1.setLayoutX(50);
-        rec1.setLayoutY(50);
+        rec1.setLayoutY(60);
         
         
         
         Rectangle rec2 = new Rectangle(50, 250);
         rec2.setFill(Color.PURPLE.darker());
         rec2.setLayoutX(50);
-        rec2.setLayoutY(50);
+        rec2.setLayoutY(60);
         this.rec2=rec2;
 
         
@@ -51,7 +51,7 @@ public class VacuumBar extends Pane {
         vacLabel.setFont(spooky); 
         vacLabel.setTextFill(Color.WHITE); 
         vacLabel.setLayoutX(40);
-        vacLabel.setLayoutY(-5);
+        vacLabel.setLayoutY(5);
         
         
         this.getChildren().addAll(rec1, rec2,vacLabel);
