@@ -1,4 +1,5 @@
 
+import javafx.beans.property.Property;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -15,24 +16,30 @@ import javafx.scene.text.Text;
 public class MainMenuScene {
    private Scene scene;
    
+   
    public MainMenuScene() {
 	   
 	   Pane main=new Pane();
+	   this.scene=new Scene(main,1300,800);
+	  
 	   
 	   ImageView mainImage= new ImageView("file:resources/main_menu.png");
-	   mainImage.setFitHeight(500);
-	   mainImage.setFitWidth(1000);
+	   mainImage.fitWidthProperty().bind(scene.widthProperty());//fza
+	   mainImage.fitHeightProperty().bind(scene.heightProperty());//fza
 	   main.getChildren().add(mainImage);
 	   
 	   HBox hbox= new HBox(35);
-	   hbox.setLayoutX(250); // HBox'ı ekranın ortasına doğru kaydırır
-	   hbox.setLayoutY(360);
+	   hbox.layoutXProperty().bind(scene.widthProperty().subtract(hbox.widthProperty()).divide(2));//fza
+	   hbox.layoutYProperty().bind(scene.heightProperty().subtract(hbox.heightProperty()).divide(1.25));//fza
 	   
-	   Rectangle r1= new Rectangle(122,50);
+
+	   
+	   Rectangle r1= new Rectangle(175,75);
+	 
 	   r1.setFill(Color.MEDIUMPURPLE);
 	   Text t1= new Text(155,425,"START GAME");
 	   t1.setFill(Color.WHITE);
-	   t1.setFont(Font.font("Courier",FontWeight.EXTRA_BOLD,FontPosture.REGULAR,15));
+	   t1.setFont(Font.font("Courier",FontWeight.EXTRA_BOLD,FontPosture.REGULAR,20));
 	   
 	   StackPane stack= new StackPane(r1,t1);
 	   Button b1=new Button("",stack);
@@ -47,12 +54,14 @@ public class MainMenuScene {
 		   t1.setFill(Color.WHITE);
 		});
 	   
+
 	   
-	   Rectangle r2= new Rectangle(122,50);
+	   Rectangle r2= new Rectangle(175,75);
 	   r2.setFill(Color.MEDIUMPURPLE);
+	   
 	   Text t2= new Text(155,425,"SELECT LEVEL");
 	   t2.setFill(Color.WHITE);
-	   t2.setFont(Font.font("Courier",FontWeight.EXTRA_BOLD,FontPosture.REGULAR,15));
+	   t2.setFont(Font.font("Courier",FontWeight.EXTRA_BOLD,FontPosture.REGULAR,20));
 	   
 	   StackPane stack2= new StackPane(r2,t2);
 	   Button b2=new Button("",stack2);
@@ -72,13 +81,15 @@ public class MainMenuScene {
 		   t2.setFill(Color.WHITE);
 		});
 	   
+	  
 	   
-	   
-	   Rectangle r3= new Rectangle(122,50);
+	   Rectangle r3= new Rectangle(175,75);
 	   r3.setFill(Color.MEDIUMPURPLE);
+	   
 	   Text t3= new Text(155,425,"EXIT");
 	   t3.setFill(Color.WHITE);
-	   t3.setFont(Font.font("Courier",FontWeight.EXTRA_BOLD,FontPosture.REGULAR,15));
+	   t3.setFont(Font.font("Courier",FontWeight.EXTRA_BOLD,FontPosture.REGULAR,20));
+	   
 	   
 	   StackPane stack3= new StackPane(r3,t3);
 	   Button b3=new Button("",stack3);
@@ -92,13 +103,18 @@ public class MainMenuScene {
 		   r3.setFill(Color.MEDIUMPURPLE);
 		   t3.setFill(Color.WHITE);
 		});
-	 
+	   
+	   
+	   hbox.scaleXProperty().bind(scene.widthProperty().divide(1300));//fza
+	   hbox.scaleYProperty().bind(scene.heightProperty().divide(800));//fza
+	   
+	   
 	   hbox.getChildren().addAll(b1,b2,b3);
 	   main.getChildren().add(hbox);
 	   
 	   
 	   
-	   this.scene=new Scene(main,1000,500);
+	   
 	   
    }
 
