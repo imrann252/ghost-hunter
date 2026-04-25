@@ -20,10 +20,12 @@ public class GameArea {
    public GameArea() {
 	   
 	   Pane area =new Pane();
-	   this.scene = new Scene(area,1000,600);
+	   this.scene = new Scene(area,1300,800);
 	   
-	   vb = new VacuumBar(0,0,100);
+	   vb = new VacuumBar(0,0,50,scene);
 	   hb = new HealthBar(0,0,100,scene);
+	   vb.setBar(50);
+	   
 	   
 	   ImageView areaImage= new ImageView("file:resources/level1.png");
 	   areaImage.fitWidthProperty().bind(scene.widthProperty());

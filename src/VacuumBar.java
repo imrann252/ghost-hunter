@@ -3,6 +3,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
 public class VacuumBar extends Pane {
@@ -10,11 +11,9 @@ public class VacuumBar extends Pane {
 	double currentAmount;
 	double maxHeight = 250; 
 	double maxAmount = 100;
+	Scene scene;
 	Rectangle rec2;
 	 
-	
-	
-	
 	
 	public VacuumBar() {
 		this.x = 200;
@@ -23,7 +22,7 @@ public class VacuumBar extends Pane {
 	}
 
 
-	public VacuumBar(double x, double y, double currentAmount) {
+	public VacuumBar(double x, double y, double currentAmount,Scene scene) {
 		
 		this.x=x;
 		this.y=y;
@@ -35,14 +34,14 @@ public class VacuumBar extends Pane {
         rec1.setStroke(Color.BLACK);
         rec1.setStrokeWidth(30);
         rec1.setLayoutX(50);
-        rec1.setLayoutY(60);
+        rec1.setLayoutY(70);
         
         
         
         Rectangle rec2 = new Rectangle(50, 250);
         rec2.setFill(Color.PURPLE.darker());
         rec2.setLayoutX(50);
-        rec2.setLayoutY(60);
+        rec2.setLayoutY(70);
         this.rec2=rec2;
 
         
@@ -51,13 +50,15 @@ public class VacuumBar extends Pane {
         vacLabel.setFont(spooky); 
         vacLabel.setTextFill(Color.WHITE); 
         vacLabel.setLayoutX(40);
-        vacLabel.setLayoutY(5);
+        vacLabel.setLayoutY(15);
         
         
         this.getChildren().addAll(rec1, rec2,vacLabel);
         
         this.setLayoutX(x);
         this.setLayoutY(y);
+        this.scaleXProperty().bind(scene.widthProperty().divide(1300));//fza
+ 	   	this.scaleYProperty().bind(scene.heightProperty().divide(800));//fza
 		
 	}
 	
