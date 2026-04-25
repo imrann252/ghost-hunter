@@ -1,5 +1,7 @@
 
 
+import java.util.Random;
+
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -9,10 +11,11 @@ import javafx.scene.shape.Rectangle;
 public class Wisp extends Entity {
  
 
- private Group shape;
  private Group rotatingGroup;
  private Rectangle[] recs;
  private double rotationOffset=0;
+
+
 	public Wisp(double x,double y,boolean isVisible) {
 		
 		this.x=x;
@@ -20,29 +23,29 @@ public class Wisp extends Entity {
 		this.isVisible=isVisible;
 
 		this.shape =new Group();
-		  Circle head = new Circle(0, 0, 40);
-	        head.setFill(Color.RED);
+		  Circle head = new Circle(0, 0, 20);
+	        head.setFill(Color.GREENYELLOW);
 
 	        
-	        Circle leftEye = new Circle(-10, -6, 5);
-	        leftEye.setFill(Color.YELLOW);
+	        Circle leftEye = new Circle(-8, -6, 5);
+	        leftEye.setFill(Color.RED);
 	        
-	        Circle rightEye = new Circle(10, -6, 5);
-	        rightEye.setFill(Color.YELLOW);
+	        Circle rightEye = new Circle(8, -6, 5);
+	        rightEye.setFill(Color.RED);
 	        rotatingGroup = new Group();
-	        double r = 70;
+	        double r = 40;
 	        this.recs= new Rectangle[]{
 	        		new Rectangle(-4,-r-12.5,8,25),
-	        		new Rectangle(r*Math.cos(Math.PI/6)-4,-r*Math.sin(Math.PI/6)-12.5,8,25),
-	        		new Rectangle(r*Math.cos(Math.PI/6)-4,r*Math.sin(Math.PI/6)-12.5,8,25),
-	        		new Rectangle(-4,r-12.5,8,25),
-	        		new Rectangle(-r*Math.cos(Math.PI/6)-4,r*Math.sin(Math.PI/6)-12.5,8,25),
-	        		new Rectangle(-r*Math.cos(Math.PI/6)-4,-r*Math.sin(Math.PI/6)-12.5,8,25),
+	        		new Rectangle(r*Math.cos(Math.PI/6)-4,-r*Math.sin(Math.PI/6)-10,8,20),
+	        		new Rectangle(r*Math.cos(Math.PI/6)-4,r*Math.sin(Math.PI/6)-10,8,20),
+	        		new Rectangle(-4,r-10,8,20),
+	        		new Rectangle(-r*Math.cos(Math.PI/6)-4,r*Math.sin(Math.PI/6)-10,8,20),
+	        		new Rectangle(-r*Math.cos(Math.PI/6)-4,-r*Math.sin(Math.PI/6)-10,8,20),
 	        	
 	        };
 	        
 	        for (int i=0;i<6;i++) {
-	        recs[i].setFill(Color.RED);
+	        recs[i].setFill(Color.GREENYELLOW);
 	        recs[i].setArcHeight(20);
 	        recs[i].setArcWidth(15);
 	        }
@@ -57,33 +60,16 @@ public class Wisp extends Entity {
 	        shape.setLayoutX(x);
 	        shape.setLayoutY(y);
 	       
+	        this.dx = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
+	        this.dy = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
 
 	}
 	 
-	 @Override
-		void move() {
-		 double dx = (Math.random() - 0.5) * 2; 
-		 double dy = (Math.random() - 0.5) * 2;
-		
-		     this.x += dx; // Her karede 1 piksel sağa git
-	        this.y +=dy; // Her karede yarım piksel aşağı git
-	     
-	        this.shape.setLayoutX(this.x);
-	        this.shape.setLayoutY(this.y);
-	        
-		}
-
-		@Override
-		public void setVisible(boolean visibility) {
-			// TODO Auto-generated method stub
-			super.setVisible(visibility);
-		}
+	
 
        public void updateAnimation() {
     	   rotationOffset += 2;
     	    rotatingGroup.setRotate(rotationOffset);
        }
-	public Group getShape() {
-		return shape;
-	}
+	
 }

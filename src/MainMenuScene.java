@@ -32,14 +32,15 @@ public class MainMenuScene {
 	   hbox.layoutXProperty().bind(scene.widthProperty().subtract(hbox.widthProperty()).divide(2));//fza
 	   hbox.layoutYProperty().bind(scene.heightProperty().subtract(hbox.heightProperty()).divide(1.25));//fza
 	   
-
+	   Font spooky = Font.loadFont(getClass().getResourceAsStream("Spooky.ttf"), 18);
 	   
 	   Rectangle r1= new Rectangle(175,75);
-	 
+	   r1.setArcHeight(20);
+	   r1.setArcWidth(20);
 	   r1.setFill(Color.MEDIUMPURPLE);
-	   Text t1= new Text(155,425,"START GAME");
+	   Text t1= new Text("START GAME");
 	   t1.setFill(Color.WHITE);
-	   t1.setFont(Font.font("Courier",FontWeight.EXTRA_BOLD,FontPosture.REGULAR,20));
+	   t1.setFont(spooky);
 	   
 	   StackPane stack= new StackPane(r1,t1);
 	   Button b1=new Button("",stack);
@@ -57,24 +58,25 @@ public class MainMenuScene {
 
 	   
 	   Rectangle r2= new Rectangle(175,75);
+	   r2.setArcHeight(20);
+	   r2.setArcWidth(20);
 	   r2.setFill(Color.MEDIUMPURPLE);
-	   
-	   Text t2= new Text(155,425,"SELECT LEVEL");
+	   Text t2= new Text("SELECT LEVEL");
 	   t2.setFill(Color.WHITE);
-	   t2.setFont(Font.font("Courier",FontWeight.EXTRA_BOLD,FontPosture.REGULAR,20));
+	   t2.setFont(spooky);
 	   
 	   StackPane stack2= new StackPane(r2,t2);
 	   Button b2=new Button("",stack2);
 	   b2.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-	   
+	   b2.setOnMouseClicked(e -> {
+			  SelectLevelScene sls= new SelectLevelScene();
+			  Test.mainStage.setScene(sls.getScene());
+			  
+		  });
+		   
 	   b2.setOnMouseEntered( e -> {
 		   r2.setFill(Color.WHITE);
 		   t2.setFill(Color.RED);});
-	   
-	  b2.setOnMouseClicked(e -> {
-		  SelectLevelScene sls= new SelectLevelScene();
-		  Test.mainStage.setScene(sls.getScene());
-	  });
 	   
 	   b2.setOnMouseExited(e -> {
 		   r2.setFill(Color.MEDIUMPURPLE);
@@ -84,11 +86,12 @@ public class MainMenuScene {
 	  
 	   
 	   Rectangle r3= new Rectangle(175,75);
+	   r3.setArcHeight(20);
+	   r3.setArcWidth(20);
 	   r3.setFill(Color.MEDIUMPURPLE);
-	   
-	   Text t3= new Text(155,425,"EXIT");
+	   Text t3= new Text("EXIT");
 	   t3.setFill(Color.WHITE);
-	   t3.setFont(Font.font("Courier",FontWeight.EXTRA_BOLD,FontPosture.REGULAR,20));
+	   t3.setFont(spooky);
 	   
 	   
 	   StackPane stack3= new StackPane(r3,t3);

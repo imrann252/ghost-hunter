@@ -1,14 +1,21 @@
+
+import java.util.Random;
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 
+
 public class Ripper extends Entity {
-    private Group view;
+    
+  
    
 
     public Ripper(double x, double y,boolean isVisible) {
-        view = new Group();
+    	 this.dx = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
+	     this.dy = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
+        shape = new Group();
        isVisible=false;
         // 1. 12 Çıkıntılı (24 Noktalı) Geniş Gövde
         Polygon body = new Polygon();
@@ -40,27 +47,12 @@ public class Ripper extends Entity {
         rightEye.setFill(Color.RED);
 
         // Katmanları gruba ekle
-        view.getChildren().addAll(body, head, leftEye, rightEye);
+        shape.getChildren().addAll(body, head, leftEye, rightEye);
 
         // Belirlenen koordinatlara yerleştir
-        view.setLayoutX(x);
-        view.setLayoutY(y);
+        shape.setLayoutX(x);
+        shape.setLayoutY(y);
     }
 
-    @Override
-	void move() {
-		// TODO Auto-generated method stub
-		this.x=this.x+0.01;
-		this.y=this.y+0.01;
-	}
 
-	@Override
-	public void setVisible(boolean visibility) {
-		// TODO Auto-generated method stub
-		super.setVisible(visibility);
-	}
-
-	public Group getView() {
-        return view;
-    }
 }

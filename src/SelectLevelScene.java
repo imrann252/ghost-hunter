@@ -92,7 +92,11 @@ public class SelectLevelScene {
 	   b3.setOnMouseExited(e -> {
 		    r3.setFill(Color.PURPLE);
 		});
-	   b3.setOnMouseClicked( e -> {r3.setFill(Color.WHITE);});
+	   b3.setOnMouseClicked( e -> {r3.setFill(Color.WHITE);
+	     GameArea game= new GameArea();
+	     Test.mainStage.setScene(game.getScene());
+	   
+	   });
 	   
 	   vbox.scaleXProperty().bind(scene.widthProperty().divide(1300));//fza
 	   vbox.scaleYProperty().bind(scene.heightProperty().divide(800));//fza
