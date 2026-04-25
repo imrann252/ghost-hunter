@@ -9,6 +9,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 
 public class SelectLevelScene {
 	private Scene scene;
@@ -18,8 +19,9 @@ public class SelectLevelScene {
 		
 		
 		Pane selectLevel =new Pane();
-		
-		this.scene=new Scene(selectLevel,1300,800);
+		 double width = Screen.getPrimary().getBounds().getWidth();
+		   double height = Screen.getPrimary().getBounds().getHeight();
+		this.scene=new Scene(selectLevel,width,height);
 	   
 	   ImageView slevel= new ImageView("file:resources/select_level.png");
 	   slevel.fitWidthProperty().bind(scene.widthProperty());//fza
@@ -30,6 +32,7 @@ public class SelectLevelScene {
 	   vbox.layoutXProperty().bind(scene.widthProperty().subtract(vbox.widthProperty()).divide(2));//fza
 	   vbox.layoutYProperty().bind(scene.heightProperty().subtract(vbox.heightProperty()).divide(2));//fza
 	   
+	   Font spooky = Font.loadFont(getClass().getResourceAsStream("Spooky.ttf"), 18);
 	   
 	   Rectangle r1= new Rectangle(150,120);
 	   r1.setFill(Color.PURPLE);
@@ -38,7 +41,7 @@ public class SelectLevelScene {
 	   im1.fitHeightProperty().bind(r1.heightProperty().multiply(0.85));//fza
 	   Text t1= new Text(455,115,"1");
 	   t1.setFill(Color.WHITE);
-	   t1.setFont(Font.font("Arial", FontWeight.BOLD, 25));
+	   t1.setFont(spooky);
 	   StackPane sp1= new StackPane();
 	   sp1.getChildren().addAll(r1,im1,t1);
 	   Button b1= new Button("",sp1);
@@ -58,7 +61,7 @@ public class SelectLevelScene {
 	   im2.fitHeightProperty().bind(r2.heightProperty().multiply(0.85));//fza
 	   Text t2= new Text(455,140,"2");
 	   t2.setFill(Color.WHITE);
-	   t2.setFont(Font.font("Arial", FontWeight.BOLD, 25));
+	   t2.setFont(spooky);
 	   StackPane sp2= new StackPane();
 	   sp2.getChildren().addAll(r2,im2,t2);
 	   Button b2= new Button("",sp2);
@@ -80,7 +83,7 @@ public class SelectLevelScene {
 	   im3.fitHeightProperty().bind(r3.heightProperty().multiply(0.85));//fza
 	   Text t3= new Text(455,165,"3");
 	   t3.setFill(Color.WHITE);
-	   t3.setFont(Font.font("Arial", FontWeight.BOLD, 25));
+	   t3.setFont(spooky);
 	   StackPane sp3= new StackPane();
 	   sp3.getChildren().addAll(r3,im3,t3);
 	   Button b3= new Button("",sp3);

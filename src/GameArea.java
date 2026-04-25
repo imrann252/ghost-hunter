@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -15,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 
 public class GameArea {
    private Scene scene;
@@ -25,18 +27,20 @@ public class GameArea {
    public GameArea() {
 	   
 	   Pane area =new Pane();
-	   this.scene = new Scene(area,1300,800);
+	   double width = Screen.getPrimary().getBounds().getWidth();
+	   double height = Screen.getPrimary().getBounds().getHeight();
+	   this.scene = new Scene(area,width,height);
 	   
 	   vb = new VacuumBar(0,0,100);
 	   hb = new HealthBar(0,0,100,scene);
 	   
 	   PlayableArea pa=new PlayableArea(200,0,800,700);
 	   entities= new Entity[] {
-			   new Ripper(230.0,230.0,true),
-			   new Ripper(460.0,560.0,true),
-			   new Ripper(600.0,340.0,true),
-			   new Wisp(450.0,650.0,true),
-			   new Wisp(800.0,110.0,true)
+			   new Ripper(230.0,230.0,false),
+			   new Ripper(460.0,560.0,false),
+			   new Ripper(600.0,340.0,false),
+			   new Wisp(450.0,650.0,false),
+			   new Wisp(800.0,110.0,false)
 	   };
 	 
 	   ImageView areaImage = new ImageView("file:resources/level3.png");
@@ -47,6 +51,20 @@ public class GameArea {
 	   for(int i=0;i<5;i++) {
 		   area.getChildren().addAll(entities[i].getShape()); 
 	   }
+	   scene.setOnKeyPressed(e-> {
+		   if(e.getCode()==KeyCode.H) {
+			   for(Entity ent: entities) {
+				   ent.setVisible(true);
+			   }
+		   }
+	   });
+	   scene.setOnKeyReleased(e-> {
+		   if(e.getCode()==KeyCode.H) {
+			   for(Entity ent: entities) {
+				   ent.setVisible(false);
+			   }
+		   }
+	   });
 	   AnimationTimer animation=new AnimationTimer() {
 			public void handle (long now) {
 				for(int i=0;i<5;i++) {
@@ -59,6 +77,8 @@ public class GameArea {
 			}
 		};
 		animation.start();
+		
+		
 	 
 	   
 	   

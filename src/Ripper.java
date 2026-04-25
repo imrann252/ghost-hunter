@@ -15,8 +15,10 @@ public class Ripper extends Entity {
     public Ripper(double x, double y,boolean isVisible) {
     	 this.dx = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
 	     this.dy = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
+	   this.isVisible=isVisible;
         shape = new Group();
-       isVisible=false;
+	     
+       
         // 1. 12 Çıkıntılı (24 Noktalı) Geniş Gövde
         Polygon body = new Polygon();
         Double[] points = new Double[48]; // 24 nokta * (x,y) = 48 değer
@@ -52,7 +54,10 @@ public class Ripper extends Entity {
         // Belirlenen koordinatlara yerleştir
         shape.setLayoutX(x);
         shape.setLayoutY(y);
-    }
+        
+        shape.setVisible(isVisible);
+	     }
+    
 
 
 }

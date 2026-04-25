@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 
 public class MainMenuScene {
    private Scene scene;
@@ -20,7 +21,9 @@ public class MainMenuScene {
    public MainMenuScene() {
 	   
 	   Pane main=new Pane();
-	   this.scene=new Scene(main,1300,800);
+	   double width = Screen.getPrimary().getBounds().getWidth();
+	   double height = Screen.getPrimary().getBounds().getHeight();
+	   this.scene=new Scene(main,width,height);
 	  
 	   
 	   ImageView mainImage= new ImageView("file:resources/main_menu.png");
@@ -106,10 +109,13 @@ public class MainMenuScene {
 		   r3.setFill(Color.MEDIUMPURPLE);
 		   t3.setFill(Color.WHITE);
 		});
+	   b3.setOnMouseClicked(e -> {
+		   System.exit(0);
+	   });
 	   
 	   
-	   hbox.scaleXProperty().bind(scene.widthProperty().divide(1300));//fza
-	   hbox.scaleYProperty().bind(scene.heightProperty().divide(800));//fza
+	   hbox.scaleXProperty().bind(scene.widthProperty().divide(width));//fza
+	   hbox.scaleYProperty().bind(scene.heightProperty().divide(height));//fza
 	   
 	   
 	   hbox.getChildren().addAll(b1,b2,b3);

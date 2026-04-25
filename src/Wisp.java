@@ -62,6 +62,8 @@ public class Wisp extends Entity {
 	       
 	        this.dx = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
 	        this.dy = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
+	        
+	        shape.setVisible(isVisible);
 
 	}
 	 
