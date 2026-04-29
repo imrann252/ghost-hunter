@@ -52,7 +52,9 @@ public class SelectLevelScene {
 	   b1.setOnMouseExited(e -> {
 		    r1.setFill(Color.PURPLE);
 		});
-	   b1.setOnMouseClicked( e -> {r1.setFill(Color.WHITE);});
+	   b1.setOnMouseClicked( e -> {r1.setFill(Color.WHITE);
+	     GameArea game= new GameArea(1);
+	     Test.mainStage.setScene(game.getScene());});
 	   
 	   Rectangle r2= new Rectangle(150,120);
 	   r2.setFill(Color.PURPLE);
@@ -73,7 +75,10 @@ public class SelectLevelScene {
 	   b2.setOnMouseExited(e -> {
 		    r2.setFill(Color.PURPLE);
 		});
-	   b2.setOnMouseClicked( e -> {r2.setFill(Color.WHITE);});
+	   b2.setOnMouseClicked( e -> {r2.setFill(Color.WHITE);
+	     GameArea game= new GameArea(2);
+	     Test.mainStage.setScene(game.getScene());
+	   });
 	   
 	   
 	   Rectangle r3= new Rectangle(150,120);
@@ -96,7 +101,7 @@ public class SelectLevelScene {
 		    r3.setFill(Color.PURPLE);
 		});
 	   b3.setOnMouseClicked( e -> {r3.setFill(Color.WHITE);
-	     GameArea game= new GameArea();
+	     GameArea game= new GameArea(3);
 	     Test.mainStage.setScene(game.getScene());
 	   
 	   });

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
@@ -23,40 +24,73 @@ public class GameArea {
    private VacuumBar vb ;
    private HealthBar hb ;
 
-   private Entity[] entities;
+   private ArrayList<Entity> entities = new ArrayList<>();
 
-   //public Timer st;
+   public Timer st;
    //public ScoreCounter sc;
 	
 
    
-   public GameArea() {
+   public GameArea(int level) {
 	   
 	   Pane area =new Pane();
 	   double width = Screen.getPrimary().getBounds().getWidth();
 	   double height = Screen.getPrimary().getBounds().getHeight();
 	   this.scene = new Scene(area,width,height);
 	   
-	   vb = new VacuumBar(0,0,100);
+	   vb = new VacuumBar(0,0,100,scene);
 	   hb = new HealthBar(0,0,100,scene);
+	  
 	   
-	   PlayableArea pa=new PlayableArea(200,0,800,700);
-	   entities= new Entity[] {
-			   new Ripper(230.0,230.0,false),
-			   new Ripper(460.0,560.0,false),
-			   new Ripper(600.0,340.0,false),
-			   new Wisp(450.0,650.0,false),
-			   new Wisp(800.0,110.0,false)
-	   };
+	   ConfigLoader config=ConfigLoader.getInstance();
+	   int max_health=config.getMaxHealth();
+	   int max_vacuum=config.getMaxVacuum();
+	   int entity_damage=config.getEntityDamage();
+	   
+	   int health_token_increase=config.getHealthTokenIncrease();
+	   int vacuum_token_increase=config.getVacuumTokenIncrease();
+	   int eye_token_duration=config.getEyeTokenDuration();
+	   
+	   
+	   PlayableArea pa=new PlayableArea(config.getAreaX(level),config.getAreaY(level),config.getWidth(level),config.getHeight(level));
+	  
 	 
-	   ImageView areaImage = new ImageView("file:resources/level3.png");
+	   ImageView areaImage = new ImageView("file:resources/level" + level + ".png");
 	   areaImage.fitWidthProperty().bind(scene.widthProperty());
 	   areaImage.fitHeightProperty().bind(scene.heightProperty());
 	   
 	   area.getChildren().addAll(areaImage,vb,hb,pa);
-	   for(int i=0;i<5;i++) {
-		   area.getChildren().addAll(entities[i].getShape()); 
+	   /*create ghosts
+	   for(int i=0;i<config.getGhostCount(level);i++) {
+		   double x = 200 + Math.random() * 600;
+           double y = 100 + Math.random() * 400;
+           
+           Ghost ghost=new Ghost(x,y,false);
+           entities.add(ghost);
+		   area.getChildren().addAll(ghost.getShape()); 
 	   }
+	   */
+	  // create rippers
+	   for(int i=0;i<config.getRipperCount(level);i++) {
+		   double x = 200 + Math.random() * 600;
+           double y = 100 + Math.random() * 400;
+           
+           Ripper ripper=new Ripper(x,y,false);
+           entities.add(ripper);
+		   area.getChildren().addAll(ripper.getShape()); 
+	   }
+	  // create wisps
+	   for(int i=0;i<config.getWispCount(level);i++) {
+		   double x = 200 + Math.random() * 600;
+           double y = 100 + Math.random() * 400;
+           
+           Wisp wisp=new Wisp(x,y,false);
+           entities.add(wisp);
+		   area.getChildren().addAll(wisp.getShape()); 
+	   }
+	   int initialTime = config.getLevelTime(level); 
+	   st = new Timer(initialTime, scene);
+	   
 	   scene.setOnKeyPressed(e-> {
 		   if(e.getCode()==KeyCode.H) {
 			   for(Entity ent: entities) {
@@ -73,12 +107,12 @@ public class GameArea {
 	   });
 	   AnimationTimer animation=new AnimationTimer() {
 			public void handle (long now) {
-				for(int i=0;i<5;i++) {
-					if(entities[i]  instanceof Wisp) {
-				    ((Wisp)(entities[i])).updateAnimation();
-				    entities[i].move(200.0,0.0,1000.0,700.0);}
+				for(int i=0;i<entities.size();i++) {
+					if(entities.get(i)  instanceof Wisp) {
+				    ((Wisp)(entities.get(i))).updateAnimation();
+				    entities.get(i).move(config.getAreaX(level),config.getAreaY(level),config.getAreaX(level)+config.getWidth(level),config.getAreaY(level)+config.getHeight(level));}
 					
-				entities[i].move(200.0,0.0,1000.0,700.0);
+				entities.get(i).move(config.getAreaX(level),config.getAreaY(level),config.getAreaX(level)+config.getWidth(level),config.getAreaY(level)+config.getHeight(level));
 				}
 			}
 		};
@@ -88,26 +122,10 @@ public class GameArea {
 	 
 	   /*
 
-	   this.scene = new Scene(area,1300,800);
-	   
-	   vb = new VacuumBar(0,10,100,scene);
-	   hb = new HealthBar(0,10,100,scene);
-	   st = new Timer(120,scene);
+	 
 	   sc = new ScoreCounter(scene);
 	  sc.addScore(100);
-	   ImageView areaImage= new ImageView("file:resources/level1.png");
-	   areaImage.fitWidthProperty().bind(scene.widthProperty());
-	   areaImage.fitHeightProperty().bind(scene.heightProperty());
-	   
-
-	   
-	   
-	   ConfigLoader config = ConfigLoader.getInstance();
-
-	   // 1. Level'ın süresini çekelim
-	   int initialTime = config.getLevelTime(1); // 60 dönecektir 
-	   st = new Timer(initialTime, scene);
-
+	  
 	   // Karakter sağlığını belirleyelim
 	   int health = config.getMaxHealth(); // 100 dönecektir
 	   area.getChildren().addAll(areaImage,vb,hb,st,sc);

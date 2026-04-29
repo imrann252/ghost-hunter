@@ -57,6 +57,10 @@ public class MainMenuScene {
 		   r1.setFill(Color.MEDIUMPURPLE);
 		   t1.setFill(Color.WHITE);
 		});
+	   b1.setOnMouseClicked(e->{
+		   GameArea game= new GameArea(1);
+		   Test.mainStage.setScene(game.getScene());
+	   });
 	   
 
 	   
