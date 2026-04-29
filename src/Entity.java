@@ -25,7 +25,7 @@ public abstract class Entity {
 	void checkBounds(double width, double height) {};
 	
 	 public void setVisible(boolean visibility) {
-		 this.isVisible = visibility; // Kendi içindeki bilgiyi günceller
+		 this.isVisible = visibility; 
 		 if (this.shape != null) {
 		        this.shape.setVisible(visibility); // Group sınıfındaki setVisible() methodunu çağırır görünürlüğü düzenler		   
 		        }

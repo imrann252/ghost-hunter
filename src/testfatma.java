@@ -1,3 +1,4 @@
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -29,7 +30,6 @@ public class testfatma extends Application {
 		
 		
 		//pane.getChildren().addAll(helhel,vacvac);*/
-		
 		
 		primaryStage.setTitle("test");
 		primaryStage.setScene(game.getScene());
