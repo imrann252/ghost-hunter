@@ -14,8 +14,8 @@ public class HealthBar extends Pane {
 	
 	
 	public HealthBar() {
-		this.x = 10;
-		this.y = 50;
+		this.x = 0;
+		this.y = 0;
 		this.currentAmount = 100;
 	}
 
@@ -46,6 +46,9 @@ public class HealthBar extends Pane {
         
         
         this.getChildren().addAll(rec1, rec2,helLabel);
+        
+        this.setLayoutX(x);
+        this.setLayoutY(y);
         
 		this.layoutXProperty().bind(scene.widthProperty().subtract(this.widthProperty()).subtract(20));
 		this.scaleXProperty().bind(scene.widthProperty().divide(1300));//fza

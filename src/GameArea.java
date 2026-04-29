@@ -15,7 +15,8 @@ public class GameArea {
    private Scene scene;
    private VacuumBar vb ;
    private HealthBar hb ;
-   public ScoreTimer st;
+   public Timer st;
+   public ScoreCounter sc;
 	
    
    public GameArea() {
@@ -23,21 +24,26 @@ public class GameArea {
 	   Pane area =new Pane();
 	   this.scene = new Scene(area,1300,800);
 	   
-	   vb = new VacuumBar(0,0,100,scene);
-	   hb = new HealthBar(0,0,100,scene);
-	   st = new ScoreTimer(120,scene);
-	   vb.setBar(50);
-	   
-	   
-	   
+	   vb = new VacuumBar(0,10,100,scene);
+	   hb = new HealthBar(0,10,100,scene);
+	   st = new Timer(120,scene);
+	   sc = new ScoreCounter(scene);
+	  sc.addScore(100);
 	   ImageView areaImage= new ImageView("file:resources/level1.png");
 	   areaImage.fitWidthProperty().bind(scene.widthProperty());
 	   areaImage.fitHeightProperty().bind(scene.heightProperty());
 	   
-	   area.getChildren().addAll(areaImage,vb,hb,st);
 	   
 	   
-	   
+	   ConfigLoader config = ConfigLoader.getInstance();
+
+	   // 1. Level'ın süresini çekelim
+	   int initialTime = config.getLevelTime(1); // 60 dönecektir 
+	   st = new Timer(initialTime, scene);
+
+	   // Karakter sağlığını belirleyelim
+	   int health = config.getMaxHealth(); // 100 dönecektir
+	   area.getChildren().addAll(areaImage,vb,hb,st,sc);
    }
    
    public Scene getScene() {

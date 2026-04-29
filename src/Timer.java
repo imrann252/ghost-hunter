@@ -19,19 +19,13 @@ public class Timer extends Pane {
     	this.scene = scene;
     	this.second = second ;
     	
-    	Font bloody = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 25);
-        Label scoreLabel = new Label("SCORE:");
-        scoreLabel.setFont(bloody); 
-        scoreLabel.setTextFill(Color.WHITE); 
-        scoreLabel.setLayoutY(20);
-        scoreLabel.layoutXProperty().bind(scene.widthProperty().divide(2).subtract(20));
-        
+    	Font bloody = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 25);     
         timerLabel = new Label();
         timerLabel.setFont(bloody);
         timerLabel.setTextFill(Color.WHITE);
         
         
-        this.getChildren().addAll(scoreLabel,timerLabel);
+        this.getChildren().add(timerLabel);
 
         setupTimer(second); 
         
