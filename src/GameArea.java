@@ -135,7 +135,30 @@ public class GameArea {
 	   area.getChildren().addAll(areaImage,vb,hb,st,sc);
 	   */
    }
-   
+
+ // win panel lose panel olabilir
+  /* private void checkGameStatus() {
+        // kazanma durumu
+        if (entities.isEmpty()) {
+            animation.stop();
+            WinPanel wp = new WinPanel(() -> {
+                System.out.println("Sonraki seviyeye geçiliyor...");
+                // Burada bir sonraki level için GameArea'yı tekrar kurabilirsin
+            });
+            root.getChildren().add(wp);
+        }
+
+        // kaybetme
+        if (st.getTime() <= 0) { //buraya canda gelcek
+            animation.stop();
+            LosePanel lp = new LosePanel(sc.getScore(), () -> {
+                // Retry Aksiyonu: Mevcut seviyeyi yeniden başlat
+            }, () -> {
+                // Menu Aksiyonu
+            });
+            root.getChildren().add(lp);
+        }
+    }  */
    public Scene getScene() {
 		return scene;
 	   }
