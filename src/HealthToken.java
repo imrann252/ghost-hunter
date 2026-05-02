@@ -3,11 +3,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class health_token extends Pane {
+public class HealthToken extends Pane {
     private double x, y;
     private int restorationAmount;
 
-    public health_token(double x, double y, int amount) {
+    public HealthToken(double x, double y, int amount) {
         this.setX(x);
         this.restorationAmount = amount;
 

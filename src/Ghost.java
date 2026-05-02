@@ -1,4 +1,6 @@
 
+import java.util.Random;
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
@@ -6,9 +8,9 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class Ghoster extends Entity {
+public class Ghost extends Entity {
 
-    public Ghoster(double x, double y, boolean isVisible) {
+    public Ghost(double x, double y, boolean isVisible) {
        
         super(x, y, isVisible);
 
@@ -43,5 +45,7 @@ public class Ghoster extends Entity {
 
        
         shape.setVisible(isVisible);
+        
+ 
     }
 }
