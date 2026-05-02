@@ -26,12 +26,12 @@ public class Ghost extends Entity {
         head.setFill(Color.WHITE);
 
        
-        Rectangle bodyBase = new Rectangle(-15, 0, 30, 15);
+        Rectangle bodyBase = new Rectangle(-15, -1, 30, 16);
         bodyBase.setFill(Color.WHITE);
 
         
-        Circle leftEye = new Circle(-5, -2, 2, Color.BLACK);
-        Circle rightEye = new Circle(5, -2, 2, Color.BLACK);
+        Circle leftEye = new Circle(-5, -2, 2.5, Color.BLACK.darker());
+        Circle rightEye = new Circle(5, -2, 2.5, Color.BLACK.darker());
 
        
         shape.getChildren().addAll(head, bodyBase, leftEye, rightEye);
