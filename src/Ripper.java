@@ -9,13 +9,12 @@ import javafx.scene.shape.Polygon;
 
 public class Ripper extends Entity {
     
-  
-   
 
     public Ripper(double x, double y,boolean isVisible) {
-    	 this.dx = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
-	     this.dy = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
-	   this.isVisible=isVisible;
+    	
+    	this.dx = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
+    	this.dy = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
+    	this.isVisible=isVisible;
         shape = new Group();
 	     
        

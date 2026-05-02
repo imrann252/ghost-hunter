@@ -29,12 +29,12 @@ public class HealthBar extends Pane {
         rec1.setStroke(Color.BLACK);
         rec1.setStrokeWidth(30);
         rec1.setLayoutX(0);
-        rec1.setLayoutY(70);
+        rec1.setLayoutY(80);
         
         Rectangle rec2 = new Rectangle(50, 250);
         rec2.setFill(Color.RED.darker());
         rec2.setLayoutX(0);
-        rec2.setLayoutY(70);
+        rec2.setLayoutY(80);
         this.rec2=rec2;
         
         Font spooky = Font.loadFont(getClass().getResourceAsStream("Spooky.ttf"), 14);
@@ -42,7 +42,7 @@ public class HealthBar extends Pane {
         helLabel.setFont(spooky); 
         helLabel.setTextFill(Color.WHITE); 
         helLabel.setLayoutX(-10);
-        helLabel.setLayoutY(15);
+        helLabel.setLayoutY(25);
         
         
         this.getChildren().addAll(rec1, rec2,helLabel);
@@ -50,7 +50,7 @@ public class HealthBar extends Pane {
         this.setLayoutX(x);
         this.setLayoutY(y);
         
-		this.layoutXProperty().bind(scene.widthProperty().subtract(this.widthProperty()).subtract(20));
+		this.layoutXProperty().bind(scene.widthProperty().subtract(this.widthProperty().add(10)));
 		this.scaleXProperty().bind(scene.widthProperty().divide(1300));//fza
 	 	this.scaleYProperty().bind(scene.heightProperty().divide(800));//fza
 

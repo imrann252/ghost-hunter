@@ -1,4 +1,3 @@
-package ghost;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;

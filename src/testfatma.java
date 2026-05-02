@@ -1,3 +1,9 @@
+import javafx.geometry.Rectangle2D;
+
+import javafx.stage.Screen;
+import javafx.scene.shape.Rectangle;
+
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -17,7 +23,7 @@ public class testfatma extends Application {
 		
 		*/
 		//Pane pane = new Pane();
-		GameArea game = new GameArea();
+		GameArea game = new GameArea(1);
 		
 		//Scene scene = new Scene(pane,400,400);
 		
@@ -33,6 +39,9 @@ public class testfatma extends Application {
 		
 		primaryStage.setTitle("test");
 		primaryStage.setScene(game.getScene());
+
+
+		primaryStage.setMaximized(true);
 		primaryStage.show();
 		
 	}

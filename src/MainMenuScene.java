@@ -21,9 +21,7 @@ public class MainMenuScene {
    public MainMenuScene() {
 	   
 	   Pane main=new Pane();
-	   double width = Screen.getPrimary().getBounds().getWidth();
-	   double height = Screen.getPrimary().getBounds().getHeight();
-	   this.scene=new Scene(main,width,height);
+	   this.scene=new Scene(main,1300,800);
 	  
 	   
 	   ImageView mainImage= new ImageView("file:resources/main_menu.png");
@@ -35,7 +33,7 @@ public class MainMenuScene {
 	   hbox.layoutXProperty().bind(scene.widthProperty().subtract(hbox.widthProperty()).divide(2));//fza
 	   hbox.layoutYProperty().bind(scene.heightProperty().subtract(hbox.heightProperty()).divide(1.25));//fza
 	   
-	   Font spooky = Font.loadFont(getClass().getResourceAsStream("Spooky.ttf"), 18);
+	   Font bloody = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 30);
 	   
 	   Rectangle r1= new Rectangle(175,75);
 	   r1.setArcHeight(20);
@@ -43,7 +41,8 @@ public class MainMenuScene {
 	   r1.setFill(Color.MEDIUMPURPLE);
 	   Text t1= new Text("START GAME");
 	   t1.setFill(Color.WHITE);
-	   t1.setFont(spooky);
+	   t1.setFont(bloody);
+	   t1.setLayoutY(-10);
 	   
 	   StackPane stack= new StackPane(r1,t1);
 	   Button b1=new Button("",stack);
@@ -70,7 +69,7 @@ public class MainMenuScene {
 	   r2.setFill(Color.MEDIUMPURPLE);
 	   Text t2= new Text("SELECT LEVEL");
 	   t2.setFill(Color.WHITE);
-	   t2.setFont(spooky);
+	   t2.setFont(bloody);
 	   
 	   StackPane stack2= new StackPane(r2,t2);
 	   Button b2=new Button("",stack2);
@@ -98,7 +97,7 @@ public class MainMenuScene {
 	   r3.setFill(Color.MEDIUMPURPLE);
 	   Text t3= new Text("EXIT");
 	   t3.setFill(Color.WHITE);
-	   t3.setFont(spooky);
+	   t3.setFont(bloody);
 	   
 	   
 	   StackPane stack3= new StackPane(r3,t3);
@@ -118,8 +117,8 @@ public class MainMenuScene {
 	   });
 	   
 	   
-	   hbox.scaleXProperty().bind(scene.widthProperty().divide(width));//fza
-	   hbox.scaleYProperty().bind(scene.heightProperty().divide(height));//fza
+	   hbox.scaleXProperty().bind(scene.widthProperty().divide(1300));//fza
+	   hbox.scaleYProperty().bind(scene.heightProperty().divide(800));//fza
 	   
 	   
 	   hbox.getChildren().addAll(b1,b2,b3);
