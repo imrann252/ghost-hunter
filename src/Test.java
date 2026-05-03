@@ -14,17 +14,17 @@ public class Test extends Application {
 	
 		
 		
-		/*
-		MainMenuScene m1= new MainMenuScene();
 		
+		MainMenuScene m1= new MainMenuScene();
+		mainStage=primaryStage;
 		primaryStage.setScene(m1.getScene());
 		primaryStage.setTitle("test");
 		primaryStage.setMaximized(true);
 		primaryStage.show();
-		*/
+		
 	
 		
-		
+		/*
 
 		Pane pane = new Pane();
 		Scene scene=new Scene(pane,1300,800,Color.BLUE);
@@ -41,6 +41,7 @@ public class Test extends Application {
 		primaryStage.setTitle("test");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		*/
 		
 	
 	}

@@ -36,8 +36,10 @@ public class GameArea {
 	   
 	   ConfigLoader config=ConfigLoader.getInstance();
 	   
+	 
 	   Pane area =new Pane();
 	   this.scene = new Scene(area,1300,800);
+	   Hunter hunter=new Hunter(200,200,true,scene);
 	   
 	   vb = new VacuumBar(0,0,100,scene);
 	   hb = new HealthBar(0,0,100,scene);
@@ -52,8 +54,8 @@ public class GameArea {
 	   areaImage.fitWidthProperty().bind(scene.widthProperty());
 	   areaImage.fitHeightProperty().bind(scene.heightProperty());
 	   
-	   area.getChildren().addAll(areaImage,vb,hb,pa,st,sc);
-	   /*create ghosts
+	   area.getChildren().addAll(areaImage,vb,hb,pa,st,sc,hunter.getShape());
+	   //create ghosts
 	   for(int i=0;i<config.getGhostCount(level);i++) {
 		   double x = 200 + Math.random() * 600;
            double y = 100 + Math.random() * 400;
@@ -62,7 +64,7 @@ public class GameArea {
            entities.add(ghost);
 		   area.getChildren().addAll(ghost.getShape()); 
 	   }
-	   */
+	   
 	  // create rippers
 	   for(int i=0;i<config.getRipperCount(level);i++) {
 		   double x = 200 + Math.random() * 600;
@@ -102,6 +104,7 @@ public class GameArea {
 	   
 	   AnimationTimer animation=new AnimationTimer() {
 			public void handle (long now) {
+			 hunter.update();
 				for(int i=0;i<entities.size();i++) {
 					
 					if(entities.get(i)  instanceof Wisp) {
@@ -134,6 +137,8 @@ public class GameArea {
 	   int health = config.getMaxHealth(); // 100 dönecektir
 	   area.getChildren().addAll(areaImage,vb,hb,st,sc);
 	   */
+		area.setFocusTraversable(true);
+		area.requestFocus();
    }
 
  // win panel lose panel olabilir

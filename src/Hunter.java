@@ -12,11 +12,16 @@ import javafx.stage.Stage;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Hunter extends Entity {
+ public class Hunter  {
 	
     // Basılı olan tuşları saklamak için bir set (takılmayı önler)
     private final Set<KeyCode> activeKeys = new HashSet<>();
-    
+    private double x;
+    private double y;
+    private boolean isVisible;
+    private Scene scene;
+     Group shape;
+     private Polygon vacuumTriangle;
     
 
     public Hunter(double x, double y,boolean isVisible, Scene scene) {
@@ -30,18 +35,19 @@ public class Hunter extends Entity {
         circle.setFill(Color.ORANGE);
 
         // Vakum üçgeni - Başlangıçta görünmez [cite: 112]
-        Polygon vacuumTriangle = new Polygon(0, 0, 80, -30, 80, 30);
+         vacuumTriangle = new Polygon(0, 0, 80, -30, 80, 30);
         vacuumTriangle.setFill(Color.rgb(255, 0, 0, 0.4)); // Yarı şeffaf [cite: 92]
         vacuumTriangle.setVisible(false);
 
-        Group shape = new Group(circle, vacuumTriangle);
+         shape = new Group();
+         shape.getChildren().addAll(circle,vacuumTriangle);
+        
         // Karakteri playable_area içinde başlat (Örn: config'den gelen x:200, y:200) [cite: 206, 207]
         shape.setTranslateX(250);
         shape.setTranslateY(250);
 
 
-
-
+    
         // Tuş takibi
         scene.setOnKeyPressed(e -> activeKeys.add(e.getCode()));
         scene.setOnKeyReleased(e -> activeKeys.remove(e.getCode()));
@@ -53,7 +59,8 @@ public class Hunter extends Entity {
         shape.setLayoutY(y);
         
         shape.setVisible(isVisible);
-
+        
+      
         
         /*
         // Oyun Döngüsü (AnimationTimer) - Saniyede 60 kez çalışır
@@ -67,8 +74,8 @@ public class Hunter extends Entity {
 
        
     }
-/*
-    private void update(Group shape, Polygon vacuum) {
+
+    public void update() {
         double speed = 4.0; // Akıcı hız
 
         // HAREKET VE YÖN (W, A, S, D) [cite: 102, 103, 104, 105]
@@ -91,14 +98,18 @@ public class Hunter extends Entity {
 
         // VAKUM AKTİVASYONU (SPACE) 
         if (activeKeys.contains(KeyCode.SPACE)) {
-            vacuum.setVisible(true);
+            vacuumTriangle.setVisible(true);
             // İleride buraya vakum barını düşüren kodu ekleyeceksin [cite: 112]
         } else {
-            vacuum.setVisible(false);
+            vacuumTriangle.setVisible(false);
             // İleride buraya vakum barını dolduran kodu ekleyeceksin [cite: 113]
         }
         
         // NOT: Buraya ileride config.txt'den okuduğun playable_area sınır 
         // kontrollerini (if-else) eklemen gerekecek.
-    }*/
+    }
+    
+    public Group getShape() {
+     	  return shape;
+     }
 }
