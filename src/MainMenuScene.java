@@ -1,5 +1,6 @@
 
 import javafx.beans.property.Property;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -21,7 +22,11 @@ public class MainMenuScene {
    public MainMenuScene() {
 	   
 	   Pane main=new Pane();
-	   this.scene=new Scene(main,1300,800);
+	   
+	   
+	   Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+	   this.scene = new Scene(main,visualBounds.getWidth(), visualBounds.getHeight());
+
 	  
 	   
 	   ImageView mainImage= new ImageView("file:resources/main_menu.png");

@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -35,11 +36,14 @@ public class GameArea {
 	   
 	   
 	   ConfigLoader config=ConfigLoader.getInstance();
+	
 	   
-	 
 	   Pane area =new Pane();
-	   this.scene = new Scene(area,1300,800);
-	   Hunter hunter=new Hunter(200,200,true,scene);
+	   
+	   Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+	   this.scene = new Scene(area,visualBounds.getWidth(), visualBounds.getHeight());
+	   
+	   Hunter hunter=new Hunter(300,250,true,scene);
 	   
 	   vb = new VacuumBar(0,0,100,scene);
 	   hb = new HealthBar(0,0,100,scene);
@@ -104,19 +108,21 @@ public class GameArea {
 	   
 	   AnimationTimer animation=new AnimationTimer() {
 			public void handle (long now) {
-			 hunter.update();
+			 hunter.update(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
 				for(int i=0;i<entities.size();i++) {
 					
 					if(entities.get(i)  instanceof Wisp) {
 				    ((Wisp)(entities.get(i))).updateAnimation();
 				    }
 					
+				hunter.update(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
 				entities.get(i).move(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
 				}
+				
 			}
 		};
 		animation.start();
-		System.out.println(pa.pArea.getLayoutX());
+		//System.out.println(pa.pArea.getLayoutX());
 
 		
 		/*int max_health = config.getMaxHealth();

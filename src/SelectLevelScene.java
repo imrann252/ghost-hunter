@@ -1,3 +1,4 @@
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -19,9 +20,9 @@ public class SelectLevelScene {
 		
 		
 		Pane selectLevel =new Pane();
-		 double width = Screen.getPrimary().getBounds().getWidth();
-		   double height = Screen.getPrimary().getBounds().getHeight();
-		this.scene=new Scene(selectLevel,width,height);
+		Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+		this.scene = new Scene(selectLevel,visualBounds.getWidth(), visualBounds.getHeight());
+		   
 	   
 	   ImageView slevel= new ImageView("file:resources/select_level.png");
 	   slevel.fitWidthProperty().bind(scene.widthProperty());//fza
@@ -32,7 +33,7 @@ public class SelectLevelScene {
 	   vbox.layoutXProperty().bind(scene.widthProperty().subtract(vbox.widthProperty()).divide(2));//fza
 	   vbox.layoutYProperty().bind(scene.heightProperty().subtract(vbox.heightProperty()).divide(2));//fza
 	   
-	   Font spooky = Font.loadFont(getClass().getResourceAsStream("Spooky.ttf"), 18);
+	   Font bloody = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 40);
 	   
 	   Rectangle r1= new Rectangle(150,120);
 	   r1.setFill(Color.PURPLE);
@@ -41,7 +42,7 @@ public class SelectLevelScene {
 	   im1.fitHeightProperty().bind(r1.heightProperty().multiply(0.85));//fza
 	   Text t1= new Text(455,115,"1");
 	   t1.setFill(Color.WHITE);
-	   t1.setFont(spooky);
+	   t1.setFont(bloody);
 	   StackPane sp1= new StackPane();
 	   sp1.getChildren().addAll(r1,im1,t1);
 	   Button b1= new Button("",sp1);
@@ -63,7 +64,7 @@ public class SelectLevelScene {
 	   im2.fitHeightProperty().bind(r2.heightProperty().multiply(0.85));//fza
 	   Text t2= new Text(455,140,"2");
 	   t2.setFill(Color.WHITE);
-	   t2.setFont(spooky);
+	   t2.setFont(bloody);
 	   StackPane sp2= new StackPane();
 	   sp2.getChildren().addAll(r2,im2,t2);
 	   Button b2= new Button("",sp2);
@@ -88,7 +89,7 @@ public class SelectLevelScene {
 	   im3.fitHeightProperty().bind(r3.heightProperty().multiply(0.85));//fza
 	   Text t3= new Text(455,165,"3");
 	   t3.setFill(Color.WHITE);
-	   t3.setFont(spooky);
+	   t3.setFont(bloody);
 	   StackPane sp3= new StackPane();
 	   sp3.getChildren().addAll(r3,im3,t3);
 	   Button b3= new Button("",sp3);

@@ -12,104 +12,80 @@ import javafx.stage.Stage;
 import java.util.HashSet;
 import java.util.Set;
 
- public class Hunter  {
-	
-    // Basılı olan tuşları saklamak için bir set (takılmayı önler)
-    private final Set<KeyCode> activeKeys = new HashSet<>();
-    private double x;
-    private double y;
-    private boolean isVisible;
-    private Scene scene;
-     Group shape;
-     private Polygon vacuumTriangle;
-    
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
-    public Hunter(double x, double y,boolean isVisible, Scene scene) {
-    	
-    	this.isVisible=isVisible;
-       
-  
-        // Hunter kurulumu
+public class Hunter {
+    private final Set<KeyCode> activeKeys = new HashSet<>();
+    private Group shape;
+    private Polygon vacuumTriangle;
+    private Scene scene;
+
+    public Hunter(double startX, double startY, boolean isVisible, Scene scene) {
+        this.scene = scene;
+
         Circle circle = new Circle(0, 0, 15);
         circle.setStroke(Color.ORANGE);
         circle.setFill(Color.ORANGE);
 
-        // Vakum üçgeni - Başlangıçta görünmez [cite: 112]
-         vacuumTriangle = new Polygon(0, 0, 80, -30, 80, 30);
-        vacuumTriangle.setFill(Color.rgb(255, 0, 0, 0.4)); // Yarı şeffaf [cite: 92]
+        vacuumTriangle = new Polygon(0, 0, 80, -30, 80, 30);
+        vacuumTriangle.setFill(Color.rgb(255, 0, 0, 0.4));
         vacuumTriangle.setVisible(false);
 
-         shape = new Group();
-         shape.getChildren().addAll(circle,vacuumTriangle);
-        
-        // Karakteri playable_area içinde başlat (Örn: config'den gelen x:200, y:200) [cite: 206, 207]
-        shape.setTranslateX(250);
-        shape.setTranslateY(250);
-
-
-    
-        // Tuş takibi
-        scene.setOnKeyPressed(e -> activeKeys.add(e.getCode()));
-        scene.setOnKeyReleased(e -> activeKeys.remove(e.getCode()));
+        shape = new Group(circle, vacuumTriangle);
         
         
-
-        // Belirlenen koordinatlara yerleştir
-        shape.setLayoutX(x);
-        shape.setLayoutY(y);
-        
+        // Konumlandırma: Layout koordinatlarını sabit tutup Translate ile hareket edelim
+        shape.setLayoutX(startX);
+        shape.setLayoutY(startY);
         shape.setVisible(isVisible);
-        
-      
-        
-        /*
-        // Oyun Döngüsü (AnimationTimer) - Saniyede 60 kez çalışır
-        AnimationTimer gameLoop = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                update(shape, vacuumTriangle);
-            }
-        };
-        gameLoop.start();*/
-
        
+        // Dinleyicileri ekle
+        addKeyListeners();
     }
 
-    public void update() {
-        double speed = 4.0; // Akıcı hız
+    private void addKeyListeners() {
+        // Scene null değilse dinle
+        if (scene != null) {
+            scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> activeKeys.add(e.getCode()));
+            scene.addEventFilter(KeyEvent.KEY_RELEASED, e -> activeKeys.remove(e.getCode()));
+        }
+    }
 
-        // HAREKET VE YÖN (W, A, S, D) [cite: 102, 103, 104, 105]
-        if (activeKeys.contains(KeyCode.W)) {
-            shape.setTranslateY(shape.getTranslateY() - speed);
+    public void update(double minX, double minY , double maxX, double maxY) {
+        double speed = 4.0;
+        
+        // Mevcut konumları al
+        double dx = shape.getTranslateX();
+        double dy = shape.getTranslateY();
+        
+        
+        double radius = 15; 
+
+	
+	  
+	    if (activeKeys.contains(KeyCode.W)) {
+            shape.setTranslateY(dy - speed);
             shape.setRotate(270);
         }
-         if (activeKeys.contains(KeyCode.S)) {
-            shape.setTranslateY(shape.getTranslateY() + speed);
+	    else if (activeKeys.contains(KeyCode.S)) {
+            shape.setTranslateY(dy + speed);
             shape.setRotate(90);
         }
-         if (activeKeys.contains(KeyCode.A)) {
-            shape.setTranslateX(shape.getTranslateX() - speed);
+	    else if (activeKeys.contains(KeyCode.A)) {
+            shape.setTranslateX(dx - speed);
             shape.setRotate(180);
         }
-         if (activeKeys.contains(KeyCode.D)) {
-            shape.setTranslateX(shape.getTranslateX() + speed);
+	    else if (activeKeys.contains(KeyCode.D)) {
+            shape.setTranslateX(dx + speed);
             shape.setRotate(0);
         }
 
-        // VAKUM AKTİVASYONU (SPACE) 
-        if (activeKeys.contains(KeyCode.SPACE)) {
-            vacuumTriangle.setVisible(true);
-            // İleride buraya vakum barını düşüren kodu ekleyeceksin [cite: 112]
-        } else {
-            vacuumTriangle.setVisible(false);
-            // İleride buraya vakum barını dolduran kodu ekleyeceksin [cite: 113]
-        }
+        vacuumTriangle.setVisible(activeKeys.contains(KeyCode.SPACE));
         
-        // NOT: Buraya ileride config.txt'den okuduğun playable_area sınır 
-        // kontrollerini (if-else) eklemen gerekecek.
+        
+        System.out.println(this.shape.getTranslateX() + " " + this.shape.getTranslateY());
     }
-    
-    public Group getShape() {
-     	  return shape;
-     }
+
+    public Group getShape() { return shape; }
 }
