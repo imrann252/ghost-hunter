@@ -1,15 +1,24 @@
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Circle;
+
+import java.util.ArrayList;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 import javafx.geometry.Pos;
 
-public class EyeToken extends StackPane {
+public class EyeToken extends StackPane implements Collectible {
     private boolean isCollected = false;
 
     // Range Token genelde 40-50 px civarı olur, varsayılanı 50 yapalım
     public EyeToken(double x, double y) {
-        this.isCollected = false;
 
         // Göz Akı 
         Ellipse ak = new Ellipse(10, 6);
@@ -39,13 +48,43 @@ public class EyeToken extends StackPane {
         this.setLayoutY(y);
         
     }
+    
+    @Override
+    public void collect(Hunter hunter, ArrayList<Entity> ents, Pane root) {
 
-    public void collect() {
-        this.isCollected = true;
-        this.setVisible(false);
+        if (isCollected) {
+            return;
+        }
+
+        if (this.getBoundsInParent().intersects(hunter.getShape().getBoundsInParent())) {
+
+            isCollected = true;
+
+            hunter.isVisible = true;
+
+            root.getChildren().remove(this);
+
+            for (Entity ent : ents) {
+
+                ent.setVisible(true);
+
+                PauseTransition delay =
+                        new PauseTransition(Duration.seconds(5));
+
+                delay.setOnFinished(e -> {
+                    hunter.isVisible = false;
+                    ent.setVisible(false);
+                });
+
+                delay.play();
+            }
+        }
     }
 
-    public boolean isCollected() {
-        return isCollected;
-    }
+
+    
 }
+        
+
+
+

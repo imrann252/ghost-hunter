@@ -29,6 +29,7 @@ public class GameArea {
 
    public Timer st;
    public ScoreCounter sc;
+   public boolean visibility;
 	
 
    
@@ -43,13 +44,16 @@ public class GameArea {
 	   Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
 	   this.scene = new Scene(area,visualBounds.getWidth(), visualBounds.getHeight());
 	   
-	   Hunter hunter=new Hunter(300,250,true,scene);
+	   Hunter hunter=new Hunter(300,250,false,scene);
 	   
 	   vb = new VacuumBar(0,0,100,scene);
 	   hb = new HealthBar(0,0,100,scene);
 	   st = new Timer(config.getLevelTime(level),scene);
 	   sc = new ScoreCounter(scene);
 	  
+	   double a = 200 + Math.random() * 600;
+       double b = 100 + Math.random() * 400;
+	   EyeToken eye = new EyeToken(a,b);
 	   
 	   PlayableArea pa = new PlayableArea(config.getAreaX(level),config.getAreaY(level),config.getWidth(level),config.getHeight(level),scene);
 	 
@@ -58,7 +62,7 @@ public class GameArea {
 	   areaImage.fitWidthProperty().bind(scene.widthProperty());
 	   areaImage.fitHeightProperty().bind(scene.heightProperty());
 	   
-	   area.getChildren().addAll(areaImage,vb,hb,pa,st,sc,hunter.getShape());
+	   area.getChildren().addAll(areaImage,vb,hb,pa,st,sc,hunter.getShape(),eye);
 	   //create ghosts
 	   for(int i=0;i<config.getGhostCount(level);i++) {
 		   double x = 200 + Math.random() * 600;
@@ -108,14 +112,15 @@ public class GameArea {
 	   
 	   AnimationTimer animation=new AnimationTimer() {
 			public void handle (long now) {
-			 hunter.update(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
+				hunter.update(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
+				eye.collect(hunter, entities,area);
 				for(int i=0;i<entities.size();i++) {
 					
 					if(entities.get(i)  instanceof Wisp) {
 				    ((Wisp)(entities.get(i))).updateAnimation();
 				    }
 					
-				hunter.update(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
+				
 				entities.get(i).move(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
 				}
 				
