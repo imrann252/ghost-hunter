@@ -14,6 +14,7 @@ public class HealthToken extends Pane {
         // Görsel Tasarım: JavaFX geometrik şekilleri kullanılarak [cite: 132]
         // Örneğin sarı bir daire üzerine kırmızı bir artı (+) sembolü
         Circle base = new Circle(15, Color.YELLOW);
+        base.setStroke(Color.GRAY.darker());
         Rectangle verticalBar = new Rectangle(-2, -8, 4, 16);
         Rectangle horizontalBar = new Rectangle(-8, -2, 16, 4);
         verticalBar.setFill(Color.RED);

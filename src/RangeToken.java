@@ -14,7 +14,7 @@ public class RangeToken extends Pane {
 
         // token tabanı: dis daireyi ciz.
         Circle out_circle = new Circle(15, Color.YELLOW);
-        out_circle.setStroke(Color.BLACK);//dis kenarliklari boya.
+        out_circle.setStroke(Color.GRAY.darker());//dis kenarliklari boya.
 
         // Menzili temsil eden siyah bir üçgen (ikon)
         Polygon rangeIcon = new Polygon();
