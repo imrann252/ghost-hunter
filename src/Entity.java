@@ -22,7 +22,6 @@ public abstract class Entity {
 	}
 	
 	
-	
 	void checkBounds(double width, double height) {};
 	
 	 public void setVisible(boolean visibility) {

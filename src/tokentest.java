@@ -19,8 +19,8 @@ public class tokentest extends Application {
 		
 		Scene scene = new Scene(pane,400,400);
 		
-		HealthToken ht = new HealthToken(100,100,20);
-		RangeToken rantoken = new RangeToken(200,250,3);
+		HealthToken ht = new HealthToken(100,100);
+		RangeToken rantoken = new RangeToken(200,250);
 		EyeToken eye = new EyeToken(200,200);
 		
 		

@@ -25,6 +25,9 @@ public class GameArea {
    private Scene scene;
    private VacuumBar vb ;
    private HealthBar hb ;
+   
+
+   private TokenController tokenController;
 
    private ArrayList<Entity> entities = new ArrayList<>();
 
@@ -65,22 +68,18 @@ public class GameArea {
 	   Hunter hunter=new Hunter(600,550,scene);
 	   
 	   vb = new VacuumBar(0,0,100,scene);
-	   hb = new HealthBar(0,0,100,scene);
+	   hb = new HealthBar(0,0,50,scene);
 	   st = new Timer(config.getLevelTime(level),scene);
 	   sc = new ScoreCounter(scene);
+	   tokenController = new TokenController(area, pa);
 	  
-	   double a = minX + 15 + Math.random() * ((maxX - minX) - 30);
-       double b = minY + 15 + Math.random() * ((maxY-minY)- 30);
-	   EyeToken eye = new EyeToken(a,b);
-	   
-	   
-	 
+
 	   
 	   ImageView areaImage = new ImageView("file:resources/level" + level + ".png");
 	   areaImage.fitWidthProperty().bind(scene.widthProperty());
 	   areaImage.fitHeightProperty().bind(scene.heightProperty());
 	   
-	   area.getChildren().addAll(areaImage,vb,hb,pa,st,sc,hunter.getShape(),eye);
+	   area.getChildren().addAll(areaImage,vb,hb,pa,st,sc,hunter.getShape());
 	   
 	   
 	   //create ghosts
@@ -112,47 +111,39 @@ public class GameArea {
 		   area.getChildren().addAll(wisp.getShape()); 
 	   }
 	  
-	   int initialTime = config.getLevelTime(level); 
-	   st = new Timer(initialTime, scene);
 	   
-	   scene.setOnKeyPressed(e-> {
-		   if(e.getCode()==KeyCode.H) {
-			   for(Entity ent: entities) {
-				   ent.setVisible(true);
-			   }
-		   }
-	   });
-	   scene.setOnKeyReleased(e-> {
-		   if(e.getCode()==KeyCode.H) {
-			   for(Entity ent: entities) {
-				   ent.setVisible(false);
-			   }
-		   }
-	   });
+	   scene.setOnKeyPressed(keyEvent -> { 
+		    if (keyEvent.getCode() == KeyCode.H) {
+		        for (Entity ent : entities) {
+		            ent.setVisible(true);
+		        }
+		    }
+		});
+
+		scene.setOnKeyReleased(keyReleaseEvent -> { 
+		    if (keyReleaseEvent.getCode() == KeyCode.H) {
+		        for (Entity ent : entities) {
+		            ent.setVisible(false);
+		        }
+		    }
+		});
 	   
 	   this.animation=new AnimationTimer() {
 			public void handle (long now) {
-				// hunter.update(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
-                double minX = pa.pArea.getLayoutX();
-		        double minY = pa.pArea.getLayoutY();
-		        double maxX = minX + config.getWidth(level);
-		        double maxY = minY + config.getHeight(level);
-
-			    hunter.update(minX, minY, maxX, maxY);
 				
-				eye.collect(hunter, entities,area);
+			    hunter.update(minX, minY, maxX, maxY,vb);
+			    tokenController.update(now, hunter, hb, entities);
+				
 				for(int i=0;i<entities.size();i++) {
-
 					Entity ent = entities.get(i);
 					
 					if(entities.get(i)  instanceof Wisp) {
 				    ((Wisp)(entities.get(i))).updateAnimation();
 				    }
 					
-				
-				entities.get(i).move(minX, minY, maxX, maxY);
+					entities.get(i).move(minX, minY, maxX, maxY);
                 // vakum kontrol
-		            if (hunter.isVacuumActive() && hunter.getVacuumShape().getBoundsInParent().intersects(ent.getShape().getBoundsInParent())) {
+		            if (hunter.isVacuumActive() && vb.getCurrentAmount() > 0 && hunter.getVacuumShape().getBoundsInParent().intersects(ent.getShape().getBoundsInParent())) {
 		                
 		                double currentScale = ent.getShape().getScaleX(); // Mevcut büyüklüğü al
 		                
@@ -164,48 +155,21 @@ public class GameArea {
 		                    checkGameStatus();
 		                } else {
 		                    
-		                    ent.getShape().setScaleX(currentScale - 0.01);
-		                    ent.getShape().setScaleY(currentScale - 0.01);
+		                    ent.getShape().setScaleX(currentScale - 0.005);
+		                    ent.getShape().setScaleY(currentScale - 0.005);
 		                }
-		            } else {
 		                
-		                if (ent.getShape().getScaleX() < 1.0) {
-		                    ent.getShape().setScaleX(ent.getShape().getScaleX() + 0.01);
-		                    ent.getShape().setScaleY(ent.getShape().getScaleY() + 0.01);
-		                }
-		            }
+		            } 
 
-
-					
 				}
 				
 			}
 		};
 		animation.start();
-		//System.out.println(pa.pArea.getLayoutX());
-
-		
-		/*int max_health = config.getMaxHealth();
-		   int max_vacuum = config.getMaxVacuum();
-		   int entity_damage = config.getEntityDamage();
-		   
-		   int health_token_increase = config.getHealthTokenIncrease();
-		   int vacuum_token_increase = config.getVacuumTokenIncrease();
-		   int eye_token_duration = config.getEyeTokenDuration();*/
-		
-	   /*
-
-	 
-	   sc = new ScoreCounter(scene);
-	  sc.addScore(100);
-	  
-	   // Karakter sağlığını belirleyelim
-	   int health = config.getMaxHealth(); // 100 dönecektir
-	   area.getChildren().addAll(areaImage,vb,hb,st,sc);
-	   */
 		area.setFocusTraversable(true);
 		area.requestFocus();
-   }
+		
+}
 
  // win panel lose panel olabilir
  public void checkGameStatus() {

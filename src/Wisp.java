@@ -18,6 +18,9 @@ public class Wisp extends Entity {
 
 	public Wisp(double x,double y,boolean isVisible) {
 		
+		this.dx = (random.nextDouble() * 2 ) * (random.nextBoolean() ? 1 : -1);
+        this.dy = (random.nextDouble() * 2 ) * (random.nextBoolean() ? 1 : -1);
+		
 		this.x=x;
 		this.y=y;
 		this.isVisible=isVisible;
@@ -59,9 +62,7 @@ public class Wisp extends Entity {
 	        shape.getChildren().addAll(head,leftEye,rightEye,rotatingGroup);
 	        shape.setLayoutX(x);
 	        shape.setLayoutY(y);
-	       
-	        this.dx = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
-	        this.dy = (random.nextDouble() * 2 + 1) * (random.nextBoolean() ? 1 : -1);
+	
 	        
 	        shape.setVisible(isVisible);
 

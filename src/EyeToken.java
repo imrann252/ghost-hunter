@@ -14,7 +14,7 @@ import javafx.util.Duration;
 
 import javafx.geometry.Pos;
 
-public class EyeToken extends StackPane implements Collectible {
+public class EyeToken extends StackPane {
     private boolean isCollected = false;
 
     // Range Token genelde 40-50 px civarı olur, varsayılanı 50 yapalım
@@ -49,14 +49,14 @@ public class EyeToken extends StackPane implements Collectible {
         
     }
     
-    @Override
+
     public void collect(Hunter hunter, ArrayList<Entity> ents, Pane root) {
 
         if (isCollected) {
             return;
         }
 
-        if (this.getBoundsInParent().intersects(hunter.getShape().getBoundsInParent())) {
+        if (this.getBoundsInParent().intersects(hunter.getBody().getBoundsInParent())) {
 
             isCollected = true;
             root.getChildren().remove(this);

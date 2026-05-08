@@ -1,4 +1,3 @@
-
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -6,91 +5,171 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class Hunter {
+
     private Group shape;
+
     private Circle body;
     private Polygon vacuum;
+
     private Rotate vacuumRotate;
-    
-    private final double radius = 15; 
+    private Scale vacuumScale;
+
+    private final double radius = 15;
     private double speed = 4.0;
-    
-    // hunter bi tek başına yapsın bunu
+
     private Set<KeyCode> activeKeys = new HashSet<>();
-    private double mouseX, mouseY;
+
+    private double mouseX;
+    private double mouseY;
 
     public Hunter(double startX, double startY, Scene scene) {
-      
+
         body = new Circle(radius, Color.ORANGE);
-        
+
+        // Vacuum triangle
         vacuum = new Polygon();
+
         vacuum.getPoints().addAll(new Double[]{
-            0.0, 0.0,           // Tepe noktası (Pivot)
-            180.0, -60.0,       
-            180.0, 60.0
+                0.0, 0.0,
+                120.0, -60.0,
+                120.0, 60.0
         });
-        vacuum.setFill(Color.rgb(255, 0, 0, 0.4)); 
+
+        vacuum.setFill(Color.rgb(255, 0, 0, 0.4));
         vacuum.setVisible(false);
 
+        // Rotation
         vacuumRotate = new Rotate(0, 0, 0);
-        vacuum.getTransforms().add(vacuumRotate);
 
+        // Scale with pivot at hunter center
+        vacuumScale = new Scale(1, 1, 0, 0);
+
+        vacuum.getTransforms().addAll(vacuumRotate, vacuumScale);
+
+        // Vacuum follows body
         vacuum.layoutXProperty().bind(body.layoutXProperty());
         vacuum.layoutYProperty().bind(body.layoutYProperty());
 
         shape = new Group(vacuum, body);
+
         body.setLayoutX(startX);
         body.setLayoutY(startY);
 
-        // 2. Dinleyicileri Sahneye Bağla 
         setupInput(scene);
     }
 
     private void setupInput(Scene scene) {
-        scene.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, e -> activeKeys.add(e.getCode()));
-        scene.addEventFilter(javafx.scene.input.KeyEvent.KEY_RELEASED, e -> activeKeys.remove(e.getCode()));
-        scene.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_MOVED, e -> {
-            mouseX = e.getX();
-            mouseY = e.getY();
-        });
+
+        scene.addEventFilter(
+                javafx.scene.input.KeyEvent.KEY_PRESSED,
+                e -> activeKeys.add(e.getCode())
+        );
+
+        scene.addEventFilter(
+                javafx.scene.input.KeyEvent.KEY_RELEASED,
+                e -> activeKeys.remove(e.getCode())
+        );
+
+        scene.addEventFilter(
+                javafx.scene.input.MouseEvent.MOUSE_MOVED,
+                e -> {
+                    mouseX = e.getX();
+                    mouseY = e.getY();
+                }
+        );
     }
 
-    public void update(double minX, double minY, double maxX, double maxY) {
+    public void update(double minX, double minY,double maxX, double maxY, VacuumBar vb) {
+
         double nextX = body.getLayoutX();
         double nextY = body.getLayoutY();
 
-        if (activeKeys.contains(KeyCode.W)) nextY -= speed;
-        if (activeKeys.contains(KeyCode.S)) nextY += speed;
-        if (activeKeys.contains(KeyCode.A)) nextX -= speed;
-        if (activeKeys.contains(KeyCode.D)) nextX += speed;
+        if (activeKeys.contains(KeyCode.W)) {
+            nextY -= speed;
+        }
 
-       
-        if (nextX - radius >= minX && nextX + radius <= maxX) {
+        if (activeKeys.contains(KeyCode.S)) {
+            nextY += speed;
+        }
+
+        if (activeKeys.contains(KeyCode.A)) {
+            nextX -= speed;
+        }
+
+        if (activeKeys.contains(KeyCode.D)) {
+            nextX += speed;
+        }
+
+        // Boundary check
+        if (nextX - radius >= minX &&
+                nextX + radius <= maxX) {
+
             body.setLayoutX(nextX);
         }
-        if (nextY - radius >= minY && nextY + radius <= maxY) {
+
+        if (nextY - radius >= minY &&
+                nextY + radius <= maxY) {
+
             body.setLayoutY(nextY);
         }
 
+        // Vacuum active
         vacuum.setVisible(activeKeys.contains(KeyCode.SPACE));
+        boolean isSpacePressed = activeKeys.contains(KeyCode.SPACE);
+        
+        if (isSpacePressed && vb.getCurrentAmount() > 0) {
+            vacuum.setVisible(true);
+            // Enerjiyi azalt (ConfigLoader'dan gelen değeri kullanabilirsin, örn: -0.5) [cite: 204, 231]
+            vb.setBar(-0.5); 
+        } else {
+            vacuum.setVisible(false);
+            // Space basılmıyorsa enerji dolar [cite: 113, 232]
+            vb.setBar(0.3); 
+        }
 
-      //tanjan hesaplanıyo
+        // Rotation angle
         double dx = mouseX - body.getLayoutX();
         double dy = mouseY - body.getLayoutY();
-        // burda da radyan almadığı için dereec
-        vacuumRotate.setAngle(Math.toDegrees(Math.atan2(dy, dx)));
+
+        vacuumRotate.setAngle(
+                Math.toDegrees(Math.atan2(dy, dx))
+        );
     }
-public boolean isVacuumActive() {
-        
-        return vacuum.isVisible(); 
+
+    // Vacuum scale methods
+    public void setVacuumScale(double scaleX, double scaleY) {
+
+        vacuumScale.setX(scaleX);
+        vacuumScale.setY(scaleY);
+    }
+
+    public double getVacuumScaleX() {
+        return vacuumScale.getX();
+    }
+
+    public double getVacuumScaleY() {
+        return vacuumScale.getY();
+    }
+
+    public boolean isVacuumActive() {
+        return vacuum.isVisible();
     }
 
     public javafx.scene.Node getVacuumShape() {
-       
         return vacuum;
     }
-    public Group getShape() { return shape; }
+
+    public Group getShape() {
+        return shape;
+    }
+    
+    public Circle getBody() {
+        return body;
+    }
 }

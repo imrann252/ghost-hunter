@@ -49,6 +49,7 @@ public class HealthBar extends Pane {
         
         this.setLayoutX(x);
         this.setLayoutY(y);
+        this.setBar(0);
         
 		this.layoutXProperty().bind(scene.widthProperty().subtract(this.widthProperty().add(10)));
 		this.scaleXProperty().bind(scene.widthProperty().divide(1300));//fza
@@ -57,13 +58,24 @@ public class HealthBar extends Pane {
 		
 	}
 	
-	public void setBar(double kill) {
-		
-		currentHealth += kill;
-	     
-	    double newHeight = (currentHealth / this.maxHealth) * this.maxHeight;
+	public void setBar(double amount) {
+	    // Mevcut sağlığı artır
+	    currentHealth += amount;
+
+	    // Sağlığın 100'ü aşmasını veya 0'ın altına düşmesini engelle (Sınırlandırma)
+	    if (currentHealth > maxHealth) currentHealth = maxHealth;
+	    if (currentHealth < 0) currentHealth = 0;
+
+	    // Yeni yüksekliği hesapla
+	    double newHeight = (currentHealth / maxHealth) * maxHeight;
+	    
+	    // Görsel güncellemeler
 	    this.rec2.setHeight(newHeight);
-	    this.rec2.setLayoutY(50 + (this.maxHeight - newHeight)); 
+	    
+	    // ÖNEMLİ: Barın alttan yukarıya doğru dolması için 
+	    // toplam yükseklikten mevcut yüksekliği çıkarıp başlangıç Y noktasına ekliyoruz.
+	    // rec1'in Y konumu 80 olduğu için referans noktamız 80.
+	    this.rec2.setLayoutY(80 + (maxHeight - newHeight)); 
 	}
 
 }
