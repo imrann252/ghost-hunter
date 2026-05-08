@@ -142,6 +142,8 @@ public class GameArea {
 				
 				eye.collect(hunter, entities,area);
 				for(int i=0;i<entities.size();i++) {
+
+					Entity ent = entities.get(i);
 					
 					if(entities.get(i)  instanceof Wisp) {
 				    ((Wisp)(entities.get(i))).updateAnimation();
