@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Rectangle2D;
@@ -30,6 +32,11 @@ public class GameArea {
    public Timer st;
    public ScoreCounter sc;
    public boolean visibility;
+
+   private Set<KeyCode> activeKeys = new HashSet<>();
+   private double currentMouseX;
+   private double currentMouseY;
+ 
 	
 
    
@@ -44,7 +51,7 @@ public class GameArea {
 	   Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
 	   this.scene = new Scene(area,visualBounds.getWidth(), visualBounds.getHeight());
 	   
-	   Hunter hunter=new Hunter(300,250,false,scene);
+	   Hunter hunter=new Hunter(600,550,scene);
 	   
 	   vb = new VacuumBar(0,0,100,scene);
 	   hb = new HealthBar(0,0,100,scene);
@@ -112,7 +119,14 @@ public class GameArea {
 	   
 	   AnimationTimer animation=new AnimationTimer() {
 			public void handle (long now) {
-				hunter.update(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
+				// hunter.update(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
+                double minX = pa.pArea.getLayoutX();
+			    double minY = pa.pArea.getLayoutY();
+			    double maxX = minX + config.getWidth(level);
+			    double maxY = minY + config.getHeight(level);
+
+			    hunter.update(minX, minY, maxX, maxY);
+				
 				eye.collect(hunter, entities,area);
 				for(int i=0;i<entities.size();i++) {
 					
