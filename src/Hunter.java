@@ -1,92 +1,176 @@
-
-import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
-import javafx.stage.Stage;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-
 public class Hunter {
-    private final Set<KeyCode> activeKeys = new HashSet<>();
+
     private Group shape;
-    private Polygon vacuumTriangle;
-    private Scene scene;
 
-    public Hunter(double startX, double startY, boolean isVisible, Scene scene) {
-        this.scene = scene;
+    private Circle body;
+    private Polygon vacuum;
 
-        Circle circle = new Circle(0, 0, 15);
-        circle.setStroke(Color.ORANGE);
-        circle.setFill(Color.ORANGE);
+    private Rotate vacuumRotate;
+    private Scale vacuumScale;
 
-        vacuumTriangle = new Polygon(0, 0, 80, -30, 80, 30);
-        vacuumTriangle.setFill(Color.rgb(255, 0, 0, 0.4));
-        vacuumTriangle.setVisible(false);
-        vacuumTriangle.setManaged(false);
 
-        shape = new Group(circle, vacuumTriangle);
-        
-        
-        // Konumlandırma: Layout koordinatlarını sabit tutup Translate ile hareket edelim
-        shape.setLayoutX(startX);
-        shape.setLayoutY(startY);
-        shape.setVisible(isVisible);
-       
-        // Dinleyicileri ekle
-        addKeyListeners();
+    private final double radius = 15;
+    private double speed = 4.0;
+
+    private Set<KeyCode> activeKeys = new HashSet<>();
+
+    private double mouseX;
+    private double mouseY;
+
+    public Hunter(double startX, double startY, Scene scene) {
+
+        body = new Circle(radius, Color.ORANGE);
+
+        // Vacuum triangle
+        vacuum = new Polygon();
+
+        vacuum.getPoints().addAll(new Double[]{
+                0.0, 0.0,
+                120.0, -60.0,
+                120.0, 60.0
+        });
+
+        vacuum.setFill(Color.rgb(255, 0, 0, 0.4));
+        vacuum.setVisible(false);
+
+        // Rotation
+        vacuumRotate = new Rotate(0, 0, 0);
+
+        // Scale with pivot at hunter center
+        vacuumScale = new Scale(1, 1, 0, 0);
+
+        vacuum.getTransforms().addAll(vacuumRotate, vacuumScale);
+
+        // Vacuum follows body
+        vacuum.layoutXProperty().bind(body.layoutXProperty());
+        vacuum.layoutYProperty().bind(body.layoutYProperty());
+
+        shape = new Group(vacuum, body);
+
+        body.setLayoutX(startX);
+        body.setLayoutY(startY);
+
+        setupInput(scene);
     }
 
-    private void addKeyListeners() {
-        // Scene null değilse dinle
-        if (scene != null) {
-            scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> activeKeys.add(e.getCode()));
-            scene.addEventFilter(KeyEvent.KEY_RELEASED, e -> activeKeys.remove(e.getCode()));
-        }
+    private void setupInput(Scene scene) {
+
+        scene.addEventFilter(
+                javafx.scene.input.KeyEvent.KEY_PRESSED,
+                e -> activeKeys.add(e.getCode())
+        );
+
+        scene.addEventFilter(
+                javafx.scene.input.KeyEvent.KEY_RELEASED,
+                e -> activeKeys.remove(e.getCode())
+        );
+
+        scene.addEventFilter(
+                javafx.scene.input.MouseEvent.MOUSE_MOVED,
+                e -> {
+                    mouseX = e.getX();
+                    mouseY = e.getY();
+                }
+        );
     }
 
-    public void update(double minX, double minY , double maxX, double maxY) {
-        double speed = 4.0;
-        
-        // Mevcut konumları al
-        double dx = shape.getTranslateX();
-        double dy = shape.getTranslateY();
-        
-        
-        double radius = 15; 
+    public void update(double minX, double minY,double maxX, double maxY, VacuumBar vb) {
 
-	
-	  
-	    if (activeKeys.contains(KeyCode.W)) {
-            shape.setTranslateY(dy - speed);
-            shape.setRotate(270);
-        }
-	    else if (activeKeys.contains(KeyCode.S)) {
-            shape.setTranslateY(dy + speed);
-            shape.setRotate(90);
-        }
-	    else if (activeKeys.contains(KeyCode.A)) {
-            shape.setTranslateX(dx - speed);
-            shape.setRotate(180);
-        }
-	    else if (activeKeys.contains(KeyCode.D)) {
-            shape.setTranslateX(dx + speed);
-            shape.setRotate(0);
+        double nextX = body.getLayoutX();
+        double nextY = body.getLayoutY();
+
+        if (activeKeys.contains(KeyCode.W)) {
+            nextY -= speed;
         }
 
-        vacuumTriangle.setVisible(activeKeys.contains(KeyCode.SPACE));
+        if (activeKeys.contains(KeyCode.S)) {
+            nextY += speed;
+        }
+
+        if (activeKeys.contains(KeyCode.A)) {
+            nextX -= speed;
+        }
+
+        if (activeKeys.contains(KeyCode.D)) {
+            nextX += speed;
+        }
+
+        // Boundary check
+        if (nextX - radius >= minX &&
+                nextX + radius <= maxX) {
+
+            body.setLayoutX(nextX);
+        }
+
+        if (nextY - radius >= minY &&
+                nextY + radius <= maxY) {
+
+            body.setLayoutY(nextY);
+        }
+
+        // Vacuum active
+        vacuum.setVisible(activeKeys.contains(KeyCode.SPACE));
+        boolean isSpacePressed = activeKeys.contains(KeyCode.SPACE);
         
-        
-        System.out.println(this.shape.getTranslateX() + " " + this.shape.getTranslateY());
+        if (isSpacePressed && vb.getCurrentAmount() > 0) {
+            vacuum.setVisible(true);
+            // Enerjiyi azalt (ConfigLoader'dan gelen değeri kullanabilirsin, örn: -0.5) [cite: 204, 231]
+            vb.setBar(-0.5); 
+        } else {
+            vacuum.setVisible(false);
+            // Space basılmıyorsa enerji dolar [cite: 113, 232]
+            vb.setBar(0.3); 
+        }
+
+        // Rotation angle
+        double dx = mouseX - body.getLayoutX();
+        double dy = mouseY - body.getLayoutY();
+
+        vacuumRotate.setAngle(
+                Math.toDegrees(Math.atan2(dy, dx))
+        );
     }
 
-    public Group getShape() { return shape; }
+    // Vacuum scale methods
+    public void setVacuumScale(double scaleX, double scaleY) {
+
+        vacuumScale.setX(scaleX);
+        vacuumScale.setY(scaleY);
+    }
+
+    public double getVacuumScaleX() {
+        return vacuumScale.getX();
+    }
+
+    public double getVacuumScaleY() {
+        return vacuumScale.getY();
+    }
+
+    public boolean isVacuumActive() {
+        return vacuum.isVisible();
+    }
+
+    public javafx.scene.Node getVacuumShape() {
+        return vacuum;
+    }
+
+    public Group getShape() {
+        return shape;
+    }
+    
+    public Circle getBody() {
+        return body;
+    }
 }

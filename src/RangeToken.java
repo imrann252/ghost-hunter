@@ -1,40 +1,77 @@
+import javafx.animation.PauseTransition;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
+import javafx.util.Duration;
 
 public class RangeToken extends Pane {
-    private double x, y;
-    private double increaseAmount; //vacuum_token_increase
 
-    public RangeToken(double x, double y, double amount) {
+    private double x;
+    private double y;
+
+    private boolean isCollected = false;
+
+    public RangeToken(double x, double y) {
+
         this.x = x;
         this.y = y;
-        this.increaseAmount = amount;//
 
-        // token tabanı: dis daireyi ciz.
-        Circle out_circle = new Circle(15, Color.YELLOW);
-        out_circle.setStroke(Color.BLACK);//dis kenarliklari boya.
+        // Outer circle
+        Circle outCircle = new Circle(15, Color.YELLOW);
 
-        // Menzili temsil eden siyah bir üçgen (ikon)
+        outCircle.setStroke(Color.GRAY.darker());
+
+        // Range icon
         Polygon rangeIcon = new Polygon();
-        rangeIcon.getPoints().addAll(new Double[]{
-            -5.0, 5.0,
-            8.0, 0.0,
-            -5.0, -5.0
-        });
-        rangeIcon.setFill(Color.BLACK);//ucgenin icini doldur
 
-        this.getChildren().addAll(out_circle, rangeIcon);
-        
-        // Konumlandır
+        rangeIcon.getPoints().addAll(new Double[]{
+                -5.0, 5.0,
+                8.0, 0.0,
+                -5.0, -5.0
+        });
+
+        rangeIcon.setFill(Color.BLACK);
+
+        this.getChildren().addAll(outCircle, rangeIcon);
+
         this.setLayoutX(x);
         this.setLayoutY(y);
     }
 
-    /* Hunter ile etkileşime girdiğinde menzili artırır 
-    public void applyEffect(Hunter hunter) {
-        // Hunter sınıfında tanımladığın genişletme metodunu çağırır
-        hunter.expandScannerRange(increaseAmount);
-    }*/
+    public void collect(Hunter hunter, Pane root) {
+
+        if (isCollected) {
+            return;
+        }
+
+        if (this.getBoundsInParent().intersects(hunter.getBody().getBoundsInParent())) {
+
+            isCollected = true;
+
+            root.getChildren().remove(this);
+
+            double currentX = hunter.getVacuumScaleX();
+            double currentY = hunter.getVacuumScaleY();
+
+            // Increase range
+            hunter.setVacuumScale(
+                    currentX + 0.5,
+                    currentY + 0.5
+            );
+
+            PauseTransition delay =
+                    new PauseTransition(Duration.seconds(5));
+
+            delay.setOnFinished(e -> {
+
+                hunter.setVacuumScale(
+                        currentX,
+                        currentY
+                );
+            });
+
+            delay.play();
+        }
+    }
 }

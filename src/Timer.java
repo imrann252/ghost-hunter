@@ -40,7 +40,6 @@ public class Timer extends Pane {
     	this.second = second;
    
         KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
-            this.second--;
             
             if (this.second > 0) {
                 this.second--;
