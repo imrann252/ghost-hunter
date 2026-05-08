@@ -20,6 +20,7 @@ public class Hunter {
     private Rotate vacuumRotate;
     private Scale vacuumScale;
 
+
     private final double radius = 15;
     private double speed = 4.0;
 

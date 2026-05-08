@@ -28,9 +28,12 @@ public class VacuumBar extends Pane {
         rec2.setLayoutY(80);
         this.rec2 = rec2;
 
-        Font spooky = Font.loadFont(getClass().getResourceAsStream("Spooky.ttf"), 15);
+
+        
+        Font bloody = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 30);
+
         Label vacLabel = new Label("VACUUM:");
-        vacLabel.setFont(spooky); 
+        vacLabel.setFont(bloody); 
         vacLabel.setTextFill(Color.WHITE); 
         vacLabel.setLayoutX(30);
         vacLabel.setLayoutY(25);

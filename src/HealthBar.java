@@ -25,9 +25,9 @@ public class HealthBar extends Pane {
         rec2.setLayoutY(80);
         this.rec2=rec2;
         
-        Font spooky = Font.loadFont(getClass().getResourceAsStream("Spooky.ttf"), 14);
+        Font bloody = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 30);
         Label helLabel = new Label("HEALTH:");
-        helLabel.setFont(spooky); 
+        helLabel.setFont(bloody); 
         helLabel.setTextFill(Color.WHITE); 
         helLabel.setLayoutX(-10);
         helLabel.setLayoutY(25);
