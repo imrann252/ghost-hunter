@@ -41,7 +41,7 @@ public class HealthToken extends Pane {
             // 2. Token'ı ekrandan kaldır
             root.getChildren().remove(this);
             
-            System.out.println("Sağlık toplandı! Yeni sağlık: " + hb.currentHealth);
+            System.out.println("Sağlık toplandı! Yeni sağlık: " + hb.getCurrentHealth());
         }
     }
     
