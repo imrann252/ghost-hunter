@@ -36,5 +36,9 @@ public class ScoreCounter extends Pane {
     	
     }
     
+    public double getScore() {
+    	return score;
+    }
+    
 
 }

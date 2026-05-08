@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 public class LosePanel extends StackPane {
 
     
-    public LosePanel(int finalScore, Runnable retryAction, Runnable menuAction) {
+    public LosePanel(double finalScore, Runnable retryAction, Runnable menuAction) {
         
       
         this.setStyle("-fx-background-color: white;");
