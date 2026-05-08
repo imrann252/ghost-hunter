@@ -35,6 +35,10 @@ public class GameArea {
    private Set<KeyCode> activeKeys = new HashSet<>();
    private double currentMouseX;
    private double currentMouseY;
+
+   private AnimationTimer animation;
+   private Pane area;
+   private PlayableArea pa ;
  
 	
 
@@ -45,13 +49,13 @@ public class GameArea {
 	   ConfigLoader config=ConfigLoader.getInstance();
 	
 	   
-	   Pane area =new Pane();
+	   this.area =new Pane();
 	   
 	   Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
 	   this.scene = new Scene(area,visualBounds.getWidth(), visualBounds.getHeight());
 	   
 	   
-	   PlayableArea pa = new PlayableArea(config.getAreaX(level),config.getAreaY(level),config.getWidth(level),config.getHeight(level),scene);
+	   this.pa = new PlayableArea(config.getAreaX(level),config.getAreaY(level),config.getWidth(level),config.getHeight(level),scene);
 	   
 	   double minX = pa.pArea.getLayoutX();
 	   double minY = pa.pArea.getLayoutY();
@@ -126,10 +130,13 @@ public class GameArea {
 		   }
 	   });
 	   
-	   AnimationTimer animation=new AnimationTimer() {
+	   this.animation=new AnimationTimer() {
 			public void handle (long now) {
 				// hunter.update(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
-                
+                double minX = pa.pArea.getLayoutX();
+		        double minY = pa.pArea.getLayoutY();
+		        double maxX = minX + config.getWidth(level);
+		        double maxY = minY + config.getHeight(level);
 
 			    hunter.update(minX, minY, maxX, maxY);
 				
@@ -142,6 +149,32 @@ public class GameArea {
 					
 				
 				entities.get(i).move(minX, minY, maxX, maxY);
+                // vakum kontrol
+		            if (hunter.isVacuumActive() && hunter.getVacuumShape().getBoundsInParent().intersects(ent.getShape().getBoundsInParent())) {
+		                
+		                double currentScale = ent.getShape().getScaleX(); // Mevcut büyüklüğü al
+		                
+		                if (currentScale < 0.15) {
+		                   
+		                    area.getChildren().remove(ent.getShape());
+		                    entities.remove(i);
+		                    sc.addScore(10); // Skor ekle
+		                    checkGameStatus();
+		                } else {
+		                    
+		                    ent.getShape().setScaleX(currentScale - 0.01);
+		                    ent.getShape().setScaleY(currentScale - 0.01);
+		                }
+		            } else {
+		                
+		                if (ent.getShape().getScaleX() < 1.0) {
+		                    ent.getShape().setScaleX(ent.getShape().getScaleX() + 0.01);
+		                    ent.getShape().setScaleY(ent.getShape().getScaleY() + 0.01);
+		                }
+		            }
+
+
+					
 				}
 				
 			}
@@ -173,19 +206,25 @@ public class GameArea {
    }
 
  // win panel lose panel olabilir
-  /* private void checkGameStatus() {
+ public void checkGameStatus() {
         // kazanma durumu
         if (entities.isEmpty()) {
-            animation.stop();
+        	animation.stop();
             WinPanel wp = new WinPanel(() -> {
                 System.out.println("Sonraki seviyeye geçiliyor...");
                 // Burada bir sonraki level için GameArea'yı tekrar kurabilirsin
             });
-            root.getChildren().add(wp);
-        }
+            wp.setPrefSize(450, 250);
+            double centerX = pa.pArea.getLayoutX() + (pa.pArea.getWidth() / 2) - (wp.getPrefWidth() / 2);
+            double centerY = pa.pArea.getLayoutY() + (pa.pArea.getHeight() / 2) - (wp.getPrefHeight() / 2);
 
+            wp.setLayoutX(centerX);
+            wp.setLayoutY(centerY);
+            area.getChildren().add(wp);
+        }}
+   // gameover panelini almadım diye metodu bitirdim en son kapalı parantez 
         // kaybetme
-        if (st.getTime() <= 0) { //buraya canda gelcek
+      /*  if (st.getTime() <= 0) { //buraya canda gelcek
             animation.stop();
             LosePanel lp = new LosePanel(sc.getScore(), () -> {
                 // Retry Aksiyonu: Mevcut seviyeyi yeniden başlat
