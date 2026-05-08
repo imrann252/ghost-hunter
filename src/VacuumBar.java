@@ -9,11 +9,10 @@ import javafx.scene.control.Label;
 public class VacuumBar extends Pane {
     private double maxHeight = 250; 
     private double maxAmount = 100;
-    private double currentAmount;
+    private double currentAmount =100;
     private Rectangle rec2;
 
-    public VacuumBar(double x, double y, double currentAmount, Scene scene) {
-        this.currentAmount = currentAmount;
+    public VacuumBar(Scene scene) {
 
         // Arka Plan (Sınır)
         Rectangle rec1 = new Rectangle(50, maxHeight); 
@@ -37,8 +36,8 @@ public class VacuumBar extends Pane {
         vacLabel.setLayoutY(25);
         
         this.getChildren().addAll(rec1, rec2, vacLabel);
-        this.setLayoutX(x);
-        this.setLayoutY(y);
+        this.setLayoutX(0);
+        this.setLayoutY(0);
 
         this.scaleXProperty().bind(scene.widthProperty().divide(1300));
         this.scaleYProperty().bind(scene.heightProperty().divide(800));

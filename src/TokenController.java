@@ -6,7 +6,7 @@ public class TokenController {
     private Pane area;
     private PlayableArea pa;
     private ArrayList<Pane> activeTokens = new ArrayList<>();
-    private long lastSpawnTime = 0;
+    private long lastCreateTime = 0;
 
     public TokenController(Pane area, PlayableArea pa) {
         this.area = area;
@@ -14,13 +14,13 @@ public class TokenController {
     }
 
     public void update(long now, Hunter hunter, HealthBar hb, ArrayList<Entity> entities) {
-        // 1. Dökümana göre 5 saniyede bir spawn kontrolü 
-        if (now - lastSpawnTime >= 5_000_000_000L) {
+        // 1. Dökümana göre 5 saniyede bir Create kontrolü 
+        if (now - lastCreateTime >= 5_000_000_000L) {
             // En fazla 2 token olabilir kuralı 
             if (activeTokens.size() < 2) {
                 createRandomToken();
             }
-            lastSpawnTime = now;
+            lastCreateTime = now;
         }
 
         // 2. Token toplama (collision) ve listeden temizleme kontrolü
@@ -29,7 +29,7 @@ public class TokenController {
             Pane token = iterator.next();
 
             // Tipine göre ilgili collect metodunu çağırıyoruz
-            if (token instanceof HealthToken) {
+            if (token instanceof HealthToken && hb.getCurrentHealth()<80) {
                 ((HealthToken) token).collect(hunter, hb, area);
             } else if (token instanceof RangeToken) {
                 ((RangeToken) token).collect(hunter, area);

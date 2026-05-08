@@ -67,8 +67,8 @@ public class GameArea {
 	   
 	   Hunter hunter=new Hunter(600,550,scene);
 	   
-	   vb = new VacuumBar(0,0,100,scene);
-	   hb = new HealthBar(0,0,50,scene);
+	   vb = new VacuumBar(scene);
+	   hb = new HealthBar(scene);
 	   st = new Timer(config.getLevelTime(level),scene);
 	   sc = new ScoreCounter(scene);
 	   tokenController = new TokenController(area, pa);
