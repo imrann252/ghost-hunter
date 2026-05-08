@@ -7,23 +7,23 @@ import javafx.scene.control.Label;
 
 public class HealthBar extends Pane {
 	double x,y;
-	double currentAmount;
+	double currentHealth;
 	double maxHeight = 250; 
-	double maxAmount = 100;
+	double maxHealth = 100;
 	Rectangle rec2;
 	
 	
 	public HealthBar() {
 		this.x = 0;
 		this.y = 0;
-		this.currentAmount = 100;
+		this.currentHealth = 100;
 	}
 
-	public HealthBar(double x, double y, double currentAmount, Scene scene) {
+	public HealthBar(double x, double y, double currentHealth, Scene scene) {
 		
 		this.x=x;
 		this.y=y;
-		this.currentAmount = currentAmount;
+		this.currentHealth = currentHealth;
 	
 		Rectangle rec1 = new Rectangle(50, 250); 
         rec1.setStroke(Color.BLACK);
@@ -57,9 +57,11 @@ public class HealthBar extends Pane {
 		
 	}
 	
-	public void setBar(double currentAmount) {
+	public void setBar(double kill) {
+		
+		currentHealth += kill;
 	     
-	    double newHeight = (currentAmount / this.maxAmount) * this.maxHeight;
+	    double newHeight = (currentHealth / this.maxHealth) * this.maxHeight;
 	    this.rec2.setHeight(newHeight);
 	    this.rec2.setLayoutY(50 + (this.maxHeight - newHeight)); 
 	}

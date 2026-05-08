@@ -15,8 +15,8 @@ public class Hunter {
     private Polygon vacuum;
     private Rotate vacuumRotate;
     
-    private final double radius = 20; 
-    private double speed = 3.0;
+    private final double radius = 15; 
+    private double speed = 4.0;
     
     // hunter bi tek başına yapsın bunu
     private Set<KeyCode> activeKeys = new HashSet<>();

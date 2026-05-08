@@ -59,9 +59,6 @@ public class EyeToken extends StackPane implements Collectible {
         if (this.getBoundsInParent().intersects(hunter.getShape().getBoundsInParent())) {
 
             isCollected = true;
-
-            hunter.isVisible = true;
-
             root.getChildren().remove(this);
 
             for (Entity ent : ents) {
@@ -72,7 +69,6 @@ public class EyeToken extends StackPane implements Collectible {
                         new PauseTransition(Duration.seconds(5));
 
                 delay.setOnFinished(e -> {
-                    hunter.isVisible = false;
                     ent.setVisible(false);
                 });
 

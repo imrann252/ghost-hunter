@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
-
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -51,6 +50,14 @@ public class GameArea {
 	   Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
 	   this.scene = new Scene(area,visualBounds.getWidth(), visualBounds.getHeight());
 	   
+	   
+	   PlayableArea pa = new PlayableArea(config.getAreaX(level),config.getAreaY(level),config.getWidth(level),config.getHeight(level),scene);
+	   
+	   double minX = pa.pArea.getLayoutX();
+	   double minY = pa.pArea.getLayoutY();
+	   double maxX = minX + config.getWidth(level);
+	   double maxY = minY + config.getHeight(level);
+	   
 	   Hunter hunter=new Hunter(600,550,scene);
 	   
 	   vb = new VacuumBar(0,0,100,scene);
@@ -58,11 +65,11 @@ public class GameArea {
 	   st = new Timer(config.getLevelTime(level),scene);
 	   sc = new ScoreCounter(scene);
 	  
-	   double a = 200 + Math.random() * 600;
-       double b = 100 + Math.random() * 400;
+	   double a = minX + 15 + Math.random() * ((maxX - minX) - 30);
+       double b = minY + 15 + Math.random() * ((maxY-minY)- 30);
 	   EyeToken eye = new EyeToken(a,b);
 	   
-	   PlayableArea pa = new PlayableArea(config.getAreaX(level),config.getAreaY(level),config.getWidth(level),config.getHeight(level),scene);
+	   
 	 
 	   
 	   ImageView areaImage = new ImageView("file:resources/level" + level + ".png");
@@ -70,10 +77,12 @@ public class GameArea {
 	   areaImage.fitHeightProperty().bind(scene.heightProperty());
 	   
 	   area.getChildren().addAll(areaImage,vb,hb,pa,st,sc,hunter.getShape(),eye);
+	   
+	   
 	   //create ghosts
 	   for(int i=0;i<config.getGhostCount(level);i++) {
-		   double x = 200 + Math.random() * 600;
-           double y = 100 + Math.random() * 400;
+		   double x = minX + Math.random() * (maxX-minX);
+           double y = minY + Math.random() * (maxY-minY);
            
            Ghost ghost=new Ghost(x,y,false);
            entities.add(ghost);
@@ -82,8 +91,8 @@ public class GameArea {
 	   
 	  // create rippers
 	   for(int i=0;i<config.getRipperCount(level);i++) {
-		   double x = 200 + Math.random() * 600;
-           double y = 100 + Math.random() * 400;
+		   double x = minX + Math.random() * (maxX-minX);
+           double y = minY + Math.random() * (maxY-minY);
            
            Ripper ripper=new Ripper(x,y,false);
            entities.add(ripper);
@@ -91,8 +100,8 @@ public class GameArea {
 	   }
 	  // create wisps
 	   for(int i=0;i<config.getWispCount(level);i++) {
-		   double x = 200 + Math.random() * 600;
-           double y = 100 + Math.random() * 400;
+		   double x = minX + Math.random() * (maxX-minX);
+           double y = minY + Math.random() * (maxY-minY);
            
            Wisp wisp = new Wisp(x,y,false);
            entities.add(wisp);
@@ -120,10 +129,7 @@ public class GameArea {
 	   AnimationTimer animation=new AnimationTimer() {
 			public void handle (long now) {
 				// hunter.update(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
-                double minX = pa.pArea.getLayoutX();
-			    double minY = pa.pArea.getLayoutY();
-			    double maxX = minX + config.getWidth(level);
-			    double maxY = minY + config.getHeight(level);
+                
 
 			    hunter.update(minX, minY, maxX, maxY);
 				
@@ -135,7 +141,7 @@ public class GameArea {
 				    }
 					
 				
-				entities.get(i).move(pa.pArea.getLayoutX(),pa.pArea.getLayoutY(),pa.pArea.getLayoutX()+config.getWidth(level),pa.pArea.getLayoutY()+config.getHeight(level));
+				entities.get(i).move(minX, minY, maxX, maxY);
 				}
 				
 			}

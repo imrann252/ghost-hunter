@@ -7,10 +7,9 @@ public class RangeToken extends Pane {
     private double x, y;
     private double increaseAmount; //vacuum_token_increase
 
-    public RangeToken(double x, double y, double amount) {
+    public RangeToken(double x, double y) {
         this.x = x;
         this.y = y;
-        this.increaseAmount = amount;//
 
         // token tabanı: dis daireyi ciz.
         Circle out_circle = new Circle(15, Color.YELLOW);

@@ -7,9 +7,8 @@ public class HealthToken extends Pane {
     private double x, y;
     private int restorationAmount;
 
-    public HealthToken(double x, double y, int amount) {
+    public HealthToken(double x, double y) {
         this.setX(x);
-        this.restorationAmount = amount;
 
         // Görsel Tasarım: JavaFX geometrik şekilleri kullanılarak [cite: 132]
         // Örneğin sarı bir daire üzerine kırmızı bir artı (+) sembolü
