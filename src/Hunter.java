@@ -31,6 +31,7 @@ public class Hunter {
         vacuumTriangle = new Polygon(0, 0, 80, -30, 80, 30);
         vacuumTriangle.setFill(Color.rgb(255, 0, 0, 0.4));
         vacuumTriangle.setVisible(false);
+        vacuumTriangle.setManaged(false);
 
         shape = new Group(circle, vacuumTriangle);
         
