@@ -83,6 +83,14 @@ public class Hunter {
         // burda da radyan almadığı için dereec
         vacuumRotate.setAngle(Math.toDegrees(Math.atan2(dy, dx)));
     }
+public boolean isVacuumActive() {
+        
+        return vacuum.isVisible(); 
+    }
 
+    public javafx.scene.Node getVacuumShape() {
+       
+        return vacuum;
+    }
     public Group getShape() { return shape; }
 }
