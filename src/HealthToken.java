@@ -33,7 +33,6 @@ public class HealthToken extends Pane {
         if (isCollected) return;
 
         // Hunter'ın gövdesi ile Token çarpışıyor mu?
-<<<<<<< HEAD
        
         if (this.getBoundsInParent().intersects(hunter.getShape().getBoundsInParent())) {
                 isCollected = true;
@@ -41,21 +40,8 @@ public class HealthToken extends Pane {
                 root.getChildren().remove(this);
         
     }
-=======
-        if (this.getBoundsInParent().intersects(hunter.getBody().getBoundsInParent())) {
-            isCollected = true;
-
-            // 1. Sağlık barını güncelle (+20)
-            hb.setBar(restorationAmount);
-
-            // 2. Token'ı ekrandan kaldır
-            root.getChildren().remove(this);
-            
-            System.out.println("Sağlık toplandı! Yeni sağlık: " + hb.getCurrentHealth());
-        }
->>>>>>> 2a3d2f97d7e07ccd9d56e01e3428cc627eb30355
     }
-    
+
     
     public int getRestorationAmount() {
         return restorationAmount;
