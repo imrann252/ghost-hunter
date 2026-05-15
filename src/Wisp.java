@@ -18,8 +18,8 @@ public class Wisp extends Entity {
 
 	public Wisp(double x,double y,boolean isVisible) {
 		
-		this.dx = (random.nextDouble() * 2 ) * (random.nextBoolean() ? 1 : -1);
-        this.dy = (random.nextDouble() * 2 ) * (random.nextBoolean() ? 1 : -1);
+		this.dx = (random.nextDouble() * 2.5 ) * (random.nextBoolean() ? 1 : -1);
+        this.dy = (random.nextDouble() * 2.5 ) * (random.nextBoolean() ? 1 : -1);
 		
 		this.x=x;
 		this.y=y;

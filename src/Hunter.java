@@ -20,7 +20,7 @@ public class Hunter {
     private Rotate vacuumRotate;
     private Scale vacuumScale;
 
-
+    
     private final double radius = 15;
     private double speed = 4.0;
 
@@ -172,5 +172,11 @@ public class Hunter {
     
     public Circle getBody() {
         return body;
+    }
+    public void paintRed() {
+    	this.body.setFill(Color.RED);;
+    }
+    public void paintOrange() {
+    	this.body.setFill(Color.ORANGE);
     }
 }

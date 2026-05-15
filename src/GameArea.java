@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -21,6 +22,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class GameArea {
    private Scene scene;
@@ -144,10 +146,21 @@ public class GameArea {
 					
 					ent.move(minX, minY, maxX, maxY);
 					//health bar
-					 if(hunter.getShape().getBoundsInParent().intersects(ent.getShape().getBoundsInParent())) {
-		                	hb.setBar(-2/60.0);
+					 if(hunter.getBody().getBoundsInParent().intersects(ent.getShape().getBoundsInParent())) {
+		                	hb.setBar(-10/60.0);
+		                	hunter.paintRed();
+		                	PauseTransition delay = new PauseTransition(Duration.seconds(0.1));
+
+		                    delay.setOnFinished(e -> {
+		                    	hunter.paintOrange();
+		                    
+		                    });
+
+		                    delay.play();
 		                	checkGameStatus();
 		                }
+					 
+					  
 					
 						 
                 // vakum kontrol
