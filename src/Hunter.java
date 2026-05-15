@@ -24,7 +24,7 @@ public class Hunter {
 
     
     private final double radius = 15;
-    private double speed = 4.0;
+    private double speed = 3.0;
 
     private Set<KeyCode> activeKeys = new HashSet<>();
 
@@ -37,7 +37,7 @@ public class Hunter {
 
         body = new Circle(radius, Color.ORANGE);
         
-        String path = getClass().getResource("collision.MP3").toExternalForm();
+        String path = getClass().getResource("collision.WAV").toExternalForm();
         this.colsound = new AudioClip(path);
         
         // HİLE: Sesi bir kez 0 ses seviyesinde oynatıp durdur. 
@@ -196,7 +196,7 @@ public class Hunter {
     
     public void playCollisionSound() {
     	    // Eğer ses zaten çalıyorsa tekrar başlatma (veya çok kısaysa direkt çal)
-	    if (colsound != null) {
+	    if (colsound != null && !colsound.isPlaying()) {
 	        colsound.play();
 	    }
 	}
