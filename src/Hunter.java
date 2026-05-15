@@ -1,3 +1,4 @@
+import javafx.animation.PauseTransition;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -6,11 +7,18 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
+import javafx.util.Duration;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
+
 import java.net.URL;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.net.URL;
 
 public class Hunter {
 
@@ -32,11 +40,32 @@ public class Hunter {
     private double mouseY;
     
     private final AudioClip colsound;
-    private final AudioClip vacuumSound;
+    private MediaPlayer vacuumPlayer;
+    
+    private boolean isVacuumPlaying = false;
+    
+    private Circle shieldCircle;
+    private boolean isInvincible = false;
 
     public Hunter(double startX, double startY, Scene scene) {
 
         body = new Circle(radius, Color.ORANGE);
+        
+        shieldCircle = new Circle(25); 
+        shieldCircle.setFill(Color.TRANSPARENT); // Çok şeffaf turkuaz
+        shieldCircle.setStroke(Color.RED);
+        shieldCircle.setStrokeWidth(3);
+        
+        // Kesikli çizgi efekti (Dashed line)
+        shieldCircle.getStrokeDashArray().addAll(10.0, 10.0);
+        
+        shieldCircle.setVisible(false);
+        
+        // Hunter'a bağla
+        shieldCircle.layoutXProperty().bind(body.layoutXProperty());
+        shieldCircle.layoutYProperty().bind(body.layoutYProperty());
+        
+     
         
         String path = getClass().getResource("collision.WAV").toExternalForm();
         this.colsound = new AudioClip(path);
@@ -46,18 +75,19 @@ public class Hunter {
         colsound.setVolume(0);
         colsound.play();
         colsound.stop();
-        colsound.setVolume(0.8); // Tekrar normal seviyeye çek
+        colsound.setVolume(1); // Tekrar normal seviyeye çek
         
         
-        String vacpath = getClass().getResource("vacuum.WAV").toExternalForm();
-        this.vacuumSound = new AudioClip(vacpath);
         
-        // HİLE: Sesi bir kez 0 ses seviyesinde oynatıp durdur. 
-        // Bu, JavaFX ses motorunu "ısıtır".
-        vacuumSound.setVolume(0);
-        vacuumSound.play();
-        vacuumSound.stop();
-        vacuumSound.setVolume(0.6); // Tekrar normal seviyeye çek
+        URL resource = getClass().getResource("vacuum.WAV"); // Dosya yolun
+        Media media = new Media(resource.toString());
+        vacuumPlayer = new MediaPlayer(media);
+        vacuumPlayer.setVolume(0.05);
+        
+        
+        // Sesin bitince başa sarması için (Vakum sesi döngüye girsin)
+        vacuumPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+      
         
 
         // Vacuum triangle
@@ -84,7 +114,7 @@ public class Hunter {
         vacuum.layoutXProperty().bind(body.layoutXProperty());
         vacuum.layoutYProperty().bind(body.layoutYProperty());
 
-        shape = new Group(vacuum, body);
+        shape = new Group(vacuum, body, shieldCircle);
 
         body.setLayoutX(startX);
         body.setLayoutY(startY);
@@ -153,11 +183,26 @@ public class Hunter {
         
         if (isSpacePressed && vb.getCurrentAmount() > 0) {
             vacuum.setVisible(true);
-            this.playVacuumSound();
+            if (!isVacuumPlaying) {
+                startVacuumSound();
+                isVacuumPlaying = true;
+            }
+            
             // Enerjiyi azalt (ConfigLoader'dan gelen değeri kullanabilirsin, örn: -0.5) [cite: 204, 231]
             vb.setBar(-0.3); 
         } else {
             vacuum.setVisible(false);
+            stopVacuumSound();
+            
+            PauseTransition delay = new PauseTransition(Duration.seconds(0.5));
+
+            delay.setOnFinished(e -> {
+            	isVacuumPlaying = false ;
+            
+            });
+
+            delay.play();
+            
             // Space basılmıyorsa enerji dolar [cite: 113, 232]
             vb.setBar(0.4); 
         }
@@ -171,6 +216,20 @@ public class Hunter {
         );
     }
 
+
+    public void setInvincibility(boolean active) {
+        this.isInvincible = active;
+        shieldCircle.setVisible(active);
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
+    }
+
+    public Circle getShieldCircle() {
+        return shieldCircle;
+    }
+    
     // Vacuum scale methods
     public void setVacuumScale(double scaleX, double scaleY) {
 
@@ -208,6 +267,10 @@ public class Hunter {
     	this.body.setFill(Color.ORANGE);
     }
     
+    public void paintblue() {
+    	this.body.setFill(Color.BLUE);
+    }
+    
     public void playCollisionSound() {
     	    // Eğer ses zaten çalıyorsa tekrar başlatma (veya çok kısaysa direkt çal)
 	    if (colsound != null && !colsound.isPlaying()) {
@@ -215,10 +278,16 @@ public class Hunter {
 	    }
 	}
     
-    public void playVacuumSound() {
-	    // Eğer ses zaten çalıyorsa tekrar başlatma (veya çok kısaysa direkt çal)
-    if (vacuumSound != null  && !vacuumSound.isPlaying()) {
-        vacuumSound.play();
+    public void startVacuumSound() {
+        if (vacuumPlayer != null && vacuumPlayer.getStatus() != MediaPlayer.Status.PLAYING) {
+            vacuumPlayer.play();
+        }
     }
-}
+
+    public void stopVacuumSound() {
+    	if (vacuumPlayer != null && vacuumPlayer.getStatus() != MediaPlayer.Status.STOPPED) {
+            vacuumPlayer.stop(); 
+        }
+    }
+    
 }

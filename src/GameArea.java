@@ -46,6 +46,7 @@ public class GameArea {
    private AnimationTimer animation;
    private Pane area;
    private PlayableArea pa ;
+   private Hunter hunter;
    private static boolean isGameOver=false;
 	
 
@@ -66,13 +67,13 @@ public class GameArea {
 	   
 	   
 	   this.pa = new PlayableArea(config.getAreaX(level),config.getAreaY(level),config.getWidth(level),config.getHeight(level),scene);
-	   
+	   pa.setVisible(false);
 	   double minX = pa.pArea.getLayoutX();
 	   double minY = pa.pArea.getLayoutY();
 	   double maxX = minX + config.getWidth(level);
 	   double maxY = minY + config.getHeight(level);
 	   
-	   Hunter hunter=new Hunter(600,550,scene);
+	   hunter=new Hunter(600,550,scene);
 	   
 	   vb = new VacuumBar(scene);
 	   hb = new HealthBar(scene);
@@ -124,6 +125,7 @@ public class GameArea {
 		    if (keyEvent.getCode() == KeyCode.H) {
 		        for (Entity ent : entities) {
 		            ent.setVisible(true);
+		            pa.setVisible(true);
 		        }
 		    }
 		});
@@ -132,13 +134,16 @@ public class GameArea {
 		    if (keyReleaseEvent.getCode() == KeyCode.H) {
 		        for (Entity ent : entities) {
 		            ent.setVisible(false);
+		            pa.setVisible(false);
 		        }
 		    }
 		});
 	   
 	   this.animation=new AnimationTimer() {
 			public void handle (long now) {
-				
+				checkGameStatus(); 
+		        
+		        if (isGameOver) return; 
 			    hunter.update(minX, minY, maxX, maxY,vb);
 			    tokenController.update(now, hunter, hb, entities);
 				
@@ -150,10 +155,15 @@ public class GameArea {
 				    }
 					
 					ent.move(minX, minY, maxX, maxY);
-					//health bar
-					 if(hunter.getBody().getBoundsInParent().intersects(ent.getShape().getBoundsInParent())) {
-		                	hb.setBar(-10/60.0);
-		                	hunter.playCollisionSound();
+					
+					
+					 
+					
+					if(hunter.getBody().getBoundsInParent().intersects(ent.getShape().getBoundsInParent())) {
+						
+						if (!hunter.isInvincible()) {
+							hb.setBar(-10/60.0);
+							hunter.playCollisionSound();
 		                	hunter.paintRed();
 		                	
 		                	PauseTransition delay = new PauseTransition(Duration.seconds(0.1));
@@ -164,8 +174,24 @@ public class GameArea {
 		                    });
 
 		                    delay.play();
-		                	checkGameStatus();
-		                }
+						}
+						else {
+							hunter.paintblue();
+		                	
+		                	PauseTransition delay = new PauseTransition(Duration.seconds(0.1));
+
+		                    delay.setOnFinished(e -> {
+		                    	hunter.paintOrange();
+		                    
+		                    });
+		                    
+		                    delay.play();
+						}
+						
+							
+	                	
+	                	checkGameStatus();
+	                }
 					 
 					  
 					
@@ -176,7 +202,7 @@ public class GameArea {
 		                double currentScale = ent.getShape().getScaleX(); // Mevcut büyüklüğü al
 		       
 		                
-		                if (currentScale < 0.20) {
+		                if (currentScale < 0.50) {
 		     
 		                   
 		                    area.getChildren().remove(ent.getShape());
@@ -220,14 +246,15 @@ public class GameArea {
 
 	    // Panelin boyutlarını elle (sabit) belirlemek en sağlıklıdır
 	    // Örneğin ekranın %60'ı kadar olsun istiyorsan:
-	    double panelW = area.getWidth() * 0.6; 
-	    double panelH = area.getHeight() * 0.6;
+	    double panelW = area.getWidth() * 0.3; 
+	    double panelH = area.getHeight() * 0.3;
 
 	    // KAZANMA DURUMU
 	    if (entities.isEmpty() && st.getRemainingTime() > 0 && hb.getCurrentHealth() > 0) {
-	        isGameOver = true;
-	        animation.stop();
-	        if(st != null) st.stop();
+	       isGameOver = true;
+	       hunter.stopVacuumSound();
+	       animation.stop();
+	       if(st != null) st.stop();
 
 	        WinPanel wp = new WinPanel(panelW, panelH, this);
 	        
@@ -242,6 +269,7 @@ public class GameArea {
 	    // KAYBETME DURUMU
 	    else if (hb.getCurrentHealth() <= 0 || st.getRemainingTime() <= 0) {
 	        isGameOver = true;
+	        hunter.stopVacuumSound();
 	        animation.stop();
 	        if(st != null) st.stop();
 
@@ -254,9 +282,11 @@ public class GameArea {
 	        lp.toFront();
 	    }
 	}
+	
  public void restart(int level) {
 	 if (this.animation != null) {
 	        this.animation.stop();
+	        hunter.stopVacuumSound();
 	    }
 	 if (this.st != null) {
 	        this.st.stop();
@@ -269,6 +299,8 @@ public class GameArea {
  public void goToMenu() {
 	 if (this.animation != null) {
 	        this.animation.stop();
+	        hunter.stopVacuumSound();
+	        
 	    }
 
 	    // 2. Ana menü sınıfından yeni bir nesne oluştur
