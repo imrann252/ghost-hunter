@@ -239,7 +239,42 @@ public class GameArea {
 		area.requestFocus();
 		
 }
-  
+// PausePanel nesnesini sınıf düzeyinde tanımla (resume metodunda silmek için)
+private PausePanel pausePanel;
+
+public void pause() {
+    if (isGameOver) return;
+
+    // Oyunu durdur
+    if (animation != null) animation.stop();
+    if (st != null) st.stop();
+
+    // Boyutları diğer panellerle aynı yap (%70)
+    double pW = area.getWidth() * 0.7;
+    double pH = area.getHeight() * 0.7;
+
+    // Paneli oluştur
+    pausePanel = new PausePanel(pW, pH, this);
+    
+    // TAM MERKEZLEME FORMÜLÜ
+    pausePanel.setLayoutX((area.getWidth() - pW) / 2);
+    pausePanel.setLayoutY((area.getHeight() - pH) / 2);
+
+    // Ekrana ekle ve en öne getir
+    area.getChildren().add(pausePanel);
+    pausePanel.toFront();
+}
+
+public void resume() {
+    // Paneli ekrandan kaldır
+    if (pausePanel != null) {
+        area.getChildren().remove(pausePanel);
+    }
+    
+    // Oyunu devam ettir
+    if (animation != null) animation.start();
+    if (st != null) st.start();
+}
  // win panel lose panel olabilir
    public void checkGameStatus() {
 	    if (isGameOver) return;
