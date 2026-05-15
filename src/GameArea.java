@@ -63,7 +63,7 @@ public class GameArea {
 	   
 	   
 	   this.pa = new PlayableArea(config.getAreaX(level),config.getAreaY(level),config.getWidth(level),config.getHeight(level),scene);
-	   
+	   pa.setVisible(false);
 	   double minX = pa.pArea.getLayoutX();
 	   double minY = pa.pArea.getLayoutY();
 	   double maxX = minX + config.getWidth(level);
@@ -120,6 +120,7 @@ public class GameArea {
 		    if (keyEvent.getCode() == KeyCode.H) {
 		        for (Entity ent : entities) {
 		            ent.setVisible(true);
+		            pa.setVisible(true);
 		        }
 		    }
 		});
@@ -128,6 +129,7 @@ public class GameArea {
 		    if (keyReleaseEvent.getCode() == KeyCode.H) {
 		        for (Entity ent : entities) {
 		            ent.setVisible(false);
+		            pa.setVisible(false);
 		        }
 		    }
 		});
