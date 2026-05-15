@@ -28,7 +28,7 @@ public class GameArea {
    private Scene scene;
    private VacuumBar vb ;
    private HealthBar hb ;
-   private int currentLevel;
+   private int currentLevel=1;
 
    private TokenController tokenController;
 
@@ -210,45 +210,45 @@ public class GameArea {
 }
 
  // win panel lose panel olabilir
- public void checkGameStatus() {
-	   
-		if(isGameOver) return;
-        // kazanma durumu
-        if (entities.isEmpty() && st.getRemainingTime()>0 && hb.getCurrentHealth()>0) {
-        	isGameOver=true;
-        	animation.stop();
-            WinPanel wp = new WinPanel(() -> {
-                int nextLevel=(this.currentLevel<3)?(this.currentLevel+1):1;
-                restart(nextLevel);
-            });
-            wp.setPrefSize(450, 250);
-            double centerX = pa.pArea.getLayoutX() + (pa.pArea.getWidth() / 2) - (wp.getPrefWidth() / 2);
-            double centerY = pa.pArea.getLayoutY() + (pa.pArea.getHeight() / 2) - (wp.getPrefHeight() / 2);
+   public void checkGameStatus() {
+	    if (isGameOver) return;
 
-            wp.setLayoutX(centerX);
-            wp.setLayoutY(centerY);
-            area.getChildren().add(wp);
-            wp.toFront();
-        }
-            //kaybetme durumu
-        else if(hb.getCurrentHealth()<=0 || st.getRemainingTime()<=0) {
-        	 System.out.println("panel tetiklendi");
-        	 animation.stop();
-        	 LosePanel lp=new LosePanel(sc.getScore(), () -> restart(this.currentLevel), () -> goToMenu());
-        	 lp.setPrefSize(450, 250);
-             double centerhX = pa.pArea.getLayoutX() + (pa.pArea.getWidth() / 2) - 225;
-             double centerhY = pa.pArea.getLayoutY() + (pa.pArea.getHeight() / 2) - 125;
-             lp.setLayoutX(centerhX);
-             lp.setLayoutY(centerhY);
-        	 area.getChildren().add(lp);
-        	 lp.toFront();
-         }
-        }
-   // gameover panelini almadım diye metodu bitirdim en son kapalı parantez 
-        // kaybetme
-      /*  
-        }
-    }  */
+	    // Panelin boyutlarını elle (sabit) belirlemek en sağlıklıdır
+	    // Örneğin ekranın %60'ı kadar olsun istiyorsan:
+	    double panelW = area.getWidth() * 0.6; 
+	    double panelH = area.getHeight() * 0.6;
+
+	    // KAZANMA DURUMU
+	    if (entities.isEmpty() && st.getRemainingTime() > 0 && hb.getCurrentHealth() > 0) {
+	        isGameOver = true;
+	        animation.stop();
+	        if(st != null) st.stop();
+
+	        WinPanel wp = new WinPanel(panelW, panelH, this);
+	        
+	        // Merkeze yerleştirme formülü: (Ekran - Panel) / 2
+	        wp.setLayoutX((area.getWidth() - panelW) / 2);
+	        wp.setLayoutY((area.getHeight() - panelH) / 2); // Burada currentW yazmıştın, düzelttik
+
+	        area.getChildren().add(wp);
+	        wp.toFront();
+	    }
+	    
+	    // KAYBETME DURUMU
+	    else if (hb.getCurrentHealth() <= 0 || st.getRemainingTime() <= 0) {
+	        isGameOver = true;
+	        animation.stop();
+	        if(st != null) st.stop();
+
+	        LosePanel lp = new LosePanel(panelW, panelH, sc.getScore(), this);
+	        
+	        lp.setLayoutX((area.getWidth() - panelW) / 2);
+	        lp.setLayoutY((area.getHeight() - panelH) / 2);
+
+	        area.getChildren().add(lp);
+	        lp.toFront();
+	    }
+	}
  public void restart(int level) {
 	 if (this.animation != null) {
 	        this.animation.stop();
