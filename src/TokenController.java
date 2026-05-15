@@ -29,7 +29,7 @@ public class TokenController {
             Pane token = iterator.next();
 
             // Tipine göre ilgili collect metodunu çağırıyoruz
-            if (token instanceof HealthToken && hb.getCurrentHealth()<80) {
+            if (token instanceof HealthToken) {
                 ((HealthToken) token).collect(hunter, hb, area);
             } else if (token instanceof RangeToken) {
                 ((RangeToken) token).collect(hunter, area);
