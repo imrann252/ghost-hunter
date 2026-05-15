@@ -32,6 +32,7 @@ public class Hunter {
     private double mouseY;
     
     private final AudioClip colsound;
+    private final AudioClip vacuumSound;
 
     public Hunter(double startX, double startY, Scene scene) {
 
@@ -45,7 +46,19 @@ public class Hunter {
         colsound.setVolume(0);
         colsound.play();
         colsound.stop();
-        colsound.setVolume(1.0); // Tekrar normal seviyeye çek
+        colsound.setVolume(0.8); // Tekrar normal seviyeye çek
+        
+        
+        String vacpath = getClass().getResource("vacuum.WAV").toExternalForm();
+        this.vacuumSound = new AudioClip(vacpath);
+        
+        // HİLE: Sesi bir kez 0 ses seviyesinde oynatıp durdur. 
+        // Bu, JavaFX ses motorunu "ısıtır".
+        vacuumSound.setVolume(0);
+        vacuumSound.play();
+        vacuumSound.stop();
+        vacuumSound.setVolume(0.6); // Tekrar normal seviyeye çek
+        
 
         // Vacuum triangle
         vacuum = new Polygon();
@@ -140,12 +153,13 @@ public class Hunter {
         
         if (isSpacePressed && vb.getCurrentAmount() > 0) {
             vacuum.setVisible(true);
+            this.playVacuumSound();
             // Enerjiyi azalt (ConfigLoader'dan gelen değeri kullanabilirsin, örn: -0.5) [cite: 204, 231]
-            vb.setBar(-0.5); 
+            vb.setBar(-0.3); 
         } else {
             vacuum.setVisible(false);
             // Space basılmıyorsa enerji dolar [cite: 113, 232]
-            vb.setBar(0.3); 
+            vb.setBar(0.4); 
         }
 
         // Rotation angle
@@ -201,4 +215,10 @@ public class Hunter {
 	    }
 	}
     
+    public void playVacuumSound() {
+	    // Eğer ses zaten çalıyorsa tekrar başlatma (veya çok kısaysa direkt çal)
+    if (vacuumSound != null  && !vacuumSound.isPlaying()) {
+        vacuumSound.play();
+    }
+}
 }
