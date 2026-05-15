@@ -35,8 +35,9 @@ public class TokenController {
                 ((RangeToken) token).collect(hunter, area);
             } else if (token instanceof EyeToken) {
                 ((EyeToken) token).collect(hunter, entities, area);
+            }else if (token instanceof ShieldToken) {
+                ((ShieldToken) token).collect(hunter, area);
             }
-
             // Eğer token Pane'den kaldırılmışsa (collect edilmişse) listeden sil [cite: 140]
             if (!area.getChildren().contains(token)) {
                 iterator.remove();
@@ -55,15 +56,17 @@ public class TokenController {
         double randomY = minY + Math.random() * (maxY - minY);
 
         // Rastgele tip seçimi [cite: 131, 136]
-        int choice = (int) (Math.random() * 3);
+        int choice = (int) (Math.random() * 4);
         Pane newToken;
 
         if (choice == 0) {
             newToken = new HealthToken(randomX, randomY);
         } else if (choice == 1) {
             newToken = new RangeToken(randomX, randomY);
-        } else {
+        } else if (choice == 2) {
             newToken = new EyeToken(randomX, randomY);
+        }else {
+        	newToken = new ShieldToken(randomX, randomY);
         }
 
         area.getChildren().add(newToken);
