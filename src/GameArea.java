@@ -47,7 +47,8 @@ public class GameArea {
    private Pane area;
    private PlayableArea pa ;
    private Hunter hunter;
-   private static boolean isGameOver=false;
+   private  boolean isGameOver=false;
+   private boolean isGamePaused;
 	
 
    
@@ -79,7 +80,7 @@ public class GameArea {
 	   hb = new HealthBar(scene);
 	   st = new Timer(config.getLevelTime(level),scene);
 	   sc = new ScoreCounter(scene);
-	   pause=new Pause(scene);
+	   pause=new Pause(scene,this);
 	   tokenController = new TokenController(area, pa);
 	  
 
@@ -143,7 +144,7 @@ public class GameArea {
 			public void handle (long now) {
 				checkGameStatus(); 
 		        
-		        if (isGameOver) return; 
+		        if (isGameOver || isGamePaused) return; 
 			    hunter.update(minX, minY, maxX, maxY,vb);
 			    tokenController.update(now, hunter, hb, entities);
 				
@@ -243,12 +244,13 @@ public class GameArea {
 private PausePanel pausePanel;
 
 public void pause() {
-    if (isGameOver) return;
-
+    if (isGameOver || isGamePaused) return;
+    this.isGamePaused=true;
     // Oyunu durdur
     if (animation != null) animation.stop();
-    if (st != null) st.stop();
+    if (st != null) st.pause();
 
+    pause.setPausedState(true);
     // Boyutları diğer panellerle aynı yap (%70)
     double pW = area.getWidth() * 0.7;
     double pH = area.getHeight() * 0.7;
@@ -266,11 +268,13 @@ public void pause() {
 }
 
 public void resume() {
+	this.isGamePaused=false;
     // Paneli ekrandan kaldır
     if (pausePanel != null) {
         area.getChildren().remove(pausePanel);
     }
     
+    pause.setPausedState(false);
     // Oyunu devam ettir
     if (animation != null) animation.start();
     if (st != null) st.start();
@@ -317,6 +321,14 @@ public void resume() {
 	        lp.toFront();
 	    }
 	}
+   public void togglePause() {
+	   if(isGamePaused) {
+		   resume();
+	   }
+	   else {
+		   pause();
+	   }
+   }
 	
  public void restart(int level) {
 	 if (this.animation != null) {
@@ -337,7 +349,7 @@ public void resume() {
 	        hunter.stopVacuumSound();
 	        
 	    }
-
+        isGameOver=false;
 	    // 2. Ana menü sınıfından yeni bir nesne oluştur
 	    MainMenuScene mainMenu = new MainMenuScene(); 
 	    

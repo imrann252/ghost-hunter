@@ -13,7 +13,7 @@ public class Pause extends Pane {
 	private StackPane icon;
 	private boolean isPaused=false;
 
-  public Pause(Scene scene) {
+  public Pause(Scene scene,GameArea ga) {
 	
 	
 	 Rectangle r1= new Rectangle(35,35);
@@ -32,7 +32,7 @@ public class Pause extends Pane {
        this.layoutXProperty().bind(scene.widthProperty().divide(2).subtract(10)); // 60/2 = 30 (Tam orta)
        
        this.setOnMouseClicked(e -> {
-    	   State();
+    	   ga.togglePause();
        });
 	   
   }
@@ -72,6 +72,16 @@ public class Pause extends Pane {
        }
   public boolean isPaused() {
 	  return isPaused;
+  }
+  public void setPausedState(boolean state) {
+	  this.isPaused=state;
+	  icon.getChildren().clear();
+	  if(isPaused) {
+		  setPlayIcon();
+	  }
+	  else {
+		  setPauseIcon();
+	  }
   }
 
   
