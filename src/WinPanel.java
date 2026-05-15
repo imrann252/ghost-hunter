@@ -11,49 +11,39 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 public class WinPanel extends StackPane {
+    public WinPanel(double width, double height, GameArea gameArea) {
+        this.setPrefSize(width, height);
+        
+        // Karartma katmanı
+        Rectangle backgroundOverlay = new Rectangle(width, height);
+        backgroundOverlay.setFill(Color.rgb(0, 0, 0, 0.7));
 
-    
-    public WinPanel(Runnable nextLevelAction) {
-    	Font bloodyFont = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 50);
-        Font bloodySmall = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 25);
-       
-        Rectangle rec = new Rectangle();
-        rec.widthProperty().bind(this.widthProperty());
-        rec.heightProperty().bind(this.heightProperty());
-        rec.setFill(Color.rgb(0, 0, 0, 0.7));
+        Font bloodyFont = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 60);
+        Font bloodySmall = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 30);
 
         Label winup = new Label("YOU WIN!");
-        Label winsub = new Label("YOU'VE VACUUMED ALL THE GHOSTS!");
-
-        winup.setTextFill(Color.WHITE);
+        winup.setTextFill(Color.WHITE); // Kazandığında daha görkemli olması için
         winup.setFont(bloodyFont);
-        winup.setStyle(winup.getStyle()+"-fx-font-weight: bold;");
 
+        Label winsub = new Label("YOU'VE VACUUMED ALL THE GHOSTS!");
         winsub.setTextFill(Color.WHITE);
         winsub.setFont(bloodySmall);
-        winsub.setStyle(winup.getStyle()+"-fx-font-weight: bold;");
-        
 
         Button nextbtn = new Button("NEXT LEVEL");
         nextbtn.setFont(bloodySmall);
-        nextbtn.setStyle("-fx-background-color: purple; -fx-text-fill: white; ");
+        nextbtn.setMinWidth(250);
+        nextbtn.setStyle("-fx-background-color: purple; -fx-text-fill: white; -fx-cursor: hand;");
 
-       
-        nextbtn.setOnMousePressed(e -> {
-            nextbtn.setStyle("-fx-background-color: red; -fx-text-fill: white; ");
-        });
-
+        nextbtn.setOnMousePressed(e -> nextbtn.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
         nextbtn.setOnMouseReleased(e -> {
-            nextbtn.setStyle("-fx-background-color: purple; -fx-text-fill: white; ");
-            nextLevelAction.run(); // Bir sonraki levele geçiş fonksiyonunu tetikler burda
+            nextbtn.setStyle("-fx-background-color: purple; -fx-text-fill: white;");
+            int nextLvl = (gameArea.getCurrentLevel() < 3) ? (gameArea.getCurrentLevel() + 1) : 1;
+            gameArea.restart(nextLvl);
         });
-        
-        
 
-        VBox vbox = new VBox(20);
+        VBox vbox = new VBox(25, winup, winsub, nextbtn);
         vbox.setAlignment(Pos.CENTER);
-        vbox.getChildren().addAll(winup, winsub, nextbtn);
 
-        this.getChildren().addAll(rec, vbox);
+        this.getChildren().addAll(backgroundOverlay, vbox);
     }
 }
