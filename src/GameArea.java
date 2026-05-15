@@ -29,6 +29,7 @@ public class GameArea {
    private VacuumBar vb ;
    private HealthBar hb ;
    private int currentLevel=1;
+   private Pause pause;
 
    private TokenController tokenController;
 
@@ -50,6 +51,9 @@ public class GameArea {
 
    
    public GameArea(int level) {
+	   
+	  
+	   
 	   
 	   this.currentLevel=level;
 	   ConfigLoader config=ConfigLoader.getInstance();
@@ -74,6 +78,7 @@ public class GameArea {
 	   hb = new HealthBar(scene);
 	   st = new Timer(config.getLevelTime(level),scene);
 	   sc = new ScoreCounter(scene);
+	   pause=new Pause(scene);
 	   tokenController = new TokenController(area, pa);
 	  
 
@@ -82,7 +87,7 @@ public class GameArea {
 	   areaImage.fitWidthProperty().bind(scene.widthProperty());
 	   areaImage.fitHeightProperty().bind(scene.heightProperty());
 	   
-	   area.getChildren().addAll(areaImage,vb,hb,pa,st,sc,hunter.getShape());
+	   area.getChildren().addAll(areaImage,vb,hb,pa,st,sc,hunter.getShape(),pause);
 	   
 	   
 	   //create ghosts
@@ -208,7 +213,7 @@ public class GameArea {
 		area.requestFocus();
 		
 }
-
+  
  // win panel lose panel olabilir
    public void checkGameStatus() {
 	    if (isGameOver) return;
