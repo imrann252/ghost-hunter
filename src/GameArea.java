@@ -168,6 +168,19 @@ public class GameArea {
 
 		                    delay.play();
 						}
+						else {
+							hunter.paintblue();
+		                	
+		                	PauseTransition delay = new PauseTransition(Duration.seconds(0.1));
+
+		                    delay.setOnFinished(e -> {
+		                    	hunter.paintOrange();
+		                    
+		                    });
+		                    
+		                    delay.play();
+						}
+						
 							
 	                	
 	                	checkGameStatus();

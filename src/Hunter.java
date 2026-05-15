@@ -267,6 +267,10 @@ public class Hunter {
     	this.body.setFill(Color.ORANGE);
     }
     
+    public void paintblue() {
+    	this.body.setFill(Color.BLUE);
+    }
+    
     public void playCollisionSound() {
     	    // Eğer ses zaten çalıyorsa tekrar başlatma (veya çok kısaysa direkt çal)
 	    if (colsound != null && !colsound.isPlaying()) {
