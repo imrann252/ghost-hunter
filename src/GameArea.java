@@ -133,7 +133,9 @@ public class GameArea {
 	   
 	   this.animation=new AnimationTimer() {
 			public void handle (long now) {
-				
+				checkGameStatus(); 
+		        
+		        if (isGameOver) return; 
 			    hunter.update(minX, minY, maxX, maxY,vb);
 			    tokenController.update(now, hunter, hb, entities);
 				
@@ -171,7 +173,7 @@ public class GameArea {
 		                double currentScale = ent.getShape().getScaleX(); // Mevcut büyüklüğü al
 		       
 		                
-		                if (currentScale < 0.20) {
+		                if (currentScale < 0.50) {
 		     
 		                   
 		                    area.getChildren().remove(ent.getShape());
@@ -215,12 +217,13 @@ public class GameArea {
 
 	    // Panelin boyutlarını elle (sabit) belirlemek en sağlıklıdır
 	    // Örneğin ekranın %60'ı kadar olsun istiyorsan:
-	    double panelW = area.getWidth() * 0.6; 
-	    double panelH = area.getHeight() * 0.6;
+	    double panelW = area.getWidth() * 0.3; 
+	    double panelH = area.getHeight() * 0.3;
 
 	    // KAZANMA DURUMU
 	    if (entities.isEmpty() && st.getRemainingTime() > 0 && hb.getCurrentHealth() > 0) {
 	        isGameOver = true;
+	       
 	        animation.stop();
 	        if(st != null) st.stop();
 
@@ -237,6 +240,7 @@ public class GameArea {
 	    // KAYBETME DURUMU
 	    else if (hb.getCurrentHealth() <= 0 || st.getRemainingTime() <= 0) {
 	        isGameOver = true;
+	     
 	        animation.stop();
 	        if(st != null) st.stop();
 
@@ -249,6 +253,7 @@ public class GameArea {
 	        lp.toFront();
 	    }
 	}
+	
  public void restart(int level) {
 	 if (this.animation != null) {
 	        this.animation.stop();
