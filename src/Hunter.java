@@ -6,6 +6,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
+import javafx.scene.media.AudioClip;
+import java.net.URL;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,10 +30,22 @@ public class Hunter {
 
     private double mouseX;
     private double mouseY;
+    
+    private final AudioClip colsound;
 
     public Hunter(double startX, double startY, Scene scene) {
 
         body = new Circle(radius, Color.ORANGE);
+        
+        String path = getClass().getResource("collision.MP3").toExternalForm();
+        this.colsound = new AudioClip(path);
+        
+        // HİLE: Sesi bir kez 0 ses seviyesinde oynatıp durdur. 
+        // Bu, JavaFX ses motorunu "ısıtır".
+        colsound.setVolume(0);
+        colsound.play();
+        colsound.stop();
+        colsound.setVolume(1.0); // Tekrar normal seviyeye çek
 
         // Vacuum triangle
         vacuum = new Polygon();
@@ -179,4 +193,12 @@ public class Hunter {
     public void paintOrange() {
     	this.body.setFill(Color.ORANGE);
     }
+    
+    public void playCollisionSound() {
+    	    // Eğer ses zaten çalıyorsa tekrar başlatma (veya çok kısaysa direkt çal)
+	    if (colsound != null) {
+	        colsound.play();
+	    }
+	}
+    
 }

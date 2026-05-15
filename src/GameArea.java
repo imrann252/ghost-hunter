@@ -148,7 +148,9 @@ public class GameArea {
 					//health bar
 					 if(hunter.getBody().getBoundsInParent().intersects(ent.getShape().getBoundsInParent())) {
 		                	hb.setBar(-10/60.0);
+		                	hunter.playCollisionSound();
 		                	hunter.paintRed();
+		                	
 		                	PauseTransition delay = new PauseTransition(Duration.seconds(0.1));
 
 		                    delay.setOnFinished(e -> {
