@@ -20,12 +20,13 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 
 public class GameArea {
    private Scene scene;
    private VacuumBar vb ;
    private HealthBar hb ;
-   
+   private int currentLevel;
 
    private TokenController tokenController;
 
@@ -42,18 +43,18 @@ public class GameArea {
    private AnimationTimer animation;
    private Pane area;
    private PlayableArea pa ;
- 
+   private static boolean isGameOver=false;
 	
 
    
    public GameArea(int level) {
 	   
-	   
+	   this.currentLevel=level;
 	   ConfigLoader config=ConfigLoader.getInstance();
 	
 	   
 	   this.area =new Pane();
-	   
+	 
 	   Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
 	   this.scene = new Scene(area,visualBounds.getWidth(), visualBounds.getHeight());
 	   
@@ -137,11 +138,18 @@ public class GameArea {
 				for(int i=0;i<entities.size();i++) {
 					Entity ent = entities.get(i);
 					
-					if(entities.get(i)  instanceof Wisp) {
+					if(ent  instanceof Wisp) {
 				    ((Wisp)(entities.get(i))).updateAnimation();
 				    }
 					
-					entities.get(i).move(minX, minY, maxX, maxY);
+					ent.move(minX, minY, maxX, maxY);
+					//health bar
+					 if(hunter.getShape().getBoundsInParent().intersects(ent.getShape().getBoundsInParent())) {
+		                	hb.setBar(-2/60.0);
+		                	checkGameStatus();
+		                }
+					
+						 
                 // vakum kontrol
 		            if (hunter.isVacuumActive() && vb.getCurrentAmount() > 0 && hunter.getVacuumShape().getBoundsInParent().intersects(ent.getShape().getBoundsInParent())) {
 		                
@@ -151,14 +159,27 @@ public class GameArea {
 		                   
 		                    area.getChildren().remove(ent.getShape());
 		                    entities.remove(i);
-		                    sc.addScore(10); // Skor ekle
+		                    
+		                    if(ent instanceof Ghost) {
+		                       sc.addScore(10); // Skor ekle
+		                    }
+		                    else if(ent instanceof Ripper) {
+		                    	sc.addScore(20);
+		                    }
+		                    else {
+		                    	sc.addScore(30);
+		                    }
 		                    checkGameStatus();
+		                    i--; // KRİTİK: Liste kısaldığı için indexi geri çekiyoruz!
+		                    continue;
+		                    
 		                } else {
 		                    
 		                    ent.getShape().setScaleX(currentScale - 0.005);
 		                    ent.getShape().setScaleY(currentScale - 0.005);
 		                }
-		                
+		               
+		              
 		            } 
 
 				}
@@ -173,12 +194,15 @@ public class GameArea {
 
  // win panel lose panel olabilir
  public void checkGameStatus() {
+	   
+		if(isGameOver) return;
         // kazanma durumu
-        if (entities.isEmpty()) {
+        if (entities.isEmpty() && st.getRemainingTime()>0 && hb.getCurrentHealth()>0) {
+        	isGameOver=true;
         	animation.stop();
             WinPanel wp = new WinPanel(() -> {
-                System.out.println("Sonraki seviyeye geçiliyor...");
-                // Burada bir sonraki level için GameArea'yı tekrar kurabilirsin
+                int nextLevel=(this.currentLevel<3)?(this.currentLevel+1):1;
+                restart(nextLevel);
             });
             wp.setPrefSize(450, 250);
             double centerX = pa.pArea.getLayoutX() + (pa.pArea.getWidth() / 2) - (wp.getPrefWidth() / 2);
@@ -187,19 +211,53 @@ public class GameArea {
             wp.setLayoutX(centerX);
             wp.setLayoutY(centerY);
             area.getChildren().add(wp);
-        }}
+            wp.toFront();
+        }
+            //kaybetme durumu
+        else if(hb.getCurrentHealth()<=0 || st.getRemainingTime()<=0) {
+        	 System.out.println("panel tetiklendi");
+        	 animation.stop();
+        	 LosePanel lp=new LosePanel(sc.getScore(), () -> restart(this.currentLevel), () -> goToMenu());
+        	 lp.setPrefSize(450, 250);
+             double centerhX = pa.pArea.getLayoutX() + (pa.pArea.getWidth() / 2) - 225;
+             double centerhY = pa.pArea.getLayoutY() + (pa.pArea.getHeight() / 2) - 125;
+             lp.setLayoutX(centerhX);
+             lp.setLayoutY(centerhY);
+        	 area.getChildren().add(lp);
+        	 lp.toFront();
+         }
+        }
    // gameover panelini almadım diye metodu bitirdim en son kapalı parantez 
         // kaybetme
-      /*  if (st.getTime() <= 0) { //buraya canda gelcek
-            animation.stop();
-            LosePanel lp = new LosePanel(sc.getScore(), () -> {
-                // Retry Aksiyonu: Mevcut seviyeyi yeniden başlat
-            }, () -> {
-                // Menu Aksiyonu
-            });
-            root.getChildren().add(lp);
+      /*  
         }
     }  */
+ public void restart(int level) {
+	 if (this.animation != null) {
+	        this.animation.stop();
+	    }
+	 if (this.st != null) {
+	        this.st.stop();
+	    }
+	 isGameOver=false;
+	 GameArea newLevel = new GameArea(level); 
+	    Test.mainStage.setScene(newLevel.getScene());
+	 
+ }
+ public void goToMenu() {
+	 if (this.animation != null) {
+	        this.animation.stop();
+	    }
+
+	    // 2. Ana menü sınıfından yeni bir nesne oluştur
+	    MainMenuScene mainMenu = new MainMenuScene(); 
+	    
+	    // 3. Statik Stage referansını kullanarak sahneyi menü sahnesiyle değiştir
+	    Test.mainStage.setScene(mainMenu.getScene());
+ }
+ public int getCurrentLevel() {
+	 return currentLevel;
+ }
    public Scene getScene() {
 		return scene;
 	   }

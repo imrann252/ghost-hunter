@@ -75,6 +75,8 @@ public class Timer extends Pane {
     	timerLabel.setLayoutY(45);
         timerLabel.layoutXProperty().bind(scene.widthProperty().divide(2).subtract(15));
     }
-    
+    public int getRemainingTime() {
+    	return this.second;
+    }
 
 }

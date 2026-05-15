@@ -8,11 +8,12 @@ import javafx.util.Duration;
 public class HealthToken extends Pane {
     private double x, y;
     private boolean isCollected = false;
-    private int restorationAmount = 20; // 20 artsın istediğin için varsayılan değer
+    private int restorationAmount ;
 
     public HealthToken(double x, double y) {
         this.x = x;
         this.y = y;
+        this.restorationAmount = ConfigLoader.getInstance().getHealthTokenIncrease();
 
         Circle base = new Circle(15, Color.YELLOW);
         base.setStroke(Color.GRAY.darker());
@@ -32,19 +33,15 @@ public class HealthToken extends Pane {
         if (isCollected) return;
 
         // Hunter'ın gövdesi ile Token çarpışıyor mu?
-        if (this.getBoundsInParent().intersects(hunter.getBody().getBoundsInParent())) {
-            isCollected = true;
-
-            // 1. Sağlık barını güncelle (+20)
-            hb.setBar(restorationAmount);
-
-            // 2. Token'ı ekrandan kaldır
-            root.getChildren().remove(this);
-            
-            System.out.println("Sağlık toplandı! Yeni sağlık: " + hb.getCurrentHealth());
-        }
+       
+        if (this.getBoundsInParent().intersects(hunter.getShape().getBoundsInParent())) {
+                isCollected = true;
+                hb.setBar(restorationAmount);
+                root.getChildren().remove(this);
+        
     }
-    
+    }
+
     
     public int getRestorationAmount() {
         return restorationAmount;
