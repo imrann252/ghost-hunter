@@ -30,6 +30,7 @@ public class GameArea {
    private HealthBar hb ;
    private int currentLevel=1;
    private Pause pause;
+   private ConfigLoader config;
 
    private TokenController tokenController;
 
@@ -56,7 +57,7 @@ public class GameArea {
 	   
 	  
 	   
-	   
+	   this.config=ConfigLoader.getInstance();
 	   this.currentLevel=level;
 	   ConfigLoader config=ConfigLoader.getInstance();
 	
@@ -67,10 +68,10 @@ public class GameArea {
 	   this.scene = new Scene(area,visualBounds.getWidth(), visualBounds.getHeight());
 	   
 	   
-	   this.pa = new PlayableArea(config.getAreaX(level),config.getAreaY(level),config.getWidth(level),config.getHeight(level),scene);
+	   this.pa = new PlayableArea(config.getWidth(level),config.getHeight(level),scene);
 	   pa.setVisible(false);
-	   double minX = pa.pArea.getLayoutX();
-	   double minY = pa.pArea.getLayoutY();
+	   double minX = (scene.getWidth() / 2) - (config.getWidth(level) / 2);
+	   double minY = (scene.getHeight() / 2) + 25 - (config.getHeight(level) / 2);
 	   double maxX = minX + config.getWidth(level);
 	   double maxY = minY + config.getHeight(level);
 	   
@@ -163,7 +164,7 @@ public class GameArea {
 					if(hunter.getBody().getBoundsInParent().intersects(ent.getShape().getBoundsInParent())) {
 						
 						if (!hunter.isInvincible()) {
-							hb.setBar(-10/60.0);
+							hb.setBar(-(config.getEntityDamage())/60.0);
 							hunter.playCollisionSound();
 		                	hunter.paintRed();
 		                	

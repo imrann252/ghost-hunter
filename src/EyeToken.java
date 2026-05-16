@@ -16,6 +16,7 @@ import javafx.geometry.Pos;
 
 public class EyeToken extends StackPane {
     private boolean isCollected = false;
+    private ConfigLoader config=ConfigLoader.getInstance();
 
     // Range Token genelde 40-50 px civarı olur, varsayılanı 50 yapalım
     public EyeToken(double x, double y) {
@@ -66,7 +67,7 @@ public class EyeToken extends StackPane {
                 ent.setVisible(true);
 
                 PauseTransition delay =
-                        new PauseTransition(Duration.seconds(5));
+                        new PauseTransition(Duration.seconds(config.getEyeTokenDuration()));
 
                 delay.setOnFinished(e -> {
                     ent.setVisible(false);
