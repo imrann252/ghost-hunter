@@ -252,8 +252,8 @@ public void pause() {
 
     pause.setPausedState(true);
     // Boyutları diğer panellerle aynı yap (%70)
-    double pW = area.getWidth() * 0.7;
-    double pH = area.getHeight() * 0.7;
+    double pW = area.getWidth() * 0.3;
+    double pH = area.getHeight() * 0.3;
 
     // Paneli oluştur
     pausePanel = new PausePanel(pW, pH, this);
