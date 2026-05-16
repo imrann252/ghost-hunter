@@ -1,3 +1,6 @@
+// Şeyma nur Hacımurtazaoğlu 150124057
+//Purpose: Creates the panel that appears when the game is paused, containing the resume, main menu, and retry buttons.
+ 
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -11,64 +14,66 @@ import javafx.scene.paint.Color;
 public class PausePanel extends StackPane {
 
     public PausePanel(double width, double height, GameArea gameArea) {
-        // Panel Boyutlarını Sabitle
+        
         this.setPrefSize(width, height);
         this.setMinSize(width, height);
         this.setMaxSize(width, height);
         
-        // SAYDAM MOR ARKA PLAN
+        
         this.setStyle("-fx-background-color: rgba(75, 0, 130, 0.7); -fx-background-radius: 15;");
 
         Font bloodyFont = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 60);
         Font bloodySmall = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 25);
 
-        Label pauseLabel = new Label("GAME PAUSED");
-        pauseLabel.setTextFill(Color.WHITE);
-        pauseLabel.setFont(bloodyFont);
+        Label pl = new Label("GAME PAUSED");
+        pl.setTextFill(Color.WHITE);
+        pl.setFont(bloodyFont);
 
-        // Butonlar
-        Button resumeBtn = new Button("RESUME");
-        Button retryBtn = new Button("RETRY");
-        Button menuBtn = new Button("MAIN MENU");
+        Button resumebtn = new Button("RESUME");
+        Button retrybtn = new Button("RETRY");
+        Button menubtn = new Button("MAIN MENU");
 
-        resumeBtn.setFont(bloodySmall);
-        retryBtn.setFont(bloodySmall);
-        menuBtn.setFont(bloodySmall);
+        resumebtn.setFont(bloodySmall);
+        retrybtn.setFont(bloodySmall);
+        menubtn.setFont(bloodySmall);
+        
+        resumebtn.setPrefSize(140, 47);
+        retrybtn.setPrefSize(140, 47);
+        menubtn.setPrefSize(140, 47);
 
        
 
-        // Buton Stilleri
-        String idleStyle = "-fx-background-color: #808080; -fx-text-fill: white; -fx-background-radius: 5;";
-        String pressedStyle = "-fx-background-color: red; -fx-text-fill: white; -fx-background-radius: 5;";
+        String idleStyle = "-fx-background-color: #808080; -fx-text-fill: white; -fx-background-radius: 6;";
+        String pressedStyle = "-fx-background-color: red; -fx-text-fill: white; -fx-background-radius: 6;";
 
-        resumeBtn.setStyle(idleStyle);
-        retryBtn.setStyle(idleStyle);
-        menuBtn.setStyle(idleStyle);
+        resumebtn.setStyle(idleStyle);
+        retrybtn.setStyle(idleStyle);
+        menubtn.setStyle(idleStyle);
 
-        // --- Buton Olayları (Basınca Kırmızı Olma) ---
+        
 
-        resumeBtn.setOnMousePressed(e -> resumeBtn.setStyle(pressedStyle));
-        resumeBtn.setOnMouseReleased(e -> {
-            resumeBtn.setStyle(idleStyle);
+        resumebtn.setOnMousePressed(e -> resumebtn.setStyle(pressedStyle));
+        resumebtn.setOnMouseReleased(e -> {
+        	resumebtn.setStyle(idleStyle);
             gameArea.resume(); 
         });
 
-        retryBtn.setOnMousePressed(e -> retryBtn.setStyle(pressedStyle));
-        retryBtn.setOnMouseReleased(e -> {
-            retryBtn.setStyle(idleStyle);
+        retrybtn.setOnMousePressed(e -> retrybtn.setStyle(pressedStyle));
+        retrybtn.setOnMouseReleased(e -> {
+        	retrybtn.setStyle(idleStyle);
             gameArea.restart(gameArea.getCurrentLevel());
         });
 
-        menuBtn.setOnMousePressed(e -> menuBtn.setStyle(pressedStyle));
-        menuBtn.setOnMouseReleased(e -> {
-            menuBtn.setStyle(idleStyle);
+        menubtn.setOnMousePressed(e -> menubtn.setStyle(pressedStyle));
+        menubtn.setOnMouseReleased(e -> {
+        	menubtn.setStyle(idleStyle);
             gameArea.goToMenu();
         });
 
-        HBox hbox = new HBox(20, resumeBtn, retryBtn, menuBtn);
+        HBox hbox = new HBox(20, resumebtn, retrybtn, menubtn);
         hbox.setAlignment(Pos.CENTER);
 
-        VBox vbox = new VBox(50, pauseLabel, hbox);
+        VBox vbox = new VBox(61, pl, hbox);
         vbox.setAlignment(Pos.CENTER);
 
         this.getChildren().add(vbox);
