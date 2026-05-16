@@ -1,6 +1,7 @@
 
 import java.util.Random;
 
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
@@ -8,6 +9,8 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
+//Şeyma nur Hacımurtazaoğlu 150124057
+// Purpose: Represents the standard Ghost entity in the game, handling its random initial movement and graphical shape creation.
 public class Ghost extends Entity {
 
     public Ghost(double x, double y, boolean isVisible) {
