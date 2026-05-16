@@ -6,9 +6,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
 public class HealthBar extends Pane {
-	private double currentHealth = 100;
+	private ConfigLoader config = ConfigLoader.getInstance();
+	private double maxHealth = config.getMaxHealth();
+	private double currentHealth = maxHealth ;
 	private double maxHeight = 250; 
-	private double maxHealth = 100;
+	
 	Rectangle rec2;
 	
 	public HealthBar(Scene scene) {

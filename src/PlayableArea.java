@@ -4,13 +4,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class PlayableArea extends Pane{
-public double x,y;
 private double width ,height;
 public Rectangle pArea;
 
- public PlayableArea(double x,double y,double width,double height,Scene scene) {
-	 this.x=x;
-	 this.y=y;
+ public PlayableArea(double width,double height,Scene scene) {
+	 
 	 this.width=width;
 	 this.height=height;
 	 

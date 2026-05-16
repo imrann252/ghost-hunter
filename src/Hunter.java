@@ -23,7 +23,7 @@ import java.net.URL;
 public class Hunter {
 
     private Group shape;
-
+    private ConfigLoader config=ConfigLoader.getInstance();
     private Circle body;
     private Polygon vacuum;
 
@@ -48,7 +48,7 @@ public class Hunter {
     private boolean isInvincible = false;
 
     public Hunter(double startX, double startY, Scene scene) {
-
+      
         body = new Circle(radius, Color.ORANGE);
         
         shieldCircle = new Circle(25); 
@@ -189,7 +189,7 @@ public class Hunter {
             }
             
             // Enerjiyi azalt (ConfigLoader'dan gelen değeri kullanabilirsin, örn: -0.5) [cite: 204, 231]
-            vb.setBar(-0.3); 
+            vb.setBar(config.getVacuumDecrease()); 
         } else {
             vacuum.setVisible(false);
             stopVacuumSound();
@@ -204,7 +204,7 @@ public class Hunter {
             delay.play();
             
             // Space basılmıyorsa enerji dolar [cite: 113, 232]
-            vb.setBar(0.4); 
+            vb.setBar(config.getVacuumIncrease()); 
         }
 
         // Rotation angle

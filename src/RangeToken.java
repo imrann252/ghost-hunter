@@ -6,7 +6,8 @@ import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 
 public class RangeToken extends Pane {
-
+	
+    private ConfigLoader config=ConfigLoader.getInstance();
     private double x;
     private double y;
 
@@ -37,9 +38,12 @@ public class RangeToken extends Pane {
 
         this.setLayoutX(x);
         this.setLayoutY(y);
+        
+      
     }
 
     public void collect(Hunter hunter, Pane root) {
+    	  double percentageIncrease=config.getVacuumTokenIncrease()/100.0;
 
         if (isCollected) {
             return;
@@ -53,11 +57,11 @@ public class RangeToken extends Pane {
 
             double currentX = hunter.getVacuumScaleX();
             double currentY = hunter.getVacuumScaleY();
-
+            
             // Increase range
             hunter.setVacuumScale(
-                    currentX + 0.5,
-                    currentY + 0.5
+                    currentX + percentageIncrease,
+                    currentY + percentageIncrease
             );
 
             PauseTransition delay =

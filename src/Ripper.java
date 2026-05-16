@@ -21,19 +21,34 @@ public class Ripper extends Entity {
        
         // 1. 12 Çıkıntılı (24 Noktalı) Geniş Gövde
         Polygon body = new Polygon();
-        Double[] points = new Double[48]; // 24 nokta * (x,y) = 48 değer
+     
+        body.getPoints().addAll(new Double[]{
+                35.0,  0.0,   // 1. Diken ucu (En sağ)
+                20.0,  6.0,   // İç girinti
+                28.0, 18.0,   // 2. Diken ucu
+                12.0, 14.0,   // İç girinti
+                18.0, 28.0,   // 3. Diken ucu
+                 6.0, 20.0,   // İç girinti
+                 0.0, 35.0,   // 4. Diken ucu (En alt)
+                -6.0, 20.0,   // İç girinti
+               -18.0, 28.0,   // 5. Diken ucu
+               -12.0, 14.0,   // İç girinti
+               -28.0, 18.0,   // 6. Diken ucu
+               -20.0,  6.0,   // İç girinti
+               -35.0,  0.0,   // 7. Diken ucu (En sol)
+               -20.0, -6.0,   // İç girinti
+               -28.0,-18.0,   // 8. Diken ucu
+               -12.0,-14.0,   // İç girinti
+               -18.0,-28.0,   // 9. Diken ucu
+                -6.0,-20.0,   // İç girinti
+                 0.0,-35.0,   // 10. Diken ucu (En üst)
+                 6.0,-20.0,   // İç girinti
+                18.0,-28.0,   // 11. Diken ucu
+                12.0,-14.0,   // İç girinti
+                28.0,-18.0,   // 12. Diken ucu
+                20.0, -6.0    // İç girinti
+           });
         
-        double outerRadius = 35.0; // Dikenlerin uç noktası
-        double innerRadius = 22.0; // Gövdenin geniş kalması için iç yarıçap
-        
-        for (int i = 0; i < 24; i++) {
-            double angle = Math.toRadians(i * (360.0 / 24.0));
-            double r = (i % 2 == 0) ? outerRadius : innerRadius;
-            points[i * 2] = r * Math.cos(angle);     // x koordinatı
-            points[i * 2 + 1] = r * Math.sin(angle); // y koordinatı
-        }
-        
-        body.getPoints().addAll(points);
         body.setFill(Color.PURPLE); // Ripper mor gövdelidir 
         body.setStroke(Color.BLACK);
 
@@ -57,7 +72,4 @@ public class Ripper extends Entity {
         
         shape.setVisible(isVisible);
 	     }
-    
-
-
 }

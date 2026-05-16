@@ -51,14 +51,7 @@ public class ConfigLoader {
     	return getInt("entity_damage"); 
     } 
     
-    public int getAreaX(int level) {
-        return getInt("level_" + level + "_playable_area_x"); 
-    }
-    
-    public int getAreaY(int level) {
-        return getInt("level_" + level + "_playable_area_y"); 
-    }
-        
+   
 
     public int getWidth(int level) {
         return getInt("level_" + level + "_playable_area_width"); 
@@ -96,5 +89,11 @@ public class ConfigLoader {
     public int getEyeTokenDuration() { 
     	return getInt("eye_token_duration");
     } 
+    public int getVacuumDecrease() {
+    	return getInt("vacuum_decrease");
+    }
+    public int getVacuumIncrease() {
+    	return getInt("vacuum_increase");
+    }
     
 }
