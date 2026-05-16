@@ -25,7 +25,7 @@ public class MainMenuScene {
 	   
 	   
 	   Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-	   this.scene = new Scene(main,visualBounds.getWidth(), visualBounds.getHeight());
+	   this.scene = new Scene(main,visualBounds.getWidth()*0.85, visualBounds.getHeight()*0.85);
 
 	  
 	   
@@ -122,8 +122,8 @@ public class MainMenuScene {
 	   });
 	   
 	   
-	   hbox.scaleXProperty().bind(scene.widthProperty().divide(1300));//fza
-	   hbox.scaleYProperty().bind(scene.heightProperty().divide(800));//fza
+	   hbox.scaleXProperty().bind(scene.widthProperty().divide(visualBounds.getWidth()));//fza
+	   hbox.scaleYProperty().bind(scene.heightProperty().divide(visualBounds.getHeight()));//fza
 	   
 	   
 	   hbox.getChildren().addAll(b1,b2,b3);

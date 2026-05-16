@@ -21,7 +21,7 @@ public class SelectLevelScene {
 		
 		Pane selectLevel =new Pane();
 		Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-		this.scene = new Scene(selectLevel,visualBounds.getWidth(), visualBounds.getHeight());
+		this.scene = new Scene(selectLevel,visualBounds.getWidth()*0.85, visualBounds.getHeight()*0.85);
 		   
 	   
 	   ImageView slevel= new ImageView("file:resources/select_level.png");
@@ -107,8 +107,8 @@ public class SelectLevelScene {
 	   
 	   });
 	   
-	   vbox.scaleXProperty().bind(scene.widthProperty().divide(1300));//fza
-	   vbox.scaleYProperty().bind(scene.heightProperty().divide(800));//fza
+	   vbox.scaleXProperty().bind(scene.widthProperty().divide(visualBounds.getWidth()));//fza
+	   vbox.scaleYProperty().bind(scene.heightProperty().divide(visualBounds.getHeight()));//fza
 	   
 	   vbox.getChildren().addAll(b1,b2,b3);
 	   selectLevel.getChildren().add(vbox);

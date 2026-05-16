@@ -64,7 +64,7 @@ public class GameArea {
 	   this.area =new Pane();
 	 
 	   Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-	   this.scene = new Scene(area,visualBounds.getWidth(), visualBounds.getHeight());
+	   this.scene = new Scene(area,visualBounds.getWidth()*0.85, visualBounds.getHeight()*0.85);
 	   
 	   
 	   this.pa = new PlayableArea(config.getAreaX(level),config.getAreaY(level),config.getWidth(level),config.getHeight(level),scene);
