@@ -35,10 +35,7 @@ public class PausePanel extends StackPane {
         retryBtn.setFont(bloodySmall);
         menuBtn.setFont(bloodySmall);
 
-        // Buton Boyutları
-        resumeBtn.setPrefSize(180, 55);
-        retryBtn.setPrefSize(180, 55);
-        menuBtn.setPrefSize(180, 55);
+       
 
         // Buton Stilleri
         String idleStyle = "-fx-background-color: #808080; -fx-text-fill: white; -fx-background-radius: 5;";
@@ -71,7 +68,7 @@ public class PausePanel extends StackPane {
         HBox hbox = new HBox(20, resumeBtn, retryBtn, menuBtn);
         hbox.setAlignment(Pos.CENTER);
 
-        VBox vbox = new VBox(30, pauseLabel, hbox);
+        VBox vbox = new VBox(50, pauseLabel, hbox);
         vbox.setAlignment(Pos.CENTER);
 
         this.getChildren().add(vbox);
