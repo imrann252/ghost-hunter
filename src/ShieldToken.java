@@ -58,8 +58,7 @@ public class ShieldToken extends Pane {
         
         // Check collision between hunter body and token
         // Using hunter body prevents collecting with vacuum area
-        if (this.getBoundsInParent().intersects(
-                hunter.getBody().getBoundsInParent())) {
+        if (this.getBoundsInParent().intersects(hunter.getBody().getBoundsInParent())) {
 
             
             isCollected = true;

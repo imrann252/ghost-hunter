@@ -53,8 +53,7 @@ public class RangeToken extends Pane {
 
         
         //Check collision between hunter and token
-        if (this.getBoundsInParent().intersects(
-                hunter.getBody().getBoundsInParent())) {
+        if (this.getBoundsInParent().intersects(hunter.getBody().getBoundsInParent())) {
 
             isCollected = true;
 
