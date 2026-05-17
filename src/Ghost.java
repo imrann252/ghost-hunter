@@ -14,7 +14,7 @@ import javafx.scene.shape.Rectangle;
 public class Ghost extends Entity {
 //Purpose : Constructor that initializes the Ghost's position, sets a random movement velocity (dx, dy), and constructs its semi-transparent visual body components.
     public Ghost(double x, double y, boolean isVisible) {
-       //
+       //Calls the constructor of the superclass (Entity) to initialize base coordinates and visibility status.
         super(x, y, isVisible);
         this.dx = (random.nextDouble() * 4.0) - 2.0;
         this.dy = (random.nextDouble() * 4.0) - 2.0;
