@@ -2,12 +2,15 @@
 
 import java.util.Random;
 
+
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
+//Imran_Akar_150124087
+//Represents the unique Wisp entity
 public class Wisp extends Entity {
  
 
@@ -15,7 +18,7 @@ public class Wisp extends Entity {
  private Rectangle[] recs;
  private double rotationOffset=0;
 
-
+   //Constructor that initializes physical traits, velocity steps, and builds the dynamic rotating geometric mesh.
 	public Wisp(double x,double y,boolean isVisible) {
 		
 		  this.dx = (random.nextDouble() * 4.0) - 2.0;
@@ -37,6 +40,8 @@ public class Wisp extends Entity {
 	        rightEye.setFill(Color.RED);
 	        rotatingGroup = new Group();
 	        double r = 40;
+	        
+	        //Calculates spatial trigonometry coordinates to place 6 tail components in a hexagram pattern.
 	        this.recs= new Rectangle[]{
 	        		new Rectangle(-4,-r-12.5,8,25),
 	        		new Rectangle(r*Math.cos(Math.PI/6)-4,-r*Math.sin(Math.PI/6)-10,8,20),
@@ -46,13 +51,14 @@ public class Wisp extends Entity {
 	        		new Rectangle(-r*Math.cos(Math.PI/6)-4,-r*Math.sin(Math.PI/6)-10,8,20),
 	        	
 	        };
-	        
+	        //Configures styling and curved mesh arcs for individual tail nodes.
 	        for (int i=0;i<6;i++) {
 	        recs[i].setFill(Color.GREENYELLOW);
 	        recs[i].setArcHeight(20);
 	        recs[i].setArcWidth(15);
 	        }
 	        
+	        //Standardizes angular offsets
 	        for(int i=1;i<6;i++) {
 	        recs[i].setRotate(i*60);
 	        }
@@ -69,7 +75,7 @@ public class Wisp extends Entity {
 	}
 	 
 	
-
+       //Increments angular variables per frame to generate the continuous plasma wheel rotation effect.
        public void updateAnimation() {
     	   rotationOffset += 2;
     	    rotatingGroup.setRotate(rotationOffset);
