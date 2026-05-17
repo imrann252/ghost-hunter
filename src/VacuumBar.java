@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 
 public class VacuumBar extends Pane {
 
-    ConfigLoader config = ConfigLoader.getInstance(); 
+    private ConfigLoader config = ConfigLoader.getInstance(); 
     private double maxAmount = config.getMaxVacuum(); 
     private double currentAmount = maxAmount; 
     private double maxHeight = 250; 

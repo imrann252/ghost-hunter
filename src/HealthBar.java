@@ -15,7 +15,7 @@ public class HealthBar extends Pane {
     private double currentHealth = maxHealth;
     private double maxHeight = 250;
 
-    Rectangle rec2;
+    private Rectangle rec2;
 
     //constructor, creates health bar and add in pane.
     public HealthBar(Scene scene) {
