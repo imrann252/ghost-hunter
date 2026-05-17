@@ -70,8 +70,13 @@ public class TokenController {
         double maxX = minX + pa.pArea.getWidth(); 
         double maxY = minY + pa.pArea.getHeight();
 
-        double randomX = minX + Math.random() * (maxX - minX); 
-        double randomY = minY + Math.random() * (maxY - minY); 
+        double radius = 15.0;
+
+ 
+     double randomX = (minX + radius) + Math.random() * (maxX - minX - 2 * radius); 
+     double randomY = (minY + radius) + Math.random() * (maxY - minY - 2 * radius);
+        
+        
 
         int choice = (int) (Math.random() * 4); 
         Pane newToken;
