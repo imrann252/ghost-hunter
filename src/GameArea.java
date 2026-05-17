@@ -204,7 +204,7 @@ public class GameArea {
 		                double currentScale = ent.getShape().getScaleX(); // Mevcut büyüklüğü al
 		       
 		                
-		                if (currentScale < 0.50) {
+		                if (currentScale < 0.35) {
 		     
 		                   
 		                    area.getChildren().remove(ent.getShape());
