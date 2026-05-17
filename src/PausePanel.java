@@ -38,9 +38,9 @@ public class PausePanel extends StackPane {
         retrybtn.setFont(bloodySmall);
         menubtn.setFont(bloodySmall);
         
-        resumebtn.setPrefSize(140, 47);
-        retrybtn.setPrefSize(140, 47);
-        menubtn.setPrefSize(140, 47);
+        resumebtn.setPrefSize(140, 40);
+        retrybtn.setPrefSize(140, 40);
+        menubtn.setPrefSize(140, 40);
 
        
 //    Purpose: Defines CSS styles for default and pressed states to provide clear visual feedback and enhance user navigation.
@@ -72,7 +72,7 @@ public class PausePanel extends StackPane {
             gameArea.goToMenu();
         });
 
-        HBox hbox = new HBox(20, resumebtn, retrybtn, menubtn);
+        HBox hbox = new HBox(10, resumebtn, retrybtn, menubtn);
         hbox.setAlignment(Pos.CENTER);
 
         VBox vbox = new VBox(61, pl, hbox);
