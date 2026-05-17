@@ -63,7 +63,7 @@ public class GameArea {
 	   
 	   this.config=ConfigLoader.getInstance();
 	   this.currentLevel=level;
-	   ConfigLoader config=ConfigLoader.getInstance();
+	   
 	
 	   
 	   this.area =new Pane();
@@ -216,8 +216,10 @@ public class GameArea {
 		                
 		                double currentScale = ent.getShape().getScaleX(); 
 		       
-		                //Removes entity from layout and tracks score increments when scale reaches down below 50%.
-		                if (currentScale < 0.50) {
+
+		                
+		                if (currentScale < 0.35) {
+
 		     
 		                   
 		                    area.getChildren().remove(ent.getShape());

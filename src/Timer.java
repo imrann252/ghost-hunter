@@ -13,50 +13,48 @@ import javafx.scene.text.Font;
 
 public class Timer extends Pane {
 
-    public int second; // Remaining time in seconds
-    public Label timerLabel; // Label used to display the timer
-    public Timeline timeline; // Timeline for countdown logic
-    Scene scene; // Reference to the game scene
+    public int second; 
+    public Label timerLabel; 
+    public Timeline timeline; 
+    Scene scene; 
 
+    //constructor,creates new timer label and add in pane.
     public Timer(int second, Scene scene) {
 
-        this.scene = scene; // Store scene reference
-        this.second = second; // Initialize remaining time
+        this.scene = scene; 
+        this.second = second; 
 
-        Font bloody = Font.loadFont(
-                getClass().getResourceAsStream("Bloody.ttf"),
-                25
-        ); // Load custom font
+        Font bloody = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"),25); 
 
-        timerLabel = new Label(); // Create timer label
-        timerLabel.setFont(bloody); // Set font style
-        timerLabel.setTextFill(Color.WHITE); // Set text color
+        timerLabel = new Label(); 
+        timerLabel.setFont(bloody); 
+        timerLabel.setTextFill(Color.WHITE);
 
-        this.getChildren().add(timerLabel); // Add label to pane
+        this.getChildren().add(timerLabel); 
 
-        setupTimer(second); // Initialize timer logic
+        setupTimer(second); 
 
-        this.updateLabel(); // Update label initially
-        this.start(); // Start timer automatically
+        this.updateLabel(); 
+        this.start(); 
     }
 
     // Sets up the countdown logic
     private void setupTimer(int second) {
 
-        this.second = second; // Set initial time
+        this.second = second; 
 
         KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
 
             if (this.second > 0) {
-                this.second--; // Decrease time by 1 second
-                updateLabel(); // Update UI
+                this.second--; 
+                updateLabel(); 
             } else {
-                timeline.stop(); // Stop timer when it reaches zero
+                timeline.stop(); 
             }
         });
 
-        timeline = new Timeline(kf); // Create timeline
-        timeline.setCycleCount(Timeline.INDEFINITE); // Run indefinitely
+        timeline = new Timeline(kf); 
+        timeline.setCycleCount(Timeline.INDEFINITE); 
     }
 
     // Starts the timer
@@ -79,16 +77,12 @@ public class Timer extends Pane {
     // Updates the timer label UI
     private void updateLabel() {
 
-        int min = second / 60; // Convert seconds to minutes
-        int sec = second % 60; // Remaining seconds
-
-        timerLabel.setText(String.format("%02d:%02d", min, sec)); // Format time
-
-        timerLabel.setLayoutY(45); // Set vertical position
-
-        timerLabel.layoutXProperty().bind(
-                scene.widthProperty().divide(2).subtract(15)
-        ); // Center horizontally
+        int min = second / 60;
+        int sec = second % 60; 
+        
+        timerLabel.setText(String.format("%02d:%02d", min, sec)); 
+        timerLabel.setLayoutY(45);
+        timerLabel.layoutXProperty().bind(scene.widthProperty().divide(2).subtract(15)); 
     }
 
     // Returns remaining time

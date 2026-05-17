@@ -11,61 +11,31 @@ import javafx.scene.text.Font;
 
 public class ScoreCounter extends Pane {
 
-    // Total score value
+
     public double score = 0;
-
-    // Points to be added
     public double point = 0;
-
-    // Label used to display score
     public Label scoreLabel;
-
-    // Reference to scene
     Scene scene;
 
-    
+    //constructor,creates score label and add in pane.
     public ScoreCounter(Scene scene) {
 
     	
         this.scene = scene;
 
-        
-        // Load custom font
-        Font bloody =
-                Font.loadFont(
-                        getClass().getResourceAsStream("Bloody.ttf"),
-                        25
-                );
+        Font bloody = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"),25);
 
-        
-        // Create score label
+
         scoreLabel = new Label();
-
-        
-        // Apply font
         scoreLabel.setFont(bloody);
-
-        
-        // Set text color
         scoreLabel.setTextFill(Color.WHITE);
-
-        
-        // Set vertical position
         scoreLabel.setLayoutY(20);
 
-        
-        // Center label horizontally on screen
-        scoreLabel.layoutXProperty().bind(
-                scene.widthProperty()
-                        .divide(2)
-                        .subtract(35)
-        );
+        scoreLabel.layoutXProperty().bind(scene.widthProperty().divide(2).subtract(35));
 
-        
-        // Add label into pane
+
         this.getChildren().add(scoreLabel);
 
-        
         // Initialize score display
         this.addScore(point);
     }
@@ -74,18 +44,10 @@ public class ScoreCounter extends Pane {
     // Adds points to current score
     public void addScore(double point) {
 
-        // Store added point
         this.point = point;
-
-        
-        // increase total score
         this.score += this.point;
-
+        scoreLabel.setText(String.format("SCORE: %02.0f", this.score));
         
-        // Update score text
-        scoreLabel.setText(
-                String.format("SCORE: %02.0f", this.score)
-        );
     }
 
     

@@ -11,71 +11,49 @@ import javafx.scene.control.Label;
 
 public class VacuumBar extends Pane {
 
-    ConfigLoader config = ConfigLoader.getInstance(); // Access configuration values
+    ConfigLoader config = ConfigLoader.getInstance(); 
+    private double maxAmount = config.getMaxVacuum(); 
+    private double currentAmount = maxAmount; 
+    private double maxHeight = 250; 
+    private Rectangle rec2; 
 
-    private double maxAmount = config.getMaxVacuum(); // Maximum vacuum value
-
-    private double currentAmount = maxAmount; // Current vacuum amount
-
-    private double maxHeight = 250; // Maximum visual height of the bar
-
-    private Rectangle rec2; // Foreground bar (updated energy bar)
-
-  
+    //constructor, creates vacuum bar and add in pane.
     public VacuumBar(Scene scene) {
 
-        Rectangle rec1 = new Rectangle(50, maxHeight); // Background bar
+        Rectangle rec1 = new Rectangle(50, maxHeight); 
+        rec1.setStroke(Color.BLACK); 
+        rec1.setStrokeWidth(30); 
+        rec1.setLayoutX(40); 
+        rec1.setLayoutY(80); 
 
-        rec1.setStroke(Color.BLACK); // Border color
+        rec2 = new Rectangle(50, maxHeight);
+        rec2.setFill(Color.PURPLE.darker()); 
+        rec2.setLayoutX(40); 
+        rec2.setLayoutY(80); 
+   
 
-        rec1.setStrokeWidth(30); // Thick border
+        Font bloody = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"),30); 
+        
+        Label vacLabel = new Label("VACUUM:"); 
+        vacLabel.setFont(bloody); 
+        vacLabel.setTextFill(Color.WHITE); 
+        vacLabel.setLayoutX(30); 
+        vacLabel.setLayoutY(25); 
 
-        rec1.setLayoutX(40); // X position
+        this.getChildren().addAll(rec1, rec2, vacLabel);
+        this.setLayoutX(0); 
+        this.setLayoutY(0); 
 
-        rec1.setLayoutY(80); // Y position
-
-        rec2 = new Rectangle(50, maxHeight); // Foreground vacuum bar
-
-        rec2.setFill(Color.PURPLE.darker()); // Bar color
-
-        rec2.setLayoutX(40); // X position
-
-        rec2.setLayoutY(80); // Y position
-
-        this.rec2 = rec2; // Store reference for updates
-
-        Font bloody =
-                Font.loadFont(
-                        getClass().getResourceAsStream("Bloody.ttf"),
-                        30
-                ); // Load custom font
-
-        Label vacLabel = new Label("VACUUM:"); // Label text
-
-        vacLabel.setFont(bloody); // Set font
-
-        vacLabel.setTextFill(Color.WHITE); // Set text color
-
-        vacLabel.setLayoutX(30); // Label X position
-
-        vacLabel.setLayoutY(25); // Label Y position
-
-        this.getChildren().addAll(rec1, rec2, vacLabel); // Add UI elements to pane
-
-        this.setLayoutX(0); // Pane X position
-
-        this.setLayoutY(0); // Pane Y position
-
-        this.scaleXProperty().bind(scene.widthProperty().divide(1300)); // Scale X with screen size
-
-        this.scaleYProperty().bind(scene.heightProperty().divide(800)); // Scale Y with screen size
+        this.scaleXProperty().bind(scene.widthProperty().divide(1300)); 
+        this.scaleYProperty().bind(scene.heightProperty().divide(800)); 
+        
     }
 
     
     // Updates the vacuum bar value
     public void setBar(double amount) {
 
-        currentAmount += amount; // Update current value
+        currentAmount += amount;
 
         // Clamp value to maximum
         if (currentAmount > maxAmount)
@@ -85,16 +63,11 @@ public class VacuumBar extends Pane {
         if (currentAmount < 0)
             currentAmount = 0;
 
-        // Calculate new visual height
-        double newHeight =
-                (currentAmount / maxAmount) * maxHeight;
-
-        this.rec2.setHeight(newHeight); // Update bar height
-
-        // Adjust position so it fills from bottom to top
-        this.rec2.setLayoutY(
-                80 + (maxHeight - newHeight)
-        );
+      
+        double newHeight = (currentAmount / maxAmount) * maxHeight;
+        this.rec2.setHeight(newHeight); 
+        this.rec2.setLayoutY(80 + (maxHeight - newHeight));
+        
     }
 
     
