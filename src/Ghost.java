@@ -9,12 +9,12 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-//Şeyma nur Hacımurtazaoğlu 150124057
+//Seyma_Nur_Hacimurtazaoglu_150124057
 // Purpose: Represents the standard Ghost entity in the game, handling its random initial movement and graphical shape creation.
 public class Ghost extends Entity {
-
+//Purpose : Constructor that initializes the Ghost's position, sets a random movement velocity (dx, dy), and constructs its semi-transparent visual body components.
     public Ghost(double x, double y, boolean isVisible) {
-       
+       //
         super(x, y, isVisible);
         this.dx = (random.nextDouble() * 4.0) - 2.0;
         this.dy = (random.nextDouble() * 4.0) - 2.0;
