@@ -1,65 +1,130 @@
-import javafx.animation.PauseTransition;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
+
+//Fatma_Zehra_Aktas_150124016
+//Purpose: This class creates a Health Token object. When collected by the hunter,
+//it restores the hunter's health and disappears from the game screen.
 
 public class HealthToken extends Pane {
-    private double x, y;
-    private boolean isCollected = false;
-    private int restorationAmount ;
 
+    // Token position
+    private double x, y;
+
+    // Prevents collecting the token multiple times
+    private boolean isCollected = false;
+
+    // Amount of health restored by this token
+    private int restorationAmount;
+
+    
+    // Constructor
+    // x and y determine token position
     public HealthToken(double x, double y) {
+
+        // Store coordinates
         this.x = x;
         this.y = y;
-        this.restorationAmount = ConfigLoader.getInstance().getHealthTokenIncrease();
 
-        Circle base = new Circle(15, Color.YELLOW);
-        base.setStroke(Color.GRAY.darker());
+        // Get restoration amount from config file
+        this.restorationAmount =
+                ConfigLoader.getInstance()
+                            .getHealthTokenIncrease();
+
         
-        // Artı (+) işareti tasarımı
-        Rectangle verticalBar = new Rectangle(-2, -8, 4, 16);
-        Rectangle horizontalBar = new Rectangle(-8, -2, 16, 4);
+        // Main circular token background
+        Circle base = new Circle(15, Color.YELLOW);
+
+        // Border color
+        base.setStroke(Color.GRAY.darker());
+
+        
+        // Create plus (+) symbol for health design
+
+        // Vertical rectangle of plus sign
+        Rectangle verticalBar =
+                new Rectangle(-2, -8, 4, 16);
+
+        // Horizontal rectangle of plus sign
+        Rectangle horizontalBar =
+                new Rectangle(-8, -2, 16, 4);
+
+        
+        // Set plus sign color
         verticalBar.setFill(Color.RED);
         horizontalBar.setFill(Color.RED);
 
-        this.getChildren().addAll(base, verticalBar, horizontalBar);
+        
+        // Add all shapes into pane
+        this.getChildren().addAll(
+                base,
+                verticalBar,
+                horizontalBar
+        );
+
+        
+        // Set token position on screen
         this.setLayoutX(x);
         this.setLayoutY(y);
     }
 
-    public void collect(Hunter hunter, HealthBar hb, Pane root) {
-        if (isCollected) return;
+    
+    // Checks if hunter collects the token
+    public void collect(Hunter hunter,
+                        HealthBar hb,
+                        Pane root) {
 
-        // Hunter'ın gövdesi ile Token çarpışıyor mu?
-       
-        if (this.getBoundsInParent().intersects(hunter.getShape().getBoundsInParent())) {
-                isCollected = true;
-                hb.setBar(restorationAmount);
-                root.getChildren().remove(this);
+        // Stop method if token already collected
+        if (isCollected)
+            return;
+
         
-    }
+        // Check collision between hunter and token
+        if (this.getBoundsInParent().intersects(
+                hunter.getShape()
+                      .getBoundsInParent())) {
+
+            // Mark token as collected
+            isCollected = true;
+
+            
+            // Restore hunter health
+            hb.setBar(restorationAmount);
+
+            
+            // Remove token from game screen
+            root.getChildren().remove(this);
+        }
     }
 
     
+    // Returns restoration amount
     public int getRestorationAmount() {
         return restorationAmount;
     }
 
-	public double getY() {
-		return y;
-	}
+    
+    // Returns Y coordinate
+    public double getY() {
+        return y;
+    }
 
-	public void setY(double y) {
-		this.y = y;
-	}
+    
+    // Updates Y coordinate
+    public void setY(double y) {
+        this.y = y;
+    }
 
-	public double getX() {
-		return x;
-	}
+    
+    // Returns X coordinate
+    public double getX() {
+        return x;
+    }
 
-	public void setX(double x) {
-		this.x = x;
-	}
+    
+    // Updates X coordinate
+    public void setX(double x) {
+        this.x = x;
+    }
 }
