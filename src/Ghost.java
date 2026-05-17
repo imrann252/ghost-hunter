@@ -16,10 +16,8 @@ public class Ghost extends Entity {
     public Ghost(double x, double y, boolean isVisible) {
        
         super(x, y, isVisible);
-
-        this.dx = (random.nextDouble() * 2 ) * (random.nextBoolean() ? 1 : -1);
-        this.dy = (random.nextDouble() * 2 ) * (random.nextBoolean() ? 1 : -1);
-        
+        this.dx = (random.nextDouble() * 4.0) - 2.0;
+        this.dy = (random.nextDouble() * 4.0) - 2.0;
         this.isVisible = isVisible;
         shape = new Group();
 

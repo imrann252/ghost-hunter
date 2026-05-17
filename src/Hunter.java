@@ -189,7 +189,7 @@ public class Hunter {
             }
             
             // Enerjiyi azalt (ConfigLoader'dan gelen değeri kullanabilirsin, örn: -0.5) [cite: 204, 231]
-            vb.setBar(config.getVacuumDecrease()); 
+            vb.setBar(-(config.getVacuumDecrease()/4.0)); 
         } else {
             vacuum.setVisible(false);
             stopVacuumSound();
@@ -204,7 +204,7 @@ public class Hunter {
             delay.play();
             
             // Space basılmıyorsa enerji dolar [cite: 113, 232]
-            vb.setBar(config.getVacuumIncrease()); 
+            vb.setBar(config.getVacuumIncrease()/4.0); 
         }
 
         // Rotation angle
