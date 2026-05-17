@@ -6,11 +6,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-//Şeyma nur Hacımurtazaoğlu 150124057
-// Purpose: Creates the panel that appears when the player loses, displaying the game over screen with retry and main menu buttons.
+//Seyma_Nur_Hacimurtazaoglu_150124057
+// Purpose: Creates the panel that appears when the player loses or the time is up, displaying the white "Game Over" screen with the final score, retry button, and main menu navigation options.
 
 public class LosePanel extends StackPane {
-
+//Constructor that constructs the user interface components for the loss screen, sets up thematic fonts and layout constraints, and handles the event triggers for restarting the current level or returning to the main menu.
     public LosePanel(double width, double height, double finalScore, GameArea gameArea) {
         
         this.setPrefSize(width, height);
@@ -18,7 +18,7 @@ public class LosePanel extends StackPane {
         this.setMaxSize(width, height);
         this.setStyle("-fx-background-color: white; -fx-background-radius: 15;");
 
-     
+     // //Loads the custom thematic "Bloody" font styles from resources for labels and buttons.
         Font bloodyFont = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 50);
         Font bloodySmall = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 22);
 
@@ -37,9 +37,10 @@ public class LosePanel extends StackPane {
 
         retry.setFont(bloodySmall);
         mainmenu.setFont(bloodySmall);
+//Purpose: Sets uniform dimensions for all menu buttons to maintain layout symmetry and provide better user accessibility.
         retry.setPrefSize(160, 50);
         mainmenu.setPrefSize(160, 50);
-
+    //    Purpose: Defines CSS styles for default and pressed states to provide clear visual feedback and enhance user navigation.
         String idleStyle = "-fx-background-color: #808080; -fx-text-fill: white; -fx-background-radius: 5;";
         String pressedStyle = "-fx-background-color: red; -fx-text-fill: white; -fx-background-radius: 5;";
 
