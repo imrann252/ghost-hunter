@@ -12,7 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
 
 public class PausePanel extends StackPane {
-
+//Purpose: Constructor that initializes panel dimensions, configures text styles, and manages mouse click listeners for game controls.
     public PausePanel(double width, double height, GameArea gameArea) {
         
         this.setPrefSize(width, height);
@@ -21,7 +21,7 @@ public class PausePanel extends StackPane {
         
         
         this.setStyle("-fx-background-color: rgba(75, 0, 130, 0.7); -fx-background-radius: 15;");
-
+ //Loads the custom thematic "Bloody" font styles from resources for labels and buttons.
         Font bloodyFont = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 60);
         Font bloodySmall = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 25);
 
@@ -42,10 +42,11 @@ public class PausePanel extends StackPane {
         menubtn.setPrefSize(140, 47);
 
        
-
+//    Purpose: Defines CSS styles for default and pressed states to provide clear visual feedback and enhance user navigation.
         String idleStyle = "-fx-background-color: #808080; -fx-text-fill: white; -fx-background-radius: 6;";
         String pressedStyle = "-fx-background-color: red; -fx-text-fill: white; -fx-background-radius: 6;";
-
+//Purpose: Sets uniform dimensions for all menu buttons to maintain layout symmetry and provide better user accessibility.
+        resumebtn.setPrefSize(140, 47);
         resumebtn.setStyle(idleStyle);
         retrybtn.setStyle(idleStyle);
         menubtn.setStyle(idleStyle);
