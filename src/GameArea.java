@@ -59,7 +59,7 @@ public class GameArea {
 	   
 	   this.config=ConfigLoader.getInstance();
 	   this.currentLevel=level;
-	   ConfigLoader config=ConfigLoader.getInstance();
+	   
 	
 	   
 	   this.area =new Pane();

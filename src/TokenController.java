@@ -8,21 +8,22 @@ import java.util.Iterator;
 
 public class TokenController {
 
-    private Pane area; // Game area where tokens are placed
-    private PlayableArea pa; // Reference to playable area boundaries
-    private ArrayList<Pane> activeTokens = new ArrayList<>(); // Currently active tokens
+    private Pane area; 
+    private PlayableArea pa; 
+    private ArrayList<Pane> activeTokens = new ArrayList<>(); 
     private long lastCreateTime = 0; // Last token spawn time
 
+    //constructor
     public TokenController(Pane area, PlayableArea pa) {
 
-        this.area = area; // Store game area reference
-        this.pa = pa; // Store playable area reference
+        this.area = area; 
+        this.pa = pa; 
     }
 
-    // Main update method called every frame
+
     public void update(long now, Hunter hunter, HealthBar hb, ArrayList<Entity> entities) {
 
-        // 1. Create a new token every 5 seconds
+        //Create a new token every 5 seconds
         if (now - lastCreateTime >= 5_000_000_000L) {
 
             // Ensure maximum 2 tokens exist at the same time
@@ -30,10 +31,10 @@ public class TokenController {
                 createRandomToken();
             }
 
-            lastCreateTime = now; // Update spawn timer
+            lastCreateTime = now; 
         }
 
-        // 2. Check collisions and collect tokens
+        //Check collisions and collect tokens
         Iterator<Pane> iterator = activeTokens.iterator();
 
         while (iterator.hasNext()) {
@@ -64,15 +65,15 @@ public class TokenController {
     // Creates a random token inside playable area
     private void createRandomToken() {
 
-        double minX = pa.pArea.getLayoutX(); // Min X boundary
-        double minY = pa.pArea.getLayoutY(); // Min Y boundary
-        double maxX = minX + pa.pArea.getWidth(); // Max X boundary
-        double maxY = minY + pa.pArea.getHeight(); // Max Y boundary
+        double minX = pa.pArea.getLayoutX(); 
+        double minY = pa.pArea.getLayoutY(); 
+        double maxX = minX + pa.pArea.getWidth(); 
+        double maxY = minY + pa.pArea.getHeight();
 
-        double randomX = minX + Math.random() * (maxX - minX); // Random X position
-        double randomY = minY + Math.random() * (maxY - minY); // Random Y position
+        double randomX = minX + Math.random() * (maxX - minX); 
+        double randomY = minY + Math.random() * (maxY - minY); 
 
-        int choice = (int) (Math.random() * 4); // Random token type
+        int choice = (int) (Math.random() * 4); 
         Pane newToken;
 
         if (choice == 0) {
@@ -88,7 +89,8 @@ public class TokenController {
             newToken = new ShieldToken(randomX, randomY);
         }
 
-        area.getChildren().add(newToken); // Add token to scene
-        activeTokens.add(newToken); // Add token to active list
+        area.getChildren().add(newToken); 
+        activeTokens.add(newToken); 
+        
     }
 }

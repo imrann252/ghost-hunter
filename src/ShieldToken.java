@@ -12,20 +12,15 @@ import javafx.util.Duration;
 
 public class ShieldToken extends Pane {
 
-    // Prevents collecting token multiple times
+    
     private boolean isCollected = false;
 
-
+    //constructor, creates shield token icon and add in pane.
     public ShieldToken(double x, double y) {
-
-        // Main circular token background
+        
         Circle base = new Circle(15, Color.YELLOW);
-
-        // Border color
         base.setStroke(Color.GRAY.darker());
 
-        
-        // Create shield icon using polygon
         Polygon shieldSign = new Polygon();
 
         
@@ -41,23 +36,13 @@ public class ShieldToken extends Pane {
         });
 
         
-        // Shield color
+      
         shieldSign.setFill(Color.GRAY);
-
-        
-        // Shield border color
         shieldSign.setStroke(Color.BLACK);
-
-        
-        // Border thickness
         shieldSign.setStrokeWidth(2);
 
-        
-        // Add all shapes into pane
         this.getChildren().addAll(base, shieldSign);
 
-        
-        // Set token position on screen
         this.setLayoutX(x);
         this.setLayoutY(y);
     }
@@ -76,15 +61,13 @@ public class ShieldToken extends Pane {
         if (this.getBoundsInParent().intersects(
                 hunter.getBody().getBoundsInParent())) {
 
-            // Mark token as collected
+            
             isCollected = true;
 
             
             // Remove token from game screen
             root.getChildren().remove(this);
-
             
-            // Enable hunter invincibility
             hunter.setInvincibility(true);
 
             
@@ -92,20 +75,13 @@ public class ShieldToken extends Pane {
             PauseTransition delay =
                     new PauseTransition(Duration.seconds(5));
 
-            
-            // Disable invincibility after timer ends
+          
             delay.setOnFinished(e -> {
-
                 hunter.setInvincibility(false);
             });
 
-            
-            // Start timer
             delay.play();
-
             
-            // Debug message
-            System.out.println("Shield Token Collected!");
         }
     }
 }
