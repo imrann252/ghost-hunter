@@ -11,7 +11,9 @@ import javafx.scene.text.Font;
 
 public class WinPanel extends StackPane {
 	
-	//Purpose: Constructor that initializes panel dimensions, configures text and button styles, and handles click actions for the game over screen.
+	//Purpose: Constructor that initializes the panel dimensions, applies specific semi-transparent 
+   //theme styles, configures typography containers, and binds mouse interactions 
+    // to calculate and trigger the subsequent level progression sequence.
 
     public WinPanel(double width, double height, GameArea gameArea) {
   
@@ -20,7 +22,7 @@ public class WinPanel extends StackPane {
           this.setMaxSize(width, height);
         this.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-background-radius: 15;");
 
-       
+       //Loads the custom thematic "Bloody" font styles from resources for labels and buttons.
         Font bloodyFont = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 60);
         Font bloodySmall = Font.loadFont(getClass().getResourceAsStream("Bloody.ttf"), 25);
 
@@ -36,7 +38,7 @@ public class WinPanel extends StackPane {
       
         Button nextbtn = new Button("NEXT LEVEL");
         nextbtn.setFont(bloodySmall);
-        
+      //    Purpose: Defines CSS styles for default and pressed states to provide clear visual feedback and enhance user navigation.  
         String idleStyle = "-fx-background-color: purple; -fx-text-fill: white; -fx-padding: 10 30; -fx-background-radius: 5;";
         String pressedStyle = "-fx-background-color: red; -fx-text-fill: white; -fx-padding: 10 30; -fx-background-radius: 5;";
         
