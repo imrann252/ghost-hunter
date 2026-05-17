@@ -1,6 +1,7 @@
 // Şeyma nur Hacımurtazaoğlu 150124057
 //Purpose: Creates the panel that appears when the game is paused, containing the resume, main menu, and retry buttons.
  
+//paaaaaaaa
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -52,7 +53,7 @@ public class PausePanel extends StackPane {
         menubtn.setStyle(idleStyle);
 
         
-
+   
         resumebtn.setOnMousePressed(e -> resumebtn.setStyle(pressedStyle));
         resumebtn.setOnMouseReleased(e -> {
         	resumebtn.setStyle(idleStyle);
