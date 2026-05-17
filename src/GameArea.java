@@ -1,28 +1,13 @@
 import java.util.ArrayList;
 
-import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 //Imran_Akar_150124087
@@ -43,9 +28,6 @@ public class GameArea {
    public ScoreCounter sc;
    public boolean visibility;
 
-   private Set<KeyCode> activeKeys = new HashSet<>();
-   private double currentMouseX;
-   private double currentMouseY;
 
    private AnimationTimer animation;
    private Pane area;

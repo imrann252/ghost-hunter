@@ -48,7 +48,7 @@ public class HealthToken extends Pane {
 
         
         // Check collision between hunter and token
-        if (this.getBoundsInParent().intersects(hunter.getShape().getBoundsInParent())) {
+        if (this.getBoundsInParent().intersects(hunter.getBody().getBoundsInParent())) {
 
             isCollected = true;
             hb.setBar(restorationAmount);
